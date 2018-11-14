@@ -1,0 +1,175 @@
+android Service:
+https://www.cnblogs.com/lyricgan88/p/6185027.html
+学习目标：
+ 掌握服务的生命周期
+ 掌握服务的两种启动方式
+ 学会使用服务与Activity进行通信
+ 学会调用其他应用的服务（跨进程通信）			
+
+
+Service 是Android的四大组件之一。 
+   android中service（服务）运行于后台，没有界面。和其他组件一样，service也运行在主线程中，因此不能用它来做耗时的请求或者动作。可以在服务中开启线程，在线程中做耗时操作。可以启动一个服务service来播放音乐，或者记录地理信息位置的改变，或者启动一个服务来运行并一直监听某种动作。
+
+ 1 Service的生命周期
+
+1、被启动的服务的生命周期：
+
+    如果一个Service被某个Activity调用Context.startService方法启动，那么不管是否有Activity使用bindService绑定或unbindService解除绑定到该Service，该Service都在后台运行。如果一个Service被startService方法多次启动，那么onCreate方法只会调用一次，onStart将会被调用多次（对应调用startService的次数），并且系统只会创建Service的一个实例（因此停止服务只需要一次stopService调用）。该Service将会一直在后台运行，而不管对应程序的Activity是否在运行，直到被调用stopService，或自身的stopSelf方法。当然如果系统资源不足，android系统也可能结束服务。
+
+2、被绑定的服务的生命周期：
+
+    如果一个Service被某个Activity调用Context.bindService方法绑定启动，不管调用bindService调用几次，onCreate方法都只会调用一次，同时onStart方法始终不会被调用。当连接建立之后，Service将会一直运行，除非调用Context.unbindService断开连接或者之前调用bindService的Context不存在了（如Activity被finish的时候），系统将会自动停止Service，对应onDestroy将被调用。
+
+3、被启动又被绑定的服务的生命周期：
+
+    如果一个Service又被启动又被绑定，则该Service将会一直在后台运行。并且不管如何调用，onCreate始终只会调用一次，对应startService调用多少次，Service的onStart便会调用多少次。调用unbindService将不会停止Service，而必须调用stopService或Service的stopSelf来停止服务。
+
+4、当服务被停止时清除服务：
+
+    当一个Service被终止（1、调用stopService；2、调用stopSelf；3、不再有绑定的连接（没有被启动））时，onDestroy方法将会被调用，在这里你应当做一些清除工作，如停止在Service中创建并运行的线程。
+
+特别注意：
+
+1、在调用bindService绑定到Service的时候，你就应当保证在某处调用unbindService解除绑定（尽管Activity被finish的时候绑定会自动解除，并且Service会自动停止）。
+
+2、使用startService启动服务之后，一定要使用stopService停止服务，不管你是否使用bindService。
+
+3、同时使用startService与bindService要注意到，Service的终止，需要unbindService与stopService同时调用，才能终止Service，不管startService与bindService的调用顺序，如果先调用unbindService此时服务不会自动终止，再调用stopService之后服务才会停止，如果先调用stopService此时服务也不会终止，而再调用unbindService或者之前调用bindService 的Context不存在了（如Activity 被 finish 的时候）之后服务才会自动停止。
+
+4、当在旋转手机屏幕的时候，当手机屏幕在“横”“竖”变换时，此时如果你的 Activity 如果会自动旋转的话，旋转其实是 Activity 的重新创建，因此旋转之前的使用 bindService 建立的连接便会断开（Context不存在了），对应服务的生命周期与上述相同。
+
+5、在sdk2.0及其以后的版本中，对应的onStart已经被否决变为了onStartCommand，不过之前的onStart仍然有效。这意味着，如果你开发的应用程序用的sdk为2.0及其以后的版本，那么你应当使用onStartCommand而不是onStart。
+
+
+通过startService启动的服务：
+
+context.startService() ->onCreate()- >onStartCommand()->Service running—
+
+调用context.stopService() ->onDestroy()
+
+通过bindService启动的服务：
+
+context.bindService()->onCreate()->onBind()->Service running—
+
+调用>onUnbind() -> onDestroy() 
+
+
+
+3 学会使用服务与Activity进行通信 
+
+必须通过bindService启动的服务，在serverConnection参数的Ibinder可以调用服务中的onbind方法的Binder返回值 ，实现与内部程序通信的要求。
+
+
+四、本地服务（Locale Service）的绑定
+
+实现步骤：
+
+1、在Service中实现抽象方法onBind()，并返回一个实现IBinder接口的对象。
+
+2、在Activity中通过ServiceConnection接口来获取连接建立与连接断开的回调。
+
+    bindService()方法绑定服务，有三个参数，第一个是用于区分Service的Intent，与startService中的Intent 一致，第二个是实现了ServiceConnection接口的对象，第三个是flag标志位。有两个flag，Context.BIND_DEBUG_UNBIND与Context.BIND_AUTO_CREATE，前者用于调试，后者默认使用。
+
+    unbindService()方法解除绑定，参数则为之前创建的ServiceConnection接口对象。另外，多次调unbindService()来释放相同的连接会抛出异常，需要添加判断是否unbindService 已经被调用过。
+
+
+
+五、远程服务（Remote Service）的绑定
+
+    Local Service，即Service和Client在同一进程内（即同一application内），Service的生命周期服从进程的生命周期。在实际应用中，有时希望Service作为后台服务，不仅被同一进程内的activity使用，也可被其他进程所使用。
+
+    通常每个应用程序都在它自己的进程内运行，但有时需要在进程之间传递对象（IPC通信）。在android平台中，一个进程通常不能访问其它进程中的内存区域，需要把对象拆分成操作系统能理解的简单形式，以便伪装成对象跨越边界访问，android为我们提供了AIDL工具来做这件事。
+
+Android提供AIDL（Android Interface Definition Language）工具帮助IPC之间接口的建立，AIDL是一种IDL语言（接口定义语言），可以生成一段代码，使android设备上运行的两个进程使用内部通信进程进行交互。如果需要在一个进程中(例如在一个Activity中)访问另一个进程中(例如一个Service)某个对象的方法，就可以使用AIDL来生成这样的代码来伪装传递各种参数。
+
+通过下面的步骤实现client和service之间的通信：
+
+1）定义AIDL接口，例如IServiceInterface.aidl
+
+2）Client连接Service，连接到IServiceInterface暴露给Client的Stub，获得stub对象；即Service通过接口中的Stub向client提供服务，在IServiceInterface中对抽象IServiceInterface.Stub具体实现。 
+
+3）Client和Service连接后，Client可像使用本地方法那样直接调用IServiceInterface.Stub里面的方法。
+
+同一App应用的activity与service也可以在不同进程间，可以在Service配置中设置android:process=":remote"。
+在不同的进程之间传递数据，Android对这类数据的格式支持非常有限，基本上只能传递Java的基本数据类型、字符串、List或Map等。如果想传递一个自定义的类必须要让这个类去实现Parcelable接口，并且给这个类也定义一个同名的AIDL文件。
+
+SDK5.0后调用远程服务需要指定包名：intent.setPackage("PackageName"); 
+
+注意：
+
+    Service.onBind()如果返回null，则调用bindService会启动Service，但不会连接上Service，因此ServiceConnection.onServiceConnected不会被调用，但仍然需要使用 unbindService函数断开它，这样Service才会停止。
+
+
+
+
+六、Service与Thread的区别
+
+1、Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。
+
+2、Service 是android的一种机制，当它运行的时候如果是Local Service，那么对应的Service是运行在主进程的main线程上的。如：onCreate，onStart 这些函数在被系统调用的时候都是在主进程的main线程上运行的。如果是Remote Service，那么对应的Service则是运行在独立进程的main线程上。
+
+因此不要把Service理解成线程，两者没有关联。
+
+ 
+
+拥有service的进程具有较高的优先级
+
+    根据官方文档，Android系统会尽量保持拥有service的进程运行，只要在该service已经被启动(start)或者客户端连接(bindService)到它。当内存不足时，需要保持，拥有service的进程具有较高的优先级。
+
+1、如果service正在调用onCreate,onStartCommand或者onDestory方法，那么用于当前service的进程则变为前台进程以避免被killed。
+
+2、如果当前service已经被启动(start)，拥有它的进程则比那些用户可见的进程优先级低一些，但是比那些不可见的进程更重要，这就意味着service一般不会被killed.
+
+3、如果客户端已经连接到service (bindService),那么拥有Service的进程则拥有最高的优先级，可以认为service是可见的。
+
+4、如果service可以使用startForeground(int, Notification)方法来将service设置为前台状态，那么系统就认为是对用户可见的，并不会在内存不足时killed。
+
+如果有其他的应用组件作为Service，Activity等运行在相同的进程中，那么将会增加该进程的重要性。
+
+
+
+ 控制service运行的主要方式有两种，主要是根据onStartCommand方法返回的数值。START_STICKY、START_NOT_STICKY or START_REDELIVER_INTENT。
+
+1、START_STICKY
+
+    在运行onStartCommand后service进程被kill后，那将保留在开始状态，但是不保留那些传入的intent。不久后service就会再次尝试重新创建，因为保留在开始状态，在创建     service后将保证调用onStartCommand。如果没有传递任何开始命令给service，那将获取到null的intent。
+
+2、START_NOT_STICKY
+
+    在运行onStartCommand后service进程被kill后，并且没有新的intent传递给它。Service将移出开始状态，并且直到新的明显的方法（startService）调用才重新创建。因为如果没有传递任何未决定的intent那么service是不会启动，也就是期间onStartCommand不会接收到任何null的intent。
+
+3、START_REDELIVER_INTENT
+
+    在运行onStartCommand后service进程被kill后，系统将会再次启动service，并传入最后一个intent给onStartCommand。直到调用stopSelf(int)才停止传递intent。如果在被kill后还有未处理好的intent，那被kill后服务还是会自动启动。因此onStartCommand不会接收到任何null的intent。
+
+
+
+按使用方式分类：
+
+
+startService 启动的服务    主要用于启动一个服务执行后台任务，不进行通信。停止服务使用stopService
+
+bindService 启动的服务     该方法启动的服务要进行通信。停止服务使用unbindService
+
+startService 同时也 bindService 启动的服务  停止服务应同时使用stepService与unbindService
+
+
+
+
+在 AndroidManifest.xml 里 Service 元素的常见选项
+
+android:name　　-------------　　服务类名
+
+android:label　　--------------　　服务的名字，如果此项不设置，那么默认显示的服务名则为类名
+
+android:icon　　--------------　　服务的图标
+
+android:permission　　-------　　申明此服务的权限，这意味着只有提供了该权限的应用才能控制或连接此服务
+
+android:process　　----------　　表示该服务是否运行在另外一个进程，如果设置了此项，那么将会在包名后面加上这段字符串表示另一进程的名字
+
+android:enabled　　----------　　如果此项设置为 true，那么 Service 将会默认被系统启动，不设置默认此项为 false
+
+android:exported　　---------　　表示该服务是否能够被其他应用程序所控制或连接，不设置默认此项为 false
+
+

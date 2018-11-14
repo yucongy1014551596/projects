@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">俄罗斯方块</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_snake">SnakeActivity</string>
+    <string name="title_activity_tetris">TetrisActivity</string>
+    <string name="title_activity_tetris_activity_aw">TetrisActivityAW</string>
+    <string name="score">分数:</string>
+    <string name="level">等级：</string>
+    <string name="highscore">最高分：</string>
+    <string name="speed">速度:</string>
+    <string name="speed1">速度：</string>
+    <string name="startgame">点击开始运行游戏</string>
+
+
+
+    <string name="start">开始</string>
+    <string name="end">结束</string>
+    <string name="continueGame">继续</string>
+    <string name="pause">暂停</string>
+
+
+</resources>

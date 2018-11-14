@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <dbname value="lianliankan"></dbname>
+    <version value="1"></version>
+    <list>
+        <mapping class="com.example.yucong.lianliankan.entity.Piece"></mapping>
+        <mapping class="com.example.yucong.lianliankan.entity.PieceImage"></mapping>
+        <mapping class="com.example.yucong.lianliankan.entity.Rank"></mapping>
+        <mapping class="com.example.yucong.lianliankan.entity.Glass"></mapping>
+    </list>
+</litepal>

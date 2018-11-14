@@ -1,0 +1,21 @@
+Spinner的功能和用法
+
+
+Spinner其实是一个列表选择框，不过Android的列表选择框并不需要显示下拉列表，而是相当于弹出一个菜单供用户选择。
+Spinner与Gallery都继承了AbsSpinner，AbsSpinner继承了AdapterView，因此他也表现出AdapterView的特征:只要为AdapterView提供Adapter即可。
+android:entries属性并不是Spinner定义的，而不是AbsSpinner中定义的，因此Gallery(继承了AbsSpinner)也支持该XML属性。
+如果开发者使用Spinner时已经可以确定列表选择框里的列表项，则完全不需要编写代码，只要为Spinner指定android:entries属性即可让Spinner正常工作；如果程序需要在程序运行时动态决定Spinner的列表项，或者程序需要对Spinner的列表项进行定制，则可使用Adapter提供列表项。
+如下界面布局文件中定义了两个Spinner组件，其中一个Spinner组件指定了android:entries属性，因此需要在Activity中为他设置Adapter。
+
+
+
+
+Spinner组件一共有两个,一个是本身的Spinner,一个是android.support.v7.widget.AppCompatSpinner
+
+两者的区别在于v7内的Spinner是兼容低版本的,Spinner再高版本中才能使用的方法换了v7下的Spinner后可以一直兼容到2.1 (v7兼容到api7),初次之外两者的使用没有其他差别,推荐使用v7,保证效果在不同版本上都能显示.
+
+
+
+
+
+

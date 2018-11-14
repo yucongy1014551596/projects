@@ -1,0 +1,150 @@
+
+
+																		
+ListView:
+
+Android之ListView详解:
+https://blog.csdn.net/createchance/article/details/54616343
+
+
+Android学习之Adapter(数据适配器):
+https://www.cnblogs.com/TechSnail/p/4678945.html
+
+Android必学之数据适配器BaseAdapter:
+https://www.cnblogs.com/caobotao/p/5061627.html
+
+
+
+
+在Android的应用开发过程中，总是需要将一系列的数据进行列表式展示。这个时候最常用到的控件就是ListView了，这个控件是很多Android初学者（包括笔者也是，很长时间之后才弄明白的）都感觉比较难掌握的。本文就来梳理一下有关ListView开发的点点滴滴，希望对于初学Android编程的朋友有帮助。
+
+ListView在数据开发中以列表的形式展示数据和内容
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/> 
+
+ListView的显示与缓存机制
+
+我们知道，ListView、GridView等控件可以展示大量的数据信息。假如下图中的ListView可以展示100条信息，但是屏幕的尺寸是有限的，一屏幕只能显示下图中的7条。当向上滑动ListView的时候，item1被滑出了屏幕区域，那么系统就会将item1回收到Recycler中，即View缓冲池中，而将要显示的item8则会从缓存池中取出布局文件，并重新设置好item8需要显示的数据，并放入需要显示的位置。这就是ListView的缓冲机制，总结起来就是一句话：需要时才显示，显示完就被会收到缓存。ListView，GridView等数据显示控件通过这种缓存机制可以极大的节省系统资源。
+
+
+
+
+什么是数据适配器？
+
+下图展示了数据源、适配器、ListView等数据展示控件之间的关系。我们知道，数据源是各种各样的，而ListView所展示数据的格式则是有一定的要求的。数据适配器正是建立了数据源与ListView之间的适配关系，将数据源转换为ListView能够显示的数据格式，从而将数据的来源与数据的显示进行解耦，降低程序的耦合性。这也体现了Android的适配器模式的使用。对于ListView、GridView等数据展示控件有多种数据适配器，本文讲解最通用的数据适配器——BaseAdapater。
+
+BaseAdapter
+
+使用BaseAdapter比较简单，主要是通过继承此类来实现BaseAdapter的四个方法：
+
+public int getCount(): 适配器中数据集的数据个数；
+
+public Object getItem(int position): 获取数据集中与索引对应的数据项；
+
+public long getItemId(int position): 获取指定行对应的ID；
+
+public View getView(int position,View convertView,ViewGroup parent): 获取每一行Item的显示内容。
+
+
+总结一下用ViewHolder优化BaseAdapter的整体步骤：
+
+>1 创建bean对象，用于封装数据；
+
+>2 在构造方法中初始化的数据List；
+
+>3 创建ViewHolder类，创建布局映射关系；
+
+>4 判断convertView，为空则创建，并设置tag，不为空则通过tag取出ViewHolder；
+
+>5 给ViewHolder的控件设置数据。
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+SimpleAdapter用于绑定格式复杂的数据，数据源只能是泛型的集合；
+
+SimpleAdapter(context,data,resource,from,to）其中，context:上下文，data数据源（List<? extends Map<String,?>> data）一个Map所组成的List集合) 每一个Map都会去对应ListView列表中的一行 每一个Map(键-值对)中的键必须包含所有在from中所指定的键，resource：列表项的布局文件ID，from:Map中的键名（String[]格式），to:绑定数据视图中的ID，与from成对应关系（int[]格式）；
+
+
+    
+
+代码如下：
+
+ 1     ListView listView;
+ 2     SimpleAdapter simpleAdapter;
+ 3 
+ 4     @Override
+ 5     protected void onCreate(Bundle savedInstanceState) {
+ 6         super.onCreate(savedInstanceState);
+ 7         setContentView(R.layout.activity_violet);
+ 8         listView = (ListView) findViewById(R.id.listView);
+ 9         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+10         String[] persons = {"张老师", "陈老师", "李老师", "黄老师"};
+11         String[] phoneNums = {"18706218201", "18706214521", "13908761231", "18512390812"};
+12         for (int i = 0; i < persons.length; i++) {
+13             HashMap<String, Object> map = new HashMap<String, Object>();
+14             map.put("username", persons[i]);
+15             map.put("phoneNum", phoneNums[i]);
+16             //插入图片
+17             map.put("photo",R.drawable.cc);
+18             data.add(map);
+19         }
+20         //(context,data,resource,from,to）
+21         simpleAdapter = new SimpleAdapter(this, data, R.layout.list_item, new String[]{"username","photo", "phoneNum"}, new int[]{R.id.username,R.id.photo, R.id.phoneNum});
+22         listView.setAdapter(simpleAdapter);
+23     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

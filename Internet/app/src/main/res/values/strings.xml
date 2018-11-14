@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Internet</string>
+
+    <string name="imagepath">网络图片路径</string>
+    <string name="button">查看</string>
+    <string name="error">获取图片失败</string>
+</resources>

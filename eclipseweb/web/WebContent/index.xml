@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<apps>
+	<app>
+		<id>1</id>
+		<name>Google maps</name>
+		<version>1.0</version>	
+	</app>
+	
+	<app>
+		<id>2</id>
+		<name>Google gms</name>
+		<version>2.0</version>	
+	</app>
+	
+
+
+</apps>

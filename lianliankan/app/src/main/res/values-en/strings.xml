@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">lianliankan</string>
+    <string name="congame">RESUME </string>
+    <string name="startgame">NEW </string>
+    <string name="rank">RANK</string>
+    <string name="language">EN</string>
+    <string name="llkd">lianliankan</string>
+    <string name="guan">level</string>
+    <string name="jilu">record:</string>
+    <string name="protishi">No matching combination found,please refresh</string>
+    <string name="back_tishi">Press the exit key again to exit</string>
+    <string name="gamesuccess">success</string>
+    <string name="rankfail_tishi">Did not enter the leaderboard</string>
+    <string name="fen">score</string>
+    <string name="rankname_tishi">name does not meet the requirements</string>
+    <string name="ranksuccess"> success</string>
+    <string name="totalscore">total score:</string>
+    <string name="rankname">your name:</string>
+    <string name="name_tishi">4-5 letters or numbers</string>
+    <string name="cannel">cannel</string>
+    <string name="allow">accept</string>
+    <string name="gamefail">game failed</string>
+    <string name="thisscore">This level score:</string>
+    <string name="again">again</string>
+    <string name="con">continue</string>
+</resources>

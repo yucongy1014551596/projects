@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="time_array">
+        <item>30s</item>
+        <item>1min</item>
+        <item>5min</item>
+        <item>10min</item>
+    </string-array>
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">file</string>
+    <string name="sdfile">跳转到SDfile</string>
+    <string name="title">请输入密码口令</string>
+    <string name="btnSet">设置解锁口令</string>
+    <string name="btnGet">获取解锁口令</string>
+    <string name="title_activity_kou_ling">KouLing</string>
+    <string name="sahre">进入sharepreferenceDemo</string>
+    <string name="file">请输入保存数据</string>
+    <string name="save">保存信息</string>
+    <string name="read">读取信息</string>
+    <string name="title_activity_file_sdcard">FIleSDcard</string>
+    <string name="SDsave">保存到sd卡信息</string>
+    <string name="SDread">读取sd卡文件信息</string>
+</resources>

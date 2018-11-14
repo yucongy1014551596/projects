@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">音乐播放器</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="music_title">title</string>
+    <string name="music_singer">singer</string>
+    <string name="music_size">size</string>
+    <string name="music_duration">duration</string>
+    <string name="music_cancle">close</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="close_time">请设置关闭时间：</string>
+    <string-array name="timing">
+        <item>请选择</item>
+        <item>10秒</item>
+        <item>30秒</item>
+        <item>1分钟</item>
+        <item>5分钟</item>
+    </string-array>
+</resources>

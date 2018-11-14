@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">连连看</string>
+    <string name="congame">继续游戏</string>
+    <string name="startgame">开始游戏</string>
+    <string name="rank">排行榜</string>
+    <string name="language">中文</string>
+    <string name="llkd">连连看第</string>
+    <string name="guan">关</string>
+    <string name="jilu">记录:</string>
+    <string name="protishi">未找到配对组,请刷新</string>
+    <string name="back_tishi">再按一次退出</string>
+    <string name="gamesuccess">游戏成功</string>
+    <string name="rankfail_tishi">未进入排行榜</string>
+    <string name="fen">分</string>
+    <string name="rankname_tishi">输入名字不符合要求</string>
+    <string name="ranksuccess">挑战成功</string>
+    <string name="totalscore">游戏总得分:</string>
+    <string name="rankname">留下大名:</string>
+    <string name="name_tishi">4-5个字母或数字</string>
+    <string name="cannel">取消</string>
+    <string name="allow">接受</string>
+    <string name="gamefail">游戏失败</string>
+    <string name="thisscore">本关得分:</string>
+    <string name="again">再来</string>
+    <string name="con">继续</string>
+</resources>

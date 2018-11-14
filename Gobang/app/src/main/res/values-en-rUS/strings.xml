@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Gobang</string>
+    <string name="switch_language">changed</string>
+    <string name="login">login</string>
+    <string name="register">register</string>
+    <string name="language">English</string>
+    <string name="status">status</string>
+    <string name="online_player">online chess players</string>
+    <string name="remember_password">remember password</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="hall_str1">Are you want to play with" "</string>
+    <string name="hall_str2">" "together?</string>
+    <string name="hall_str3">" "are chessing!</string>
+    <string name="hall_str4">Do you want to exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="duration">Duration:</string>
+    <string name="black">Black</string>
+    <string name="white">White</string>
+    <string name="standpoint">Standpoint:</string>
+    <string name="game_setting">Game Setting</string>
+    <string name="game_result">Game Result:</string>
+    <string name="winner">" "win!Good job!</string>
+    <string name="loser">" "win!you are defended...</string>
+    <string name="ranking">Rank</string>
+    <string name="user">User</string>
+    <string name="win">Win/times</string>
+    <string name="lose">Lose/times</string>
+    <string name="grade">Grade</string>
+    <string name="hall">Hall</string>
+    <string name="top">Top</string>
+    <string name="chessing">Chessing</string>
+    <string name="account">Account:</string>
+    <string name="password">Password:</string>
+</resources>

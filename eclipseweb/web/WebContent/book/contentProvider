@@ -1,0 +1,9 @@
+ContentProvider:
+
+
+定位：为了实现这种跨程序共享数据的功能，Android系统提供了一套内容提供者组件。
+ 
+ContentProvider是四大组件之一。
+ContentProvider 是不同应用进行数据交换的标准API
+
+

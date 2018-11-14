@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartActivity"
+    android:background="@drawable/p1"
+    tools:layout_editor_absoluteY="25dp">
+    <Button
+        android:id="@+id/buttoncon"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/congame"
+        android:background="#0f2"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        />
+    <!--<Button-->
+        <!--android:id="@+id/buttonstart"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="@string/startgame"-->
+        <!--android:background="@color/colorPrimaryDark"-->
+        <!--android:textSize="30sp"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/buttoncon"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/buttoncon"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/buttoncon" />-->
+
+
+    <Button
+        android:id="@+id/buttonstart"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="30dp"
+        android:text="@string/startgame"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/buttoncon"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttoncon"
+        app:layout_constraintTop_toBottomOf="@+id/buttoncon" />
+
+    <!--<Button-->
+        <!--android:id="@+id/buttonrank"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="@string/rank"-->
+        <!--android:background="#0ff"-->
+        <!--android:textSize="30sp"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/buttoncon"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/buttoncon"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/buttonstart" />-->
+
+    <Button
+        android:id="@+id/buttonrank"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="30dp"
+        android:text="@string/rank"
+        android:background="#0ff"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/buttoncon"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttoncon"
+        app:layout_constraintTop_toBottomOf="@+id/buttonstart" />
+
+    <Button
+        android:id="@+id/buttonlan"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/language"
+        android:background="#0af"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttoncon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ib_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/music"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buttonrank"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageButton
+        android:id="@+id/ib_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sound"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonrank"
+        android:layout_marginBottom="20dp"/>
+
+</android.support.constraint.ConstraintLayout>

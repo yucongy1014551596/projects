@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">五子棋</string>
+    <string name="switch_language">默认</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="language">中文</string>
+    <string name="status">状态</string>
+    <string name="online_player">在线棋友</string>
+    <string name="remember_password">记住密码</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="hall_str1">你将要和</string>
+    <string name="hall_str2">进行对局吗？</string>
+    <string name="hall_str3">正在对局...</string>
+    <string name="hall_str4">确认退出吗？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="duration">时长：</string>
+    <string name="black">黑方</string>
+    <string name="white">白方</string>
+    <string name="standpoint">执方：</string>
+    <string name="game_setting">对局设置</string>
+    <string name="game_result">对弈结果：</string>
+    <string name="winner">获胜！你赢啦！</string>
+    <string name="loser">获胜！你输了！</string>
+    <string name="ranking">排名</string>
+    <string name="user">用户名</string>
+    <string name="win">胜/局</string>
+    <string name="lose">败/局</string>
+    <string name="grade">积分</string>
+    <string name="hall">大厅</string>
+    <string name="top">排行榜</string>
+    <string name="chessing">对局中</string>
+    <string name="account">账户：</string>
+    <string name="password">密码：</string>
+</resources>

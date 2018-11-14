@@ -1,0 +1,155 @@
+本文介绍Android平台进行数据存储的五大方式,分别如下:   
+
+    1 使用SharedPreferences存储数据
+
+    2 文件存储数据      
+
+    3 SQLite数据库存储数据
+
+    4 使用ContentProvider存储数据
+
+    5 网络存储数据
+
+
+https://www.cnblogs.com/ITtangtang/p/3920916.html
+一：SharedPreferences
+
+  适用范围：保存少量的数据，且这些数据的格式非常简单：字符串型、基本类型的值。比如应用程序的各种配置信息（如是否打开音效、是否使用震动效果、小游戏的玩家积分等），解锁口 令密码等
+
+    核心原理：保存基于XML文件存储的key-value键值对数据，通常用来存储一些简单的配置信息。通过DDMS的File Explorer面板，展开文件浏览树,很明显SharedPreferences数据总是存储在/data/data/<package name>/shared_prefs目录下。SharedPreferences对象本身只能获取数据而不支持存储和修改,存储修改是通过SharedPreferences.edit()获取的内部接口Editor对象实现。 SharedPreferences本身是一 个接口，程序无法直接创建SharedPreferences实例，只能通过Context提供的getSharedPreferences(String name, int mode)方法来获取SharedPreferences实例，该方法中name表示要操作的xml文件名，第二个参数具体如下：
+
+                 Context.MODE_PRIVATE: 指定该SharedPreferences数据只能被本应用程序读、写。
+
+                 Context.MODE_WORLD_READABLE:  指定该SharedPreferences数据能被其他应用程序读，但不能写。
+
+                 Context.MODE_WORLD_WRITEABLE:  指定该SharedPreferences数据能被其他应用程序读，写
+
+Editor有如下主要重要方法：
+
+                 SharedPreferences.Editor clear():清空SharedPreferences里所有数据
+
+                 SharedPreferences.Editor putXxx(String key , xxx value): 向SharedPreferences存入指定key对应的数据，其中xxx 可以是boolean,float,int等各种基本类型据
+
+                 SharedPreferences.Editor remove(): 删除SharedPreferences中指定key对应的数据项
+
+                 boolean commit(): 当Editor编辑完成后，使用该方法提交修改
+核心代码如下：
+class ViewOcl implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+
+            switch(v.getId()){
+            case R.id.btnSet:
+                //步骤1：获取输入值
+                String code = txtCode.getText().toString().trim();
+                //步骤2-1：创建一个SharedPreferences.Editor接口对象，lock表示要写入的XML文件名，MODE_WORLD_WRITEABLE写操作
+                SharedPreferences.Editor editor = getSharedPreferences("lock", MODE_WORLD_WRITEABLE).edit();
+                //步骤2-2：将获取过来的值放入文件
+                editor.putString("code", code);
+                //步骤3：提交
+                editor.commit();
+                Toast.makeText(getApplicationContext(), "口令设置成功", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btnGet:
+                //步骤1：创建一个SharedPreferences接口对象
+                SharedPreferences read = getSharedPreferences("lock", MODE_WORLD_READABLE);
+                //步骤2：获取文件中的值
+                String value = read.getString("code", "");
+                Toast.makeText(getApplicationContext(), "口令为："+value, Toast.LENGTH_LONG).show();
+                
+                break;
+                
+            }
+        }
+        
+    }
+
+
+1.2
+
+读写其他应用的SharedPreferences: 步骤如下
+
+                1、在创建SharedPreferences时，指定MODE_WORLD_READABLE模式，表明该SharedPreferences数据可以被其他程序读取
+
+                2、创建其他应用程序对应的Context:
+
+                    Context pvCount = createPackageContext("com.tony.app", Context.CONTEXT_IGNORE_SECURITY);这里的com.tony.app就是其他程序的包名
+
+                3、使用其他程序的Context获取对应的SharedPreferences
+
+                    SharedPreferences read = pvCount.getSharedPreferences("lock", Context.MODE_WORLD_READABLE);
+
+                4、如果是写入数据，使用Editor接口即可，所有其他操作均和前面一致。
+
+SharedPreferences对象与SQLite数据库相比，免去了创建数据库，创建表，写SQL语句等诸多操作，相对而言更加方便，简洁。但是SharedPreferences也有其自身缺陷，比如其职能存储boolean，int，float，long和String五种简单的数据类型，比如其无法进行条件查询等。所以不论SharedPreferences的数据存储操作是如何简单，它也只能是存储方式的一种补充，而无法完全替代如SQLite数据库这样的其他数据存储方式。
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+第二种： 文件存储数据
+
+ 核心原理: Context提供了两个方法来打开数据文件里的文件IO流 FileInputStream openFileInput(String name); FileOutputStream(String name , int mode),这两个方法第一个参数 用于指定文件名，第二个参数指定打开文件的模式。具体有以下值可选：
+
+             MODE_PRIVATE：为默认操作模式，代表该文件是私有数据，只能被应用本身访问，在该模式下，写入的内容会覆盖原文件的内容，如果想把新写入的内容追加到原文件中。可以使用Context.MODE_APPEND
+
+             MODE_APPEND：模式会检查文件是否存在，存在就往文件追加内容，否则就创建新文件。
+
+             MODE_WORLD_READABLE：表示当前文件可以被其他应用读取；
+
+             MODE_WORLD_WRITEABLE：表示当前文件可以被其他应用写入。
+
+ 除此之外，Context还提供了如下几个重要的方法：
+
+             getDir(String name , int mode):在应用程序的数据文件夹下获取或者创建name对应的子目录
+
+             File getFilesDir():获取该应用程序的数据文件夹得绝对路径
+
+             String[] fileList():返回该应用数据文件夹的全部文件     
+
+
+
+openFileOutput()方法的第一参数用于指定文件名称，不能包含路径分隔符“/” ，如果文件不存在，Android 会自动创建它。创建的文件保存在/data/data/<package name>/files目录，如： /data/data/cn.tony.app/files/message.txt，
+
+ 下面讲解某些特殊文件读写需要注意的地方:
+
+读写sdcard上的文件
+
+其中读写步骤按如下进行:
+
+1、调用Environment的getExternalStorageState()方法判断手机上是否插了sd卡,且应用程序具有读写SD卡的权限，如下代码将返回true
+
+Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
+
+2、调用Environment.getExternalStorageDirectory()方法来获取外部存储器，也就是SD卡的目录,或者使用"/mnt/sdcard/"目录
+
+3、使用IO流操作SD卡上的文件 
+
+注意点：手机应该已插入SD卡，对于模拟器而言，可通过mksdcard命令来创建虚拟存储卡
+
+           必须在AndroidManifest.xml上配置读写SD卡的权限
+
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@mipmap/search"
+            android:title="搜索下载" />
+    </group>
+
+    <item android:title="设置">
+        <menu>
+            <item
+                android:id="@+id/nav_shake"
+                android:icon="@mipmap/shake"
+                android:title="摇一摇切歌" />
+            <item
+                android:id="@+id/nav_timing"
+                android:icon="@mipmap/timing"
+                android:title="定时关闭" />
+        </menu>
+    </item>
+
+</menu>

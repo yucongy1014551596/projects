@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BroadCastReceiver</string>
+    <string name="title_activity_main_ip">MainIp</string>
+    <string name="ip_name">请输入ip号码</string>
+    <string name="set_ip_name">设置ip号码</string>
+    <string name="ip_call">跳转到ip测试界面</string>
+    <string name="title_activity_main">main</string>
+</resources>

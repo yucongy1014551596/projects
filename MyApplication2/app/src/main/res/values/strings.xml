@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Activity</string>
+    <string name="button1">跳转到Activity02界面</string>
+    <string name="button2">隐士Intent开启摄像机</string>
+    <string name="button3">验证生命周期</string>
+    <string name="title_activity_01">Activity01</string>
+    <string name="title_activity_02">Activity02</string>
+    <string name="circle">生命周期</string>
+    <string name="title_activity_show_data">ShowData</string>
+
+
+    <string name="button4">跳转到数据传递界面</string>
+    <string name="passdata">数据传递界</string>
+</resources>

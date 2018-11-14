@@ -1,0 +1,128 @@
+Activity的生命周期：
+1. 运行状态
+2. 暂停状态
+3  停止状态
+
+值得一提的是，当activity正在运行时，Android会尽可能保证它的运行，即使出现内存不足，Android也会先杀死栈底部的activity..
+
+	1：onCreate()  创建时执行
+	2：onStart()   可见时执行
+	3： onRestart()  回到前台时执行
+	4： onResume()  获取焦点时执行
+	5： onpuse()  失去焦点
+	6： onstop() 用户不可见，进入后台时执行
+	7： onDestory() 销毁时
+
+
+二  手机横竖屏切换时的生命周期
+
+AndroidMainfest.xml中：
+
+1、不设置Activity的Android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次
+2、设置Activity的android:configChanges=”orientation”时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次
+3、设置Activity的android:configChanges=”orientation|keyboardHidden|screenSize”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法。
+
+
+
+三   Activity的启动模式
+
+	Android采用任务栈（Task）的方式来管理activity实例。
+
+
+四种启动模式：
+Standard模式是Android的默认启动模式，你不在配置文件中做任何设置，那么这个Activity就是standard模式，这种模式下，Activity可以有多个实例，每次启动Activity，无论任务栈中是否已经有这个Activity的实例，系统都会创建一个新的Activity实例，以下是实验验证。
+
+2 SingleTop模式：
+SingleTop模式和standard模式非常相似，主要区别就是当一个singleTop模式的Activity已经位于任务栈的栈顶，再去启动它时，不会再创建新的实例,如果不位于栈顶，就会创建新的实例。
+这里有一个新的问题，对于每次启动Activity，我们该如何分别处理。答案就是onNewIntent()函数，虽然系统不会调用onCreat(),但会调用onNewIntent，我们可以在这个函数做相应的处理。
+
+ps:一个搜索Activity，可以输入搜索内容，也可以产生搜索结果，此时就可以用singleTop模式，不会用户每次搜索都会产生一个实例。
+
+
+ 3 SingleTask模式
+
+SingleTask模式的Activity在同一个Task内只有一个实例，如果Activity已经位于栈顶，系统不会创建新的Activity实例，和singleTop模式一样。但Activity已经存在但不位于栈顶时，系统就会把该Activity移到栈顶，并把它上面的activity出栈。
+
+singleTask模式和前面两种模式的最大区别就是singleTask模式是任务内单例的，所以我们是否设定Activity为singleTask模式，就是看我们activity是否需要单例.
+
+但启动singleTask模式的Activity会导致任务栈内它上面的Activity被销毁，有可能会影响用户体验，使用时要注意。
+
+
+4 SingleInstance模式
+
+singleInstance模式也是单例的，但和singleTask不同，singleTask只是任务栈内单例，系统里是可以有多个singleTask Activity实例的，而singleInstance Activity在整个系统里只有一个实例，启动一singleInstanceActivity时，系统会创建一个新的任务栈，并且这个任务栈只有他一个Activity。
+
+
+SingleInstance模式并不常用，如果我们把一个Activity设置为singleInstance模式，你会发现它启动时会慢一些，切换效果不好，影响用户体验。它往往用于多个应用之间，例如一个电视launcher里的Activity，通过遥控器某个键在任何情况可以启动，这个Activity就可以设置为singleInstance模式，当在某应用中按键启动这个Activity，处理完后按返回键，就会回到之前启动它的应用，不影响用户体验。
+
+
+
+三  Activity中的数据传递
+
+
+使用Intent传递数据只需调用putExtra()方法将想要存储的数据存在Intent中即可。当启动了另一个activity后，再把这些数据从Intent中取出即可。例如，Activity01中存储了一个字符串，现在要将这个字符串传递到Activity02中，可以使用如下代码：
+
+    String data = "Hello Activity02"
+    Intent intent = new Intent(this,Activity02.class);
+    intent.putExtra("extra_data",data);
+    startActivity(intent);
+
+
+在上述代码中，通过显式意图开启Activity02，并通过putExtra()方法传递了一个字符串data。putExtra(）方法中第一个参数接收的是key，第二个参数接收的是value。
+
+如果想要在activity02中取出传递过来的数据，可以使用如下代码：
+
+    Intent intent = getIntent();
+    String data == intent.getStringExtra("extra_data");
+    log.i("Activity02",data);
+
+上述这种数据传递方式是最简单的一种数据传递方式，还有一种传递数据的方式是调用putExtras()方法传递数据，该方法传递的是Bundle对象。调用putExtra()方法传递数据可以使用如下代码：
+
+    Bundle bundle = new Bundle();
+    bundle.putString("name","Linda");
+    bundle.putInt("age",20);
+    Intent intent = new Intent(this,Activity02.class);
+    intent.putExtras(bundle);
+    startActivity(intent);
+
+如果想要在activity02中取出上述方式传递的数据，可以使用如下代码：
+
+    Intent intent = getIntent();
+    Bundle bundle = intent.getExtras();
+    String stuName = bundle.getString("name");
+    int stuAge = bundle.getString("age");
+
+
+在上述代码中，在接收Bundle对象封装的数据时，需要先创建对应的Bundle对象，然后再根据存入的key值取出value。其实用Intent传递数据以及对象时，它的内部也是调用了Bundle对象相应的put()方法，也就是说Intent内部也是用Bundle来实现数据传递的，只是封装了一层而已。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
