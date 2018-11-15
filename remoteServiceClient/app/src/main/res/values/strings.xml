@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">remoteServiceClient</string>
+    <string name="hello">Hello World, MainActivity!</string>
+
+    <string name="studentnumber">学号</string>
+    <string name="button1">查询</string>
+</resources>

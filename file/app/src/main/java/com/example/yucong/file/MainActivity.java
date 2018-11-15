@@ -33,4 +33,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+
+    public void login(View view){
+        Intent intent=new Intent();
+        intent.setClassName("com.example.yucong.file","com.example.yucong.sharepreference.Login");
+        startActivity(intent);
+
+    }
 }

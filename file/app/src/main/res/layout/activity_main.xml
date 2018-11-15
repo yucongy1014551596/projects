@@ -39,6 +39,13 @@
             android:onClick="SdFile"
             android:text="@string/sdfile"/>
 
+
+        <Button android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="login"
+            android:text="@string/login"/>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -12,4 +12,6 @@
     <string name="title_activity_file_sdcard">FIleSDcard</string>
     <string name="SDsave">保存到sd卡信息</string>
     <string name="SDread">读取sd卡文件信息</string>
+
+    <string name="login">跳转到登录界面</string>
 </resources>
