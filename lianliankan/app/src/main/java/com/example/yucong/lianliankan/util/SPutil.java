@@ -40,7 +40,9 @@ public class SPutil {
         editor.commit();
     }
     public int getLan(){
-        return  sp.getInt(TAG_lan,0);
+
+
+        return sp.getInt(TAG_lan,0);
     }
 
     public boolean getmusic(){

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
       ActionBar actionBar= getSupportActionBar();
       if(actionBar!=null){
           actionBar.setDisplayHomeAsUpEnabled(true);//让导航按钮显示出来
-          actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);//导航按钮图标
+//          actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);//导航按钮图标
       }
 
 

@@ -14,7 +14,7 @@ import android.view.View;
 /**
  * 下一个要展示的方块
  * 
- * @sign Created by wang.ao on 2017年1月13日
+ * @sign Created by yucong on 2018 1月13日
  */
 @SuppressLint("DrawAllocation")
 public class NextBlockView extends View {

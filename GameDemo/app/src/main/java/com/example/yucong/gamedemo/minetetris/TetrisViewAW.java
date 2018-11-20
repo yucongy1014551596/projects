@@ -13,10 +13,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.yucong.gamedemo.R;
+
 /**
  * 俄罗斯方块Game主界面
  * 
- * @sign Created by wang.ao on 2017年1月12日
+ * @sign Created by yucong on 2018年
  */
 @SuppressLint("DrawAllocation")
 public class TetrisViewAW extends View {
@@ -59,6 +61,10 @@ public class TetrisViewAW extends View {
 	private int score = 0;
 	/** 当前方块的类型 */
 	private int blockType = 0;
+
+
+
+
 	private OnGameOverListener onGameOverListener;
 
 	public TetrisViewAW(Context context) {
@@ -154,6 +160,7 @@ public class TetrisViewAW extends View {
 	 * 暂停游戏
 	 */
 	public void pauseGame() {
+
 		runningStatus = false;
 	}
 
@@ -161,6 +168,7 @@ public class TetrisViewAW extends View {
 	 * 继续游戏
 	 */
 	public void continueGame() {
+
 		runningStatus = true;
 	}
 
@@ -180,6 +188,7 @@ public class TetrisViewAW extends View {
 		score = 0;
 		invalidate();
 		showToast("游戏结束");
+
 	}
 	public void showToast(String msg){
 		Toast.makeText(father, msg, Toast.LENGTH_SHORT).show();

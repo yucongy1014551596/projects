@@ -10,4 +10,7 @@
     </style>
 
 
+    <style name="FruitActivityTheme" parent="AppTheme"></style>
+
+
 </resources>

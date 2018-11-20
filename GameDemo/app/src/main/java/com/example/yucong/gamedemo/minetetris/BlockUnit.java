@@ -3,9 +3,9 @@ package com.example.yucong.gamedemo.minetetris;
 import java.util.List;
 
 /**
- * 俄罗斯方块的单元快
+ * 俄罗斯方块的单元块
  * 
- * @sign Created by wang.ao on 2017年1月13日
+ * @sign Created by  on 2018年1月20日
  */
 public class BlockUnit {
 	public static final int UNIT_SIZE = 50;

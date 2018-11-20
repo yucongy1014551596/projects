@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ActivityLifeCycleTest</string>
+    <string name="back_tishi">再按一次退出</string>
+</resources>
