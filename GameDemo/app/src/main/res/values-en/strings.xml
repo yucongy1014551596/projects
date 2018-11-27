@@ -1,27 +1,24 @@
 <resources>
     <string name="app_name">tetris</string>
-    <!--<string name="hello_world">Hello world!</string>-->
-    <!--<string name="title_activity_tetris">TetrisActivity</string>-->
-    <!--<string name="title_activity_tetris_activity_aw">TetrisActivityAW</string>-->
     <string name="score">score：</string>
     <string name="level">level：</string>
     <string name="highscore">highscore：</string>
     <string name="time">time:</string>
-
     <string name="startgame">startgame</string>
     <string name="start">start</string>
     <string name="end">over</string>
     <string name="continueGame">continue</string>
     <string name="pause">pause</string>
-
-
     <string name="congame">resume</string>
     <string name="startgame1">new</string>
     <string name="rank">rank</string>
     <string name="language">EN</string>
-
     <string name="gameOver">gameOver</string>
     <string name="gameRunning">Running</string>
     <string name="gamePause">Pause</string>
+    <string name="back_tishi"> Press again to exit</string>
+
+
+
 
 </resources>

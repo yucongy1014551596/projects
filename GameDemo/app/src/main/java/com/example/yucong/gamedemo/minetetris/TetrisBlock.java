@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 方块
  * 
- * @sign Created by wang.ao on 2017年1月13日
+ * @sign Created by yucong on 2018年
  */
 public class TetrisBlock {
 	private static final int TYPE_SUM = 7;
@@ -31,6 +31,14 @@ public class TetrisBlock {
 		return returnUnit();
 	}
 
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+
 	/**
 	 * 随机产生一种方块
 	 * @return
@@ -53,7 +61,7 @@ public class TetrisBlock {
 				units.add(new BlockUnit(x + (-1 + i) * BlockUnit.UNIT_SIZE, y, color));
 			}
 			break;
-		case 3:
+		case 3:  // 正方形
 			for (int i = 0; i < 2; i++) {
 				units.add(new BlockUnit(x + (i - 1) * BlockUnit.UNIT_SIZE, y - BlockUnit.UNIT_SIZE, color));
 				units.add(new BlockUnit(x + (i - 1) * BlockUnit.UNIT_SIZE, y, color));

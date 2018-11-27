@@ -2,23 +2,20 @@ package com.example.yucong.gamedemo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.yucong.gamedemo.minetetris.GameConfig;
 import com.example.yucong.gamedemo.minetetris.TetrisActivityAW;
 import com.example.yucong.gamedemo.util.LogUtil;
 import com.example.yucong.gamedemo.util.SPutil;
 
 import java.util.Locale;
 
-public class StartActivity extends AppCompatActivity  implements View.OnClickListener{
+public class StartActivity extends BaseActivity  implements View.OnClickListener{
     private Button buttoncon;
     private Button buttonstart;
     private Button buttonrank;
@@ -27,40 +24,15 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
     private ImageButton ibsound;
 
 
-    SharedPreferences pre;
-    SharedPreferences.Editor editor;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //region 设置为用户所选语言，需在加载界面之前配置好
-        pre = getSharedPreferences("language_config",MODE_PRIVATE);
-        String str = pre.getString("language","zh");
-        if(str.equals("zh")) GameConfig.language=1;
-        else GameConfig.language =0;
-        setConf(str);
-        //endregion
         super.onCreate(savedInstanceState);
-        initFullScreen();
-
         setContentView(R.layout.activity_start);
-
         init();
 
 
-
     }
-
-
-
-
-
-
 
     protected void init(){
         buttoncon=this.findViewById(R.id.buttoncon);
@@ -75,18 +47,27 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
         buttonlan.setOnClickListener(this);
         ibmusic.setOnClickListener(this);
         ibsound.setOnClickListener(this);
-
     }
+
+
+    /**
+     * IsContinute 标志用户点击的是继续游戏还是开始游戏
+     * @param
+     */
+
+
 
     @Override
     public void onClick(View v) {
         Intent intent=new Intent(StartActivity.this,TetrisActivityAW.class);
         switch(v.getId()){
             case R.id.buttoncon:
+               intent.putExtra("IsContinute","true");
+
                 startActivity(intent);
                 break;
             case R.id.buttonstart:
-
+                intent.putExtra("IsContinute","false");
                 startActivity(intent);
                 break;
             case R.id.buttonrank:
@@ -94,7 +75,7 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
 //                startActivity(intent);
                 break;
             case R.id.buttonlan:
-                swtichLanguage();
+                saveLanguage();
                 intent=new Intent(StartActivity.this,StartActivity.class);
                 startActivity(intent);
                 this.finish();
@@ -107,12 +88,11 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
     private void clear(){
         editor.clear();
         editor.apply();
-//        DataSupport.deleteAll(PieceImage.class);
-//        DataSupport.deleteAll(Piece.class);
-//        MainActivity.gameGlass=1;
+
     }
     private void saveLanguage(){
         int lan= SPutil.getSPutil(this).getLan();
+        LogUtil.i("lan",""+lan);
         lan=(++lan)%2;
         LogUtil.v("language","lan:"+lan);
         SPutil.getSPutil(this).saveLan(lan);
@@ -120,28 +100,18 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
 
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-    //切换语言
-    private void swtichLanguage(){
-        editor = pre.edit();
-        String  str = Locale.getDefault().getLanguage();
-        if(str.equals("zh")) str = "en";
-        else str = "zh";
-        editor.putString("language",str);//保留语言配置
-        editor.apply();
-        setConf(str);
-        Intent intent = new Intent(this, StartActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
-
-    //保存语言设置，并更新
-    private void setConf(String str) {
-        Locale locale = new Locale(str);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getResources().updateConfiguration(config, null);
+        boolean jilu=sp.getBoolean("jilu",false);
+        if(jilu){
+            Log.e("aa","visible");
+            buttoncon.setVisibility(View.VISIBLE);
+        }else{
+            buttoncon.setVisibility(View.INVISIBLE);
+            Log.e("aa","invisible");
+        }
     }
 
 
@@ -149,9 +119,5 @@ public class StartActivity extends AppCompatActivity  implements View.OnClickLis
 
 
 
-    public  void initFullScreen(){
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    }
 }

@@ -9,8 +9,7 @@ public class SPutil {
     private final SharedPreferences.Editor editor;
     private final static String TAG="setting";
     private final static String TAG_lan="language";
-    private final static String TAG_music="music";
-    private final static String TAG_sound="sound";
+
 
     private static volatile SPutil instance;
 
@@ -40,24 +39,9 @@ public class SPutil {
         editor.commit();
     }
     public int getLan(){
-
-
+        LogUtil.w("bbbbbb","：getLan（）运行了");
         return sp.getInt(TAG_lan,0);
     }
-//
-//    public boolean getmusic(){
-//        return  sp.getBoolean(TAG_music,true);
-//    }
-//    public void savemusic(boolean isplay){
-//        editor.putBoolean(TAG_music,isplay);
-//        editor.commit();
-//    }
-//    public boolean getsound(){
-//        return  sp.getBoolean(TAG_sound,true);
-//    }
-//    public void savesound(boolean isplay){
-//        editor.putBoolean(TAG_sound,isplay);
-//        editor.commit();
-//    }
+
 
 }

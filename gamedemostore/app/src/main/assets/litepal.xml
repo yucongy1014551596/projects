@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="gameStores" ></dbname>
+
+    <version value="1" ></version>
+
+    <list>
+        <mapping class="com.example.yucong.gamedemostore.entity.score"></mapping>
+        <mapping class="com.example.yucong.gamedemostore.entity.user"></mapping>
+    </list>
+</litepal>
+
+
+

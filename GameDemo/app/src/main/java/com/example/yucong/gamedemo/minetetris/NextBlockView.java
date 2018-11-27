@@ -11,10 +11,12 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.yucong.gamedemo.util.LogUtil;
+
 /**
  * 下一个要展示的方块
  * 
- * @sign Created by yucong on 2018 1月13日
+ * @sign Created by yucong on 2018
  */
 @SuppressLint("DrawAllocation")
 public class NextBlockView extends View {
@@ -29,21 +31,25 @@ public class NextBlockView extends View {
 	private static Paint paintBlock = null;
 	private int div_x = 0;
 	// 俄罗斯方块颜色数组
-	private static final int color[] ={ Color.parseColor("#FF6600"), Color.BLUE, Color.RED, Color.GREEN, Color.GRAY };
+	private static final int color[] ={
+			Color.parseColor("#FF6600"), Color.BLUE, Color.RED, Color.GREEN, Color.GRAY };
 
 	public NextBlockView(Context context) {
+
 		this(context, null);
+		LogUtil.i("ff","自动 NextBlockView  ");
 	}
 
 	public NextBlockView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		LogUtil.i("ff","自动 调用NextBlockView  context  attrs");
 		if (paintWall == null) {// 初始化化背景墙画笔
 			paintWall = new Paint();
 			paintWall.setColor(Color.LTGRAY);
 			paintWall.setStyle(Paint.Style.STROKE);
 			paintWall.setStrokeWidth(BOUND_WIDTH_OF_WALL + 1);
 		}
-		if (paintBlock == null) {// 初始化化背景墙画笔
+		if (paintBlock == null) {// 初始化單元快背景墙画笔
 			paintBlock = new Paint();
 			paintBlock.setColor(Color.parseColor("#FF6600"));
 		}
@@ -58,6 +64,7 @@ public class NextBlockView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		LogUtil.i("ff","自动 调用NextBlockView onDraw  context  attrs");
 		max_x = getWidth();
 		max_y = getHeight();
 		RectF rel;

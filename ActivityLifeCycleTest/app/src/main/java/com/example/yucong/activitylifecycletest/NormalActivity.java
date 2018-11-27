@@ -2,6 +2,7 @@ package com.example.yucong.activitylifecycletest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 public class NormalActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class NormalActivity extends AppCompatActivity {
         long time=backtime-oldtime;
         if(time<=1000){
             onclose();
+            Log.i("tt", "onBackPressed: close");
         }else{
             oldtime=backtime;
             //Toast.makeText(this,"点击太慢了",Toast.LENGTH_SHORT).show();

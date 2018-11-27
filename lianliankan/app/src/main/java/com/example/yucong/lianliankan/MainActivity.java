@@ -136,6 +136,10 @@ public class MainActivity extends BaseActivity {
         rank=new Rank();
         gameTime=GameConf.DEFAULT_TIME;
         boolean jilu=sp.getBoolean("jilu",false);
+        LogUtil.v("jilu",""+jilu);
+
+
+
         pbtime=findViewById(R.id.pbTime);
         pbtime.setMax(GameConf.DEFAULT_TIME);
         if (jilu)

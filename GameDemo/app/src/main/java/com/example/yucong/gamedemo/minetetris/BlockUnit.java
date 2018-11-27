@@ -1,5 +1,7 @@
 package com.example.yucong.gamedemo.minetetris;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -7,12 +9,13 @@ import java.util.List;
  * 
  * @sign Created by  on 2018年1月20日
  */
-public class BlockUnit {
+public class BlockUnit extends DataSupport{
 	public static final int UNIT_SIZE = 50;
 	public static final int BEGIN = 10;
 	public int color;
 	// 单元块 的坐标
 	public int x, y;
+	public  int blocktype;
 
 	public BlockUnit() {
 	}
@@ -24,6 +27,48 @@ public class BlockUnit {
 		this.x = x;
 		this.y = y;
 		this.color = color;
+	}
+
+	public BlockUnit(int x, int y, int color,int blocktype) {
+		/*
+		 * @param 单元块横纵坐标 构造函数
+		 */
+		this.x = x;
+		this.y = y;
+		this.color = color;
+		this.blocktype=blocktype;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public int getBlocktype() {
+		return blocktype;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+
+	public void setBlocktype(int blocktype) {
+		this.blocktype = blocktype;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	/**

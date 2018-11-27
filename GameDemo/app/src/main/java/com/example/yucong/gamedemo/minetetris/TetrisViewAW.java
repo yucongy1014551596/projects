@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.yucong.gamedemo.R;
+import com.example.yucong.gamedemo.util.LogUtil;
 
 /**
  * 俄罗斯方块Game主界面
@@ -40,7 +41,7 @@ public class TetrisViewAW extends View {
 	/** 下一个要显示的方块 */
 	private List<BlockUnit> routeBlockUnitBufs = new ArrayList<BlockUnit>();
 	/** 全部的方块allBlockUnits */
-	private List<BlockUnit> allBlockUnits = new ArrayList<BlockUnit>();
+	public List<BlockUnit> allBlockUnits = new ArrayList<BlockUnit>();
 	/** 调用此对象的Activity对象 */
 	private TetrisActivityAW father = null;
 	private int[] map = new int[100]; // 保存每行网格中包含俄罗斯方块单元的个数
@@ -54,32 +55,50 @@ public class TetrisViewAW extends View {
 	/** 俄罗斯方块颜色数组 */
 	private static final int color[] = { Color.parseColor("#FF6600"), Color.BLUE, Color.RED, Color.GREEN, Color.GRAY };
 	/** 方块的中心方块单元的坐标, */
-	private int xx, yy;
+	public int xx, yy;
 	/** 方块,用户随机获取各种形状的方块 */
 	private TetrisBlock tetrisBlock;
 	/** 分数 */
-	private int score = 0;
+	public int score = 0;
 	/** 当前方块的类型 */
 	private int blockType = 0;
 
 
+	private static Canvas mCanvas = null;
 
 
 	private OnGameOverListener onGameOverListener;
 
 	public TetrisViewAW(Context context) {
+
 		this(context, null);
+		LogUtil.i("ff","context");
 	}
+
+
+	/**
+	 * 游戏界面初始化时执行
+	 * 1 TetrisViewAW(Context context, AttributeSet attrs)
+	 * 2 NextBlockView(Context context, AttributeSet attrs)
+	 * 3 onDraw(Canvas canvas)
+	 * 4 NextBlockView onDraw
+	 *
+	 *
+	 * @param context
+	 * @param attrs
+	 */
 
 	public TetrisViewAW(Context context, AttributeSet attrs) {
 		super(context, attrs);
+
+		LogUtil.i("ff","context  attrs");
 		if (paintWall == null) {// 初始化化背景墙画笔
 			paintWall = new Paint();
 			paintWall.setColor(Color.LTGRAY);
 			paintWall.setStyle(Paint.Style.STROKE);
 			paintWall.setStrokeWidth(BOUND_WIDTH_OF_WALL + 1);
 		}
-		if (paintBlock == null) {// 初始化化背景墙画笔
+		if (paintBlock == null) {// 初始化单元块背景墙画笔
 			paintBlock = new Paint();
 			paintBlock.setColor(Color.parseColor("#FF6600"));
 		}
@@ -95,12 +114,14 @@ public class TetrisViewAW extends View {
 	 * @param tetrisActivityAW
 	 */
 	public void setFather(TetrisActivityAW tetrisActivityAW) {
+
 		father = tetrisActivityAW;
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		LogUtil.i("ff","自动 调用onDraw  context  attrs");
 		max_x = getWidth();
 		max_y = getHeight();
 		RectF rel;
@@ -128,10 +149,12 @@ public class TetrisViewAW extends View {
 					x + BlockUnit.UNIT_SIZE - BOUND_WIDTH_OF_WALL, y + BlockUnit.UNIT_SIZE - BOUND_WIDTH_OF_WALL);
 			canvas.drawRoundRect(rel, 8, 8, paintBlock);
 		}
-		// 随机产生一个俄罗斯方块
+
+
+		//
 		len = allBlockUnits.size();
 		// 绘制方块
-		// Toast.makeText(context, "" + len, Toast.LENGTH_SHORT).show();
+
 		for (int i = 0; i < len; i++) {
 			int x = allBlockUnits.get(i).x;
 			int y = allBlockUnits.get(i).y;
@@ -141,6 +164,102 @@ public class TetrisViewAW extends View {
 			canvas.drawRoundRect(rel, 8, 8, paintBlock);
 		}
 	}
+
+
+
+
+
+	List<BlockUnit> saveAllUntils = new ArrayList<BlockUnit>();
+	// draw map when continue game
+	public List<BlockUnit> initGameMap() {
+		// onDraw()
+		LogUtil.i("con","我执行了");
+
+//		List<BlockUnit> saveUntils = new ArrayList<BlockUnit>();
+
+
+
+		for (BlockUnit blockUnit : allBlockUnits){
+		      BlockUnit blockUnit1=	new BlockUnit();
+			  blockUnit1.setX(blockUnit.x);
+			  blockUnit1.setY(blockUnit.y);
+			  blockUnit1.setColor(blockUnit.color);
+			  blockUnit1.setBlocktype(tetrisBlock.blockType);
+			  saveAllUntils.add(blockUnit1);
+			  blockUnit1.save();
+		}
+
+
+
+
+		for (BlockUnit blockUnit2 : blockUnits){
+			BlockUnit blockUnit1=	new BlockUnit();
+			blockUnit1.setX(blockUnit2.x);
+			blockUnit1.setY(blockUnit2.y);
+			blockUnit1.setColor(blockUnit2.color);
+			blockUnit1.setBlocktype(tetrisBlock.blockType);
+			saveAllUntils.add(blockUnit1);
+			blockUnit1.save();
+		}
+
+//		for (BlockUnit blockUnit3 : blockUnitBufs){
+//			BlockUnit blockUnit1=	new BlockUnit();
+//			blockUnit1.setX(blockUnit3.x);
+//			blockUnit1.setY(blockUnit3.y);
+//			blockUnit1.setColor(blockUnit3.color);
+//			blockUnit1.setBlocktype(tetrisBlock.blockType);
+//			saveAllUntils.add(blockUnit1);
+//			blockUnit1.save();
+//		}
+
+
+
+
+//			LogUtil.i("ff","x="+blockUnit.x+"y="+blockUnit.y+"color="+blockUnit.color+"xx="+xx+"yy="+yy);
+//			LogUtil.i("ff","blockType="+tetrisBlock.blockType);
+//
+//			tetrisBlock.setColor(blockUnit.color);
+//			tetrisBlock.getUnits(blockUnit.x,blockUnit.y);
+
+
+
+
+
+		for (BlockUnit blockUnit : allBlockUnits){
+
+			LogUtil.i("all","x="+blockUnit.x+"y="+blockUnit.y+"color="+blockUnit.color+"xx="+xx+"yy="+yy);
+			LogUtil.i("all","blockType="+tetrisBlock.blockType);
+
+		}
+
+
+//
+//		for (BlockUnit blockUnit1 : blockUnits){
+//
+//		LogUtil.i("block","x="+blockUnit1.x+"y="+blockUnit1.y+"color="+blockUnit1.color+"xx="+xx+"yy="+yy);
+//			LogUtil.i("block","blockType="+tetrisBlock.blockType);
+//
+//		}
+//
+//
+//
+//		for (BlockUnit blockUnit2 : blockUnitBufs){
+//
+//			LogUtil.i("bufff","x="+blockUnit2.x+"y="+blockUnit2.y+"color="+blockUnit2.color+"xx="+xx+"yy="+yy);
+//			LogUtil.i("bufff","blockType="+tetrisBlock.blockType);
+//
+//		}
+
+
+		return saveAllUntils;
+
+
+	}
+
+
+
+
+
 
 	/**
 	 * 开始游戏
@@ -154,6 +273,7 @@ public class TetrisViewAW extends View {
 			mainThread.start();
 		}
 
+
 	}
 
 	/**
@@ -162,6 +282,8 @@ public class TetrisViewAW extends View {
 	public void pauseGame() {
 
 		runningStatus = false;
+//		initGameMap();
+
 	}
 
 	/**
@@ -307,6 +429,16 @@ public class TetrisViewAW extends View {
 
 	}
 
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * 获取一个新的方块
 	 */
@@ -365,7 +497,13 @@ public class TetrisViewAW extends View {
 	/**
 	 * 游戏的主线程
 	 * 
-	 * @sign Created by yucong 2018年1月16日
+	 * @sign Created by yucong 2018年
+	 *
+	 *    需要保存score  时间
+	 *     xx  yy坐标  color   blocktype  blockUnits   allBlockUnits
+	 *     Arrays.fill(map, 0); // 每行网格中包含俄罗斯方块单元的个数全部初始化为0
+	 *
+	 *
 	 */
 	private class MainThread implements Runnable {
 
@@ -384,7 +522,7 @@ public class TetrisViewAW extends View {
 							e.printStackTrace();
 						}
 						/**
-						 * 这里对是否可以继续下落进行二次判断,因为左右平移和旋转实在UI线程,可能会存在误差,
+						 * 这里对是否可以继续下落进行二次判断,因为左右平移和旋转是在UI线程,可能会存在误差,
 						 * 因此,在这里进行二次判断,防止方块有下落的条件但却没有下落的问题
 						 */
 						if (BlockUnit.canMoveToDown(blockUnits, max_y, allBlockUnits)) {
@@ -404,15 +542,16 @@ public class TetrisViewAW extends View {
 						for (BlockUnit u : blockUnits) {
 							// 更新map，即更新每行网格中静止俄罗斯方块单元的个数
 							int index = (int) ((u.y - beginPoint) / 50); // 计算所在行数
-							map[index]++;
+							map[index]++;//记录每行单元格个数
 						}
+
 						// 每行最大个数
 						try {
 							Thread.sleep(GameConfig.SPEED);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						deleteBlock();
+						deleteBlock();//判断是否需要删除
 						father.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
