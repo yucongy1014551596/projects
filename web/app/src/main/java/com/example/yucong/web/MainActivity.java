@@ -44,11 +44,23 @@ public class MainActivity extends AppCompatActivity {
                 intent3.setClassName("com.example.yucong.web","com.example.yucong.web.pull.pullxml");
                 startActivity(intent3);
                 break;
+            case R.id.sax:
+
+                Intent intent5=new Intent();
+                intent5.setClassName("com.example.yucong.web","com.example.yucong.web.sax.saxXml");
+                startActivity(intent5);
+                break;
             case R.id.json:
 
                 Intent intent4=new Intent();
                 intent4.setClassName("com.example.yucong.web","com.example.yucong.web.json.jsonData");
                 startActivity(intent4);
+                break;
+            case R.id.gson:
+
+                Intent intent6=new Intent();
+                intent6.setClassName("com.example.yucong.web","com.example.yucong.web.gson.gson");
+                startActivity(intent6);
                 break;
 
 

@@ -53,6 +53,22 @@
             android:text="跳转到json界面"
             >
         </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gson"
+            android:onClick="web"
+            android:text="跳转到gson界面"
+            >
+        </Button>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sax"
+            android:onClick="web"
+            android:text="跳转到sax界面"
+            >
+        </Button>
 
 
     </LinearLayout>

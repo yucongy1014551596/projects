@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, LoginActivity!</string>
+    <string name="app_name">TetrisGame</string>
+
+
+
+    <string name="score">分数：</string>
+    <string name="level">等级：</string>
+    <string name="highscore">最高分：</string>
+    <string name="gameRunning">游戏运行中</string>
+    <string name="gameOver">游戏已停止</string>
+    <string name="gamePause">游戏已暂停</string>
+    <string name="back_tishi">再按一次退出</string>
+    <string name="time">时间:</string>
+    <string name="startgame">点击开始运行游戏</string>
+    <string name="start">开始</string>
+    <string name="end">结束</string>
+    <string name="continueGame">继续</string>
+    <string name="pause">暂停</string>
+    <string name="congame">继续游戏</string>
+    <string name="startgame1">开始游戏</string>
+    <string name="rank">排行榜</string>
+    <string name="language">中文</string>
+
+</resources>

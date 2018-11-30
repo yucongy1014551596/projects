@@ -3,6 +3,11 @@
     package="com.example.yucong.web">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,15 +24,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".webview.webwiew" />
-        <activity android:name=".HttpUrlConnection.UrlConnection"></activity>
-        <activity android:name=".okhttp.OkHttp"/>
-        <activity android:name=".pull.pullxml"/>
-        <activity android:name=".json.jsonData"/>
+        <activity android:name=".HttpUrlConnection.UrlConnection" />
+        <activity android:name=".okhttp.OkHttp" />
+        <activity android:name=".pull.pullxml" />
+        <activity android:name=".json.jsonData" />
+        <activity android:name=".sax.saxXml" />
+        <activity android:name=".gson.gson"></activity>
     </application>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

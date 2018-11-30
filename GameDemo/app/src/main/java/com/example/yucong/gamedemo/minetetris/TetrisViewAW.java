@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,10 +36,10 @@ public class TetrisViewAW extends View {
 	private static Paint paintBlock = null;
 	private static final int BOUND_WIDTH_OF_WALL = 2;
 	/** 当前正在下落的方块 */
-	private List<BlockUnit> blockUnits = new ArrayList<BlockUnit>();
+	public List<BlockUnit> blockUnits = new ArrayList<BlockUnit>();
 	/** 下一个要显示的方块 */
 	private List<BlockUnit> blockUnitBufs = new ArrayList<BlockUnit>();
-	/** 下一个要显示的方块 */
+	/** 旋转 */
 	private List<BlockUnit> routeBlockUnitBufs = new ArrayList<BlockUnit>();
 	/** 全部的方块allBlockUnits */
 	public List<BlockUnit> allBlockUnits = new ArrayList<BlockUnit>();
@@ -91,7 +92,7 @@ public class TetrisViewAW extends View {
 	public TetrisViewAW(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		LogUtil.i("ff","context  attrs");
+		LogUtil.i("ff","自动调用 TetrisViewAW context  attrs");
 		if (paintWall == null) {// 初始化化背景墙画笔
 			paintWall = new Paint();
 			paintWall.setColor(Color.LTGRAY);
@@ -121,9 +122,13 @@ public class TetrisViewAW extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		LogUtil.i("ff","自动 调用onDraw  context  attrs");
+		LogUtil.i("ff","自动 调用TetrisViewAW onDraw  context  attrs");
 		max_x = getWidth();
 		max_y = getHeight();
+
+		LogUtil.i("max_x",""+max_x);
+		LogUtil.i("max_y",""+max_y);
+
 		RectF rel;
 		// 绘制网格
 		num_x = 0;
@@ -184,6 +189,7 @@ public class TetrisViewAW extends View {
 			  blockUnit1.setX(blockUnit.x);
 			  blockUnit1.setY(blockUnit.y);
 			  blockUnit1.setColor(blockUnit.color);
+
 			  blockUnit1.setBlocktype(tetrisBlock.blockType);
 			  saveAllUntils.add(blockUnit1);
 			  blockUnit1.save();
@@ -268,9 +274,50 @@ public class TetrisViewAW extends View {
 		gameStatus = true;
 		runningStatus = true;
 		if (mainThread == null || !mainThread.isAlive()) {
-			getNewBlock();
+			if(blockUnits == null || blockUnits.size() <= 0) {
+				getNewBlock();
+
+			}
 			mainThread = new Thread(new MainThread());
 			mainThread.start();
+
+//			else{
+//				Context mContext = getContext();
+//				if(mContext instanceof TetrisActivityAW){
+//					TetrisActivityAW mActivity = (TetrisActivityAW) mContext;
+//					int x0 = mActivity.getSp().getInt("x0", -1);
+//					int y0 = mActivity.getSp().getInt("y0", -1);
+//					if(x0 == -1 && y0 == -1){
+//
+//					}else {
+//						int x1 = mActivity.getSp().getInt("x1", -1);
+//						int y1 = mActivity.getSp().getInt("y1", -1);
+//						int x2 = mActivity.getSp().getInt("x2", -1);
+//						int y2 = mActivity.getSp().getInt("y2", -1);
+//						int x3 = mActivity.getSp().getInt("x3", -1);
+//						int y3 = mActivity.getSp().getInt("y3", -1);
+//						int blocktype = mActivity.getSp().getInt("blocktype", -1);
+//						int blockcolor = mActivity.getSp().getInt("blockcolor", -1);
+//
+//						Log.e("TetrisViewAw", "startGame() blocktype:"+blocktype+" blockcolor:"+blockcolor);
+//						BlockUnit blockUnit0 = new BlockUnit(x0,y0,blocktype, blockcolor);
+//						BlockUnit blockUnit1 = new BlockUnit(x1,y1,blocktype, blockcolor);
+//						BlockUnit blockUnit2 = new BlockUnit(x2,y2,blocktype, blockcolor);
+//						BlockUnit blockUnit3 = new BlockUnit(x3,y3,blocktype, blockcolor);
+//						List<BlockUnit> nextBlockUnits = new ArrayList<>();
+//						nextBlockUnits.add(blockUnit0);
+//						nextBlockUnits.add(blockUnit1);
+//						nextBlockUnits.add(blockUnit2);
+//						nextBlockUnits.add(blockUnit3);
+//						if (father != null) {// 显示出下一个要出现的方块
+//							//father.setNextBlockView(nextBlockUnits, (num_x / 2) * BlockUnit.UNIT_SIZE);
+//						}
+//					}
+//
+//				}
+//			}
+
+
 		}
 
 
@@ -282,7 +329,7 @@ public class TetrisViewAW extends View {
 	public void pauseGame() {
 
 		runningStatus = false;
-//		initGameMap();
+
 
 	}
 
@@ -446,6 +493,7 @@ public class TetrisViewAW extends View {
 		// 新的方块的坐标，x坐标位于x轴的中间，y 位于起始位置
 		this.xx = beginPoint + (num_x / 2) * BlockUnit.UNIT_SIZE;
 		this.yy = beginPoint;
+		LogUtil.i("ff",""+xx+yy);
 		if (blockUnitBufs.size() == 0) {
 			// 当游戏第一次开始的时候，先初始化一个方块
 			blockUnitBufs = tetrisBlock.getUnits(xx, yy);
@@ -456,6 +504,7 @@ public class TetrisViewAW extends View {
 		if (father != null) {// 显示出下一个要出现的方块
 			father.setNextBlockView(blockUnitBufs, (num_x / 2) * BlockUnit.UNIT_SIZE);
 		}
+
 	}
 
 	/**
@@ -537,6 +586,7 @@ public class TetrisViewAW extends View {
 						 */
 						for (BlockUnit blockUnit : blockUnits) {
 							blockUnit.y = blockUnit.y + BlockUnit.UNIT_SIZE;
+							blockUnit.isAlive = false;
 							allBlockUnits.add(blockUnit);
 						}
 						for (BlockUnit u : blockUnits) {

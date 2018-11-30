@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.yucong.terist">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="游戏平台"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.example.yucong.terist.GameDaTing.WelComeActivity"
+            android:theme="@style/SplashTheme"
+            android:label="游戏平台">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".androidteris.MainActivity"/>
+
+        <activity
+            android:name="com.example.yucong.terist.androidteris.SettingPage"
+            android:label="设置" />
+        <activity
+            android:name="com.example.yucong.terist.androidteris.AboutActivity"
+            android:label="游戏说明" />
+        <activity android:name="com.example.yucong.terist.androidteris.MusicPage" />
+        <activity android:name="com.example.yucong.terist.androidteris.CustomLoginPage" />
+        <activity android:name="com.example.yucong.terist.androidteris.CustomRegisterPage" />
+        <activity android:name="com.example.yucong.terist.androidteris.CustomRecord" />
+        <activity android:name="com.example.yucong.terist.androidteris.GameOver" />
+
+        <service android:name="com.example.yucong.terist.androidteris.BackService" />
+
+        <activity android:name="com.example.yucong.terist.androidteris.HomePage" />
+        <activity android:name="com.example.yucong.terist.GameDaTing.GameDaTingActivity" />
+        <activity android:name="com.example.yucong.terist.GameDaTing.GamePingTaiActivity"></activity>
+    </application>
+
+</manifest>

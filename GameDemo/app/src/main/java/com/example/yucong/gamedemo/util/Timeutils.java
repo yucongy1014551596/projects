@@ -96,13 +96,6 @@ public class Timeutils {
             mTimer.schedule(mTimerTask, delay, period);
 
 
-
-
-
-
-
-
-
     }
 
 

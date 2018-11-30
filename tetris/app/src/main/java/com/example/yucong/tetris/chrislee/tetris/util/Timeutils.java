@@ -1,0 +1,199 @@
+package com.example.yucong.tetris.chrislee.tetris.util;
+
+import android.os.Handler;
+import android.os.Message;
+import android.text.format.DateFormat;
+import android.util.Log;
+import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Timeutils {
+
+
+    private static String TAG = "<<<";
+    private Timer mTimer = null;
+    private TimerTask mTimerTask = null;
+    private Handler mHandler = null;
+    private static long count = 0;
+    private boolean isPause = false;
+    private boolean resume = true;
+    private static int delay = 1000; //1s
+    private static int period = 1000; //1s
+    private static final int UPDATE_TEXTVIEW = 0;
+    TextView mTextView;
+    public Timeutils(TextView mTextView){
+        this.mTextView=mTextView;
+
+
+        mHandler = new Handler(){
+            @Override
+    public void handleMessage(Message msg)
+            { switch (msg.what) {
+                case UPDATE_TEXTVIEW:
+                    updateTextView();
+                    break;
+                    default:
+                        break;
+            }
+
+
+            }
+
+
+        };
+    }
+
+
+    public void puseTimer(){
+
+        isPause = !isPause;
+        resume = true;   //停止重新计时
+    }
+
+
+    private void updateTextView(){
+        int i = 1000;
+        long time= count * i;
+        CharSequence sysTimeStr = DateFormat.format("mm:ss", time);
+        mTextView.setText(String.valueOf(sysTimeStr));
+    }
+
+
+
+    public void resumeTime(){
+        stopTimer1();
+        resume=false;
+
+        if (mTimer == null)
+        {
+            mTimer = new Timer();
+
+        } if (mTimerTask == null){
+
+            mTimerTask = new TimerTask() {
+                @Override
+                public void run(){
+
+                    sendMessage(UPDATE_TEXTVIEW);
+
+                    do {
+                        try {
+
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) { }
+
+                    } while (resume);
+
+                    count ++;
+                }
+
+
+            };
+
+        } if(mTimer != null && mTimerTask != null )
+            mTimer.schedule(mTimerTask, delay, period);
+
+
+    }
+
+
+
+
+    public void startTimer(){
+        stopTimer();
+        if (mTimer == null)
+        {
+            mTimer = new Timer();
+
+        } if (mTimerTask == null){
+
+            mTimerTask = new TimerTask() {
+               @Override
+               public void run(){
+                 Log.i(TAG, "count: "+ String.valueOf(count));
+                     sendMessage(UPDATE_TEXTVIEW);
+
+              do {
+                  try {
+                      Log.i(TAG, "sleep(1000)...");
+
+                      Thread.sleep(1000);
+                      } catch (InterruptedException e) { }
+
+             } while (isPause);
+
+                  count ++;
+          }
+
+
+        };
+
+        } if(mTimer != null && mTimerTask != null )
+            mTimer.schedule(mTimerTask, delay, period);
+
+    }
+
+
+    /**
+     * 关闭计时  不重置时间
+     */
+
+    public void stopTimer1(){
+        if (mTimer != null)
+
+        { mTimer.cancel();
+
+            mTimer = null;
+
+        } if (mTimerTask != null)
+
+        { mTimerTask.cancel();
+
+            mTimerTask = null;
+
+        }
+
+    }
+    /**
+     * 关闭计时  重置时间
+     */
+    public void stopTimer(){
+
+
+        if (mTimer != null)
+
+        { mTimer.cancel();
+
+        mTimer = null;
+
+        } if (mTimerTask != null)
+
+        { mTimerTask.cancel();
+
+        mTimerTask = null;
+
+        } count = 0;
+
+    }
+
+
+
+    public void sendMessage(int id){
+        if (mHandler != null)
+
+        { Message message = Message.obtain(mHandler, id);
+
+        mHandler.sendMessage(message);
+
+        }
+
+    }
+
+
+
+
+
+
+}

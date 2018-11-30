@@ -16,8 +16,17 @@ public class BlockUnit extends DataSupport{
 	// 单元块 的坐标
 	public int x, y;
 	public  int blocktype;
+	public boolean isAlive = true;
 
-	public BlockUnit() {
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public BlockUnit() {
 	}
 
 	public BlockUnit(int x, int y, int color) {
@@ -70,6 +79,7 @@ public class BlockUnit extends DataSupport{
 	public void setY(int y) {
 		this.y = y;
 	}
+
 
 	/**
 	 * 判断方块是否可以向左移动,1是否在边缘,2是否会与其他方块重合

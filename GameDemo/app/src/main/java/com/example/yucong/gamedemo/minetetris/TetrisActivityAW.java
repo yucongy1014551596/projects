@@ -1,28 +1,17 @@
 package com.example.yucong.gamedemo.minetetris;
 
-import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
+import java.util.ArrayList;
+import java.util.List;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yucong.gamedemo.BaseActivity;
 import com.example.yucong.gamedemo.R;
-import com.example.yucong.gamedemo.TimeSchedule;
 import com.example.yucong.gamedemo.util.LogUtil;
 import com.example.yucong.gamedemo.util.Timeutils;
-
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
@@ -61,11 +50,9 @@ public class TetrisActivityAW extends BaseActivity {
 
 
     public void initContinuteGame(){
-
 		         initGame();
-//				tetrisViewAW.initGameMap();
+		          getdatas();
 
-		       getdatas();
 
 	}
 
@@ -73,8 +60,21 @@ public class TetrisActivityAW extends BaseActivity {
 
 
 	  public  void   getdatas(){
-	   List<BlockUnit>	  BlockUnits = DataSupport.findAll(BlockUnit.class);
-		  tetrisViewAW.allBlockUnits=BlockUnits;
+	   List<BlockUnit>	  allBlockUnits = DataSupport.findAll(BlockUnit.class);
+	   List<BlockUnit> newAllBlockUnits = new ArrayList<>();
+	   List<BlockUnit> newBlockUnits = new ArrayList<>();
+
+	   for(BlockUnit blockUnit : allBlockUnits){
+		   System.out.println("blockUnit:"+blockUnit);
+	   	if(!blockUnit.isAlive){
+			newAllBlockUnits.add(blockUnit);
+
+		} else {
+			newBlockUnits.add(blockUnit);
+		}
+	   }
+		  tetrisViewAW.allBlockUnits=newAllBlockUnits;
+	   tetrisViewAW.blockUnits = newBlockUnits;
 		  tetrisViewAW.xx=sp.getInt("xx",0);
 		  tetrisViewAW.yy=sp.getInt("yy",0);
 	}
@@ -111,6 +111,16 @@ public class TetrisActivityAW extends BaseActivity {
 
 
 	public void setNextBlockView(List<BlockUnit> blockUnits, int div_x) {
+		for(int i = 0 ;i < blockUnits.size();i++){
+			BlockUnit blockUnit = blockUnits.get(i);
+			Log.e("TetrisActivityAW", "setNextBlockView->" + blockUnit.getX() + " " + blockUnit.getY());
+
+			editor.putInt("x"+i, blockUnit.getX());
+			editor.putInt("y"+i, blockUnit.getY());
+			editor.putInt("blocktype", blockUnit.getBlocktype());
+			editor.putInt("blockcolor", blockUnit.getColor());
+			editor.apply();
+		}
 		nextBlockView.setBlockUnits(blockUnits, div_x);
 	}
 
@@ -154,6 +164,7 @@ public class TetrisActivityAW extends BaseActivity {
 		score.setText("" + 0);
 
 		gameStatusTip.setText(R.string.gameOver);
+		timeutils.puseTimer();
 	}
 
 	/**
