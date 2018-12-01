@@ -13,15 +13,27 @@
     <string name="gameOver">游戏已停止</string>
     <string name="gamePause">游戏已暂停</string>
     <string name="back_tishi">再按一次退出</string>
-    <string name="time">时间:</string>
+
     <string name="startgame">点击开始运行游戏</string>
     <string name="start">开始</string>
     <string name="end">结束</string>
     <string name="continueGame">继续</string>
     <string name="pause">暂停</string>
-    <string name="congame">继续游戏</string>
     <string name="startgame1">开始游戏</string>
-    <string name="rank">排行榜</string>
+
     <string name="language">中文</string>
+
+
+
+
+
+
+    <string name="gameTime">游戏时间:</string>
+    <string name="congame">继续游戏</string>
+    <string name="newgame">新游戏</string>
+    <string name="help">帮助</string>
+    <string name="rank">排行榜</string>
+
+
 
 </resources>

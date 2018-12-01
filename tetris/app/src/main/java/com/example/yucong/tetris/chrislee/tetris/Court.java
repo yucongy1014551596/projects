@@ -2,7 +2,6 @@ package com.example.yucong.tetris.chrislee.tetris;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 
 
@@ -56,7 +55,7 @@ public class Court {
 
         for (int i = 0; i < COURT_WIDTH; i++) {
             if (mCourt[i][ABOVE_VISIBLE_TOP] != 0)
-                return true;
+                return true;    //到达顶部   游戏结束
         }
         return false;
 
@@ -93,7 +92,12 @@ public class Court {
         return true;
     }
 
-    public void placeTile(TileView tile) {
+
+    /**
+     * 将当前的俄罗斯方块添加到画布中
+     * @param tile
+     */
+    public void placeTile(TetrisBlock tile) {
         int i, j;
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
@@ -104,6 +108,11 @@ public class Court {
         }
     }
 
+
+    /**
+     * 移除满行方块
+     * @return
+     */
     public int removeLines() {
         int high = 0;
         int low = COURT_HEIGHT;

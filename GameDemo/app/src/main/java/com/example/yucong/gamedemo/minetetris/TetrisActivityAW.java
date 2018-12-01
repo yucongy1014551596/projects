@@ -74,7 +74,7 @@ public class TetrisActivityAW extends BaseActivity {
 		}
 	   }
 		  tetrisViewAW.allBlockUnits=newAllBlockUnits;
-	   tetrisViewAW.blockUnits = newBlockUnits;
+	      tetrisViewAW.blockUnits = newBlockUnits;
 		  tetrisViewAW.xx=sp.getInt("xx",0);
 		  tetrisViewAW.yy=sp.getInt("yy",0);
 	}

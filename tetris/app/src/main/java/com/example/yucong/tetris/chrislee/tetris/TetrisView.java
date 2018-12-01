@@ -14,17 +14,26 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 /**
  * 游戏主界面
+ *
+ *
+ *
+ * TetrisView
  */
 public class TetrisView extends View implements Runnable {
     final static int SCREEN_WIDTH = 960;
     final static int SCREEN_HEIGHT = 455 * 3;
     /** 调用此对象的Activity对象 */
     private ActivityGame father = null;
+
+
+
+    private TextView timeView;
 
 
     final int STATE_MENU = 0;
@@ -39,13 +48,13 @@ public class TetrisView extends View implements Runnable {
 
    public int mGamestate = STATE_PLAY;  //游戏默认状态为开始游戏
 
-   public int mScore = 0;
-    public int mSpeed = 1;
-    public int mDeLine = 0;
+   public int mScore = 0;   // 得分
+    public int mSpeed = 1;  //等级
+    public int mDeLine = 0; //消去的行数
 
-    public boolean mIsCombo = false; //
+    public boolean mIsCombo = false; //方块是否落地标志
     public boolean mIsPaused = false;//游戏默认状态
-    public boolean mIsVoice = true;
+    public boolean mIsVoice = true;  //音乐是否播放
 
     public long mMoveDelay = 600;  //移动延迟为0.6s
     public  long mLastMove = 0;
@@ -57,8 +66,9 @@ public class TetrisView extends View implements Runnable {
     public RefreshHandler mRefreshHandler = null;
 
 
-    public TileView mCurrentTile = null;  //当前俄罗斯方块
-    public  TileView mNextTile = null;   //下一个出现的俄罗斯方块
+    public TetrisBlock mCurrentTile = null;  //当前俄罗斯方块
+    public TetrisBlock mNextTile = null;   //下一个出现的俄罗斯方块
+    public TetrisBlock mFallingTile = null;   //正在下落的俄罗斯方块
     public  Court mCourt = null; //游戏进行区域
     public ResourceStore mResourceStore = null;
 
@@ -93,11 +103,18 @@ public class TetrisView extends View implements Runnable {
 
     protected void init(Context context) {
         mContext = context;
-        mCurrentTile = new TileView(context);
-        Log.i("tetris", "mCurrentTile builed");
 
 
-        mNextTile = new TileView(context);   //下一个方块
+        timeView=new TextView(context);
+
+
+        mFallingTile=new TetrisBlock(context);  //正在下落的方块
+        mNextTile = new TetrisBlock(context);   //下一个方块
+        mCurrentTile = new TetrisBlock(context);
+
+
+
+
         mCourt = new Court(context);
         mRefreshHandler = new RefreshHandler(this);
         mResourceStore = new ResourceStore(context);
@@ -131,35 +148,43 @@ public class TetrisView extends View implements Runnable {
         }
     }
 
+
+    /**
+     * 开始游戏
+     */
     public void playGame() {
         long now = System.currentTimeMillis();
         if (now - mLastMove > mMoveDelay) {
-            if (mIsPaused) {
+            if (mIsPaused) {   //标志位是游戏暂停 的话   就直接返回
                 return;
             }
-            if (mIsCombo) {
+
+
+            if (mIsCombo) {  //俄罗斯方块是否落地
+                LogUtil.i("ff","方块落地"+mIsCombo);
                 mCourt.placeTile(mCurrentTile);
-                //////
+                //方块落地播放音乐
                 mMPlayer.playMoveVoice();
 
                 if (mCourt.isGameOver()) {
                     mGamestate = STATE_OVER;
                     return;
                 }
+
+                //判断是否满行   如果满行的话就进行消除   返回满行的行数
                 int line = mCourt.removeLines();
                 if (line > 0) {
                     mMPlayer.playBombVoice();
                 }
-                mDeLine += line;
-                countScore(line);
-
-                mCurrentTile = mNextTile;
-                mNextTile = new TileView(mContext);
-
+                mDeLine += line;//更新界面消除的行数
+                countScore(line);//计算分数
+                mCurrentTile = mNextTile;//将下一个方块赋值给当前界面要下落的方块
+                mNextTile = new TetrisBlock(mContext);
                 mIsCombo = false;
+            }else {
+                mFallingTile = mCurrentTile;//保存当前正在下落的方块
             }
             moveDown();
-
             mLastMove = now;
         }
     }
@@ -312,12 +337,25 @@ public class TetrisView extends View implements Runnable {
                 break;
 
             default:
-                ;
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
 
 
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 用户类调用的旋转类
+     */
 
     public void route(){
 
@@ -329,14 +367,18 @@ public class TetrisView extends View implements Runnable {
         }
     }
 
+
+
+
     public void left(){
-        LogUtil.i("ff","Left()方法执行了 ");
+
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 moveLeft();
                 mMPlayer.playMoveVoice();
             }
         }
+        postInvalidate();
 
     }
 
@@ -351,11 +393,23 @@ public class TetrisView extends View implements Runnable {
             }
 
         }
+        postInvalidate();
     }
 
 
+    /**
+     * 用户类调用的快速下落功能
+     */
+    public void fastDorpMaster() {
 
+        if (mGamestate == STATE_PLAY) {
+            if (!mIsPaused) {
+                fastDrop();
+                mMPlayer.playMoveVoice();
+            }
 
+        }
+    }
 
 
 
@@ -371,14 +425,15 @@ public class TetrisView extends View implements Runnable {
     public void moveDown() {
         if (!mIsCombo) {
             if (!mCurrentTile.moveDownOnCourt(mCourt))
-                mIsCombo = true;
+                mIsCombo = true;  //
+
         }
     }
 
     public void moveLeft() {
+
         if (!mIsCombo) {
             mCurrentTile.moveLeftOnCourt(mCourt);
-
         }
     }
 
@@ -389,8 +444,6 @@ public class TetrisView extends View implements Runnable {
         }
 
     }
-
-
 
 
     private void fastDrop() {
@@ -412,11 +465,11 @@ public class TetrisView extends View implements Runnable {
      */
     private void paintGame(Canvas canvas) {
         mCourt.paintCourt(canvas);
-        mCurrentTile.paintTile(canvas);
-        //mNextTile.paintTile(canvas);
+        mCurrentTile.paintTile(canvas);   //主游戏的俄罗斯方块
+//        mNextTile.paintTile(canvas);
 
         mPaint.setTextSize(20);
-        paintNextTile(canvas);
+        paintNextTile(canvas);  //右上角的俄罗斯方块
         paintSpeed(canvas);
         paintScore(canvas);
         paintDeLine(canvas);
@@ -424,7 +477,7 @@ public class TetrisView extends View implements Runnable {
 
 
     /**
-     * 绘制下一个俄罗斯方块
+     * 绘制右上角的俄罗斯方块
      * @param canvas
      */
     private void paintNextTile(Canvas canvas) {
@@ -456,17 +509,30 @@ public class TetrisView extends View implements Runnable {
     }
 
     private void paintDeLine(Canvas canvas) {
+
+
         mPaint.setColor(Color.BLUE);
         canvas.drawText("消去行数:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mDeLine), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
+//        canvas.drawText(time, getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
+
+
     }
 
+
+
+
+
+
+
     private float getBlockDistance(float blockNum) {
+
         return blockNum * Court.BLOCK_WIDTH;
     }
 
-    private float getRightMarginToCourt() {
+    private float getRightMarginToCourt()
+    {
         return (float) 10.0;
     }
 
@@ -476,6 +542,9 @@ public class TetrisView extends View implements Runnable {
 
     private void paintOver(Canvas canvas) {
         paintGame(canvas);
+
+        father.timeutils.puseTimer();
+
         Paint paint = new Paint();
         paint.setTextSize(40);
         paint.setAntiAlias(true);
@@ -483,6 +552,9 @@ public class TetrisView extends View implements Runnable {
         canvas.drawText("Game Over", getBlockDistance(1), getBlockDistance(Court.COURT_HEIGHT / 2 - 2), paint);
         //DrawTool.paintImage(canvas,mResourceStore.getGameover(),0,SCREEN_HEIGHT/2 - mResourceStore.getGameover().getHeight()/2 );
     }
+
+
+
 
 
     @Override
@@ -549,6 +621,9 @@ public class TetrisView extends View implements Runnable {
         restoreCourt(pro);
         restoreTile(pro, mCurrentTile);
         restoreTile(pro, mNextTile);
+        mNextTile.setOffsetY(0);
+        mNextTile.setOffsetX((Court.COURT_WIDTH - 4) / 2 + 1);
+        restoreTile(pro, mFallingTile);
     }
 
     private void restoreCourt(Properties pro) {
@@ -561,7 +636,7 @@ public class TetrisView extends View implements Runnable {
         }
     }
 
-    private void restoreTile(Properties pro, TileView tile) {
+    private void restoreTile(Properties pro, TetrisBlock tile) {
         int[][] matrix = tile.getMatrix();
         int i, j;
         for (i = 0; i < 4; i++) {
@@ -574,6 +649,12 @@ public class TetrisView extends View implements Runnable {
         tile.setOffsetX(Integer.valueOf(pro.get("tileOffsetX").toString()));
         tile.setOffsetY(Integer.valueOf(pro.get("tileOffsetY").toString()));
     }
+
+
+
+
+
+
 
     public void saveGame() {
         Properties pro = new Properties();
@@ -592,6 +673,7 @@ public class TetrisView extends View implements Runnable {
         saveCourt(pro);
         saveTile(pro, mCurrentTile);
         saveTile(pro, mNextTile);
+        saveTile(pro, mFallingTile);
 
         try {
             FileOutputStream stream = mContext.openFileOutput(DATAFILE, Context.MODE_PRIVATE);
@@ -605,6 +687,11 @@ public class TetrisView extends View implements Runnable {
 
     }
 
+    /**
+     *
+     * @param pro
+     */
+
     private void saveCourt(Properties pro) {
         int[][] court = mCourt.getMatrix();
         int i, j;
@@ -615,7 +702,7 @@ public class TetrisView extends View implements Runnable {
         }
     }
 
-    private void saveTile(Properties pro, TileView tile) {
+    private void saveTile(Properties pro, TetrisBlock tile) {
         int[][] matrix = tile.getMatrix();
         int i, j;
         for (i = 0; i < 4; i++) {

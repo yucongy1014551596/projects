@@ -44,17 +44,4 @@ public class Lanutil {
     }
 
 
-
-
-
-
-//    public static Locale getSystemLocale(Context context) {
-//        Locale locale;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            locale = LocaleList.getDefault().get(0);
-//        } else {
-//            locale = Locale.getDefault();
-//        }
-//        return locale;
-//    }
 }

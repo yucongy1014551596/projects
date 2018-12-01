@@ -2,28 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yucong.tetris">
 
-    <!--<application-->
-        <!--android:allowBackup="true"-->
-        <!--android:icon="@mipmap/ic_launcher"-->
-        <!--android:label="@string/app_name"-->
-        <!--android:roundIcon="@mipmap/ic_launcher_round"-->
-        <!--android:supportsRtl="true"-->
-        <!--android:theme="@style/AppTheme">-->
-        <!--<activity android:name=".MainActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-    <!--</application>-->
-
-
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name">
         <activity
             android:name="com.example.yucong.tetris.chrislee.tetris.ActivityMain"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -35,10 +19,12 @@
 
 
 
-
+        <activity android:name=".chrislee.tetris.BaseActivity"/>
         <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityHelp" />
         <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityRank" />
-        <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityGame" />
+        <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityGame"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
 
     </application>
 

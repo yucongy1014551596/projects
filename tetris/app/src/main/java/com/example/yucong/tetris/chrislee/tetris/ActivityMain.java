@@ -13,9 +13,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.yucong.tetris.R;
+import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
+import com.example.yucong.tetris.chrislee.tetris.util.SPutil;
 
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends BaseActivity  {
 
     public static final int FLAG_NEW_GAME = 0;
     public static final int FLAG_CONTINUE_LAST_GAME = 1;
@@ -26,7 +28,7 @@ public class ActivityMain extends Activity {
 
 
     private int mLevel = 1;
-
+    private Button btLan = null;
     private Button btNewgame = null;
     private Button btContinue = null;
     private Button btHelp = null;
@@ -36,7 +38,7 @@ public class ActivityMain extends Activity {
     private Button btExit = null;
 
     private TextView tvLevel = null;
-    private CheckBox cbVoice = null;
+    private CheckBox cbVoice = null;   //声音按钮
 
     /**
      * Called when the activity is first created.
@@ -45,16 +47,9 @@ public class ActivityMain extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
-
-
         init();
 
     }
-
-
-
-
-
 
 
      public void init(){
@@ -70,6 +65,10 @@ public class ActivityMain extends Activity {
 
         cbVoice = (CheckBox) findViewById(R.id.cb_voice);
 
+         btLan=(Button)findViewById(R.id.buttonlan);
+
+
+
         btNewgame.setOnClickListener(buttonListener);
         btContinue.setOnClickListener(buttonListener);
         btHelp.setOnClickListener(buttonListener);
@@ -77,6 +76,7 @@ public class ActivityMain extends Activity {
         btPre.setOnClickListener(buttonListener);
         btNext.setOnClickListener(buttonListener);
         btExit.setOnClickListener(buttonListener);
+        btLan.setOnClickListener(buttonListener);
         restoreSettings();
     }
 
@@ -151,6 +151,13 @@ public class ActivityMain extends Activity {
             if (v == btExit) {
                 ActivityMain.this.finish();
             }
+
+            if (v == btLan) {
+                saveLanguage();
+                Intent   intent=new Intent(ActivityMain.this,ActivityMain.class);
+                startActivity(intent);
+
+            }
         }
     };
 
@@ -174,5 +181,14 @@ public class ActivityMain extends Activity {
         super.onStop();
         saveSettings();
 
+    }
+
+
+    private void saveLanguage(){
+        int lan= SPutil.getSPutil(this).getLan();
+        LogUtil.i("lan",""+lan);
+        lan=(++lan)%2;
+        LogUtil.v("language","lan:"+lan);
+        SPutil.getSPutil(this).saveLan(lan);
     }
 }

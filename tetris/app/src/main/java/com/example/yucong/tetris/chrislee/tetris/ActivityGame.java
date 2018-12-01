@@ -1,50 +1,54 @@
 package com.example.yucong.tetris.chrislee.tetris;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
+import com.example.yucong.tetris.chrislee.tetris.util.Timeutils;
 
-public class ActivityGame extends Activity {
+public class ActivityGame extends BaseActivity {
 
     private static final String TAG = "ActivityGame";
-   public TetrisView mTetrisView = null;
+   public TetrisView mTetrisView;
+    public Timeutils timeutils;
 
     public void onCreate(Bundle saved) {
         super.onCreate(saved);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        setContentView(R.layout.activity_tetris_activity_aw);
         init();
     }
 
     private void init() {
-        mTetrisView = new TetrisView(this);
-        //setContentView(mTetrisView);
-
+        mTetrisView = findViewById(R.id.tetrisViewAW1);
         Intent intent = getIntent();
         int level = intent.getIntExtra(ActivityMain.LEVEL, 1);
         mTetrisView.setLevel(level);
+        TextView textView= (TextView)findViewById(R.id.time);
+        timeutils =new Timeutils(textView);
         int flag = intent.getFlags();
-
-
         if (flag == ActivityMain.FLAG_CONTINUE_LAST_GAME) {
             LogUtil.i("ff","继续执行了 ");
             mTetrisView.restoreGame();
+            timeutils.count=sp.getLong("time",0);
+            timeutils.resumeTime();
+            boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
+            mTetrisView.setVoice(isVoice);
+            mTetrisView.setFather(this);
+        }else{
+            // voice setting influence last game
+            boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
+            mTetrisView.setVoice(isVoice);
+            mTetrisView.setFather(this);
+            timeutils.startTimer();
         }
 
-        // voice setting influence last game
-        boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
-        mTetrisView.setVoice(isVoice);
-        mTetrisView.setFather(this);
 
-        setContentView(R.layout.activity_tetris_activity_aw);
+
+
 
 
     }
@@ -56,7 +60,6 @@ public class ActivityGame extends Activity {
 
 
     public void onPause() {
-//		ranking();
         mTetrisView.onPause();
         super.onPause();
 
@@ -127,6 +130,7 @@ public class ActivityGame extends Activity {
         if(time<=1000){
 
             onclose();
+
         }else{
             oldtime=backtime;
 
@@ -139,12 +143,19 @@ public class ActivityGame extends Activity {
     public  void onclose(){
         mTetrisView.saveGame();
         mTetrisView.freeResources();
+        timeutils.stopTimer1();
+        editor.putLong("time", timeutils.count);
+          clear();
 //        savebydb();
 //        savebysp();
         super.onBackPressed();
     }
 
+    private void clear(){
+        editor.clear();
+        editor.apply();
 
+    }
 
 
 

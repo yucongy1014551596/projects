@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:orientation = "vertical"
-  android:background = "@drawable/tetris"
-  >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/tetris">
+
+
+
+    <Button
+        android:id="@+id/buttonlan"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/language"
+        android:background="#0af"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttoncon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 
@@ -18,7 +34,7 @@
            android:id = "@+id/bt_continue"
           android:layout_width = "wrap_content"
           android:layout_height = "wrap_content"
-          android:text = "继续上次游戏"
+          android:text = "@string/congame"
          android:layout_centerHorizontal= "true"
         />
    </RelativeLayout>
@@ -31,7 +47,7 @@
            android:id = "@+id/bt_new"
            android:layout_width = "wrap_content"
            android:layout_height = "wrap_content"
-           android:text = "新游戏"
+           android:text = "@string/newgame"
            android:layout_centerHorizontal= "true"
            />
   </RelativeLayout>
@@ -45,7 +61,7 @@
              android:id = "@+id/bt_help"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:text = "帮助"
+            android:text = "@string/help"
             android:layout_centerHorizontal= "true"
         />
     </RelativeLayout>
@@ -62,7 +78,7 @@
     android:id = "@+id/bt_rank"
     android:layout_width = "wrap_content"
     android:layout_height = "wrap_content"
-    android:text = "排行榜"
+    android:text = "@string/rank"
     android:layout_centerHorizontal= "true"
    />
 

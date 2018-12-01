@@ -18,12 +18,19 @@ public class MusicPlayer {
         mBombVoice = MediaPlayer.create(context, R.raw.bomb);
     }
 
+
+    /**
+     * 播放俄罗斯方块落地播放音乐
+     */
     public void playMoveVoice() {
         if (mIsMute)
             return;
         mMoveVoice.start();
     }
 
+    /**
+     * 播放方块落地音乐
+     */
     public void playBombVoice() {
         if (mIsMute) {
             return;

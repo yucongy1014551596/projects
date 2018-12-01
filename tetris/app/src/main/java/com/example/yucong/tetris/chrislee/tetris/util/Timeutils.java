@@ -16,7 +16,7 @@ public class Timeutils {
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
     private Handler mHandler = null;
-    private static long count = 0;
+    public static long count = 0;
     private boolean isPause = false;
     private boolean resume = true;
     private static int delay = 1000; //1s

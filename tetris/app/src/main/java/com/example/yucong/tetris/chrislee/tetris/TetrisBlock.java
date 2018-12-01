@@ -22,7 +22,7 @@ import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 
 
-public class TileView {
+public class TetrisBlock {
     int[][] mTile = new int[4][4];
     Random mRand = null;
     int mColor = 1;
@@ -33,13 +33,13 @@ public class TileView {
     private Context mContext = null;
     private ResourceStore mRs = null;
 
-    public TileView(Context context) {
+    public TetrisBlock(Context context) {
         mContext = context;
 
         mRs = new ResourceStore(context);
 
         init();
-        Log.i("tetris", "init in TileView OK");
+        Log.i("tetris", "init in TetrisBlock OK");
         // TODO Auto-generated constructor stub
     }
 
@@ -172,7 +172,9 @@ public class TileView {
                 if (mTile[i][j] != 0) {
                     if (!court.isSpace(mOffsetX + i, mOffsetY + j + 1)
                             || isUnderBaseline(mOffsetY + j + 1)) {
-                        return false;
+
+
+                        return false;    //不能移动  已到达底部或者与其他相遇
                     }
                 }
             }
@@ -240,6 +242,7 @@ public class TileView {
 
     public void paintTile(Canvas canvas) {
         ResourceStore rs = new ResourceStore(mContext);
+        Log.e("ff", "TetrisBlock->paintTile()"+mOffsetY);
         Paint paint = new Paint();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
