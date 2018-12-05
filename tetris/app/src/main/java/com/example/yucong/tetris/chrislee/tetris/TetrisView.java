@@ -3,9 +3,12 @@ package com.example.yucong.tetris.chrislee.tetris;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +19,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.yucong.tetris.chrislee.tetris.entity.Block;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
+
+import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
 
 /**
  * 游戏主界面
@@ -103,7 +110,7 @@ public class TetrisView extends View implements Runnable {
 
     protected void init(Context context) {
         mContext = context;
-
+        LitePal.getDatabase();
 
         timeView=new TextView(context);
 
@@ -130,6 +137,10 @@ public class TetrisView extends View implements Runnable {
         new Thread(this).start();
     }
 
+
+    /**
+     * RefreshHandler.handleMessage()方法会调用
+     */
     public void logic() {
         switch (mGamestate) {
             case STATE_MENU:
@@ -192,7 +203,7 @@ public class TetrisView extends View implements Runnable {
 
     /**
      * 计分
-     * @param line
+     * @param line  表示消去的行数
      */
     private void countScore(int line) {
         switch (line) {
@@ -209,7 +220,7 @@ public class TetrisView extends View implements Runnable {
                 mScore += 1000;
                 break;
             default:
-                ;
+                break;
         }
         if (mScore >= 2000 && mScore < 4000) {
             setLevel(2);
@@ -234,7 +245,7 @@ public class TetrisView extends View implements Runnable {
         LogUtil.i("ff","Canvas"+mGamestate);
         switch (mGamestate) {
             case STATE_MENU:
-                paintMenu(canvas);
+//                paintMenu(canvas);
                 break;
             case STATE_PLAY:
                 paintGame(canvas);
@@ -243,10 +254,11 @@ public class TetrisView extends View implements Runnable {
                 paintPause(canvas);
                 break;
             case STATE_OVER:
-                paintOver(canvas);
+//                paintOver(canvas);
+                gameOver();
                 break;
             default:
-                ;
+                break;
         }
     }
 
@@ -551,6 +563,25 @@ public class TetrisView extends View implements Runnable {
         paint.setARGB(0xe0, 0xff, 0x00, 0x00);
         canvas.drawText("Game Over", getBlockDistance(1), getBlockDistance(Court.COURT_HEIGHT / 2 - 2), paint);
         //DrawTool.paintImage(canvas,mResourceStore.getGameover(),0,SCREEN_HEIGHT/2 - mResourceStore.getGameover().getHeight()/2 );
+
+
+
+
+    }
+
+
+
+
+
+    private void gameOver(){
+        father.timeutils.puseTimer();
+        Intent intent=new Intent(father,GameOver.class);
+        intent.putExtra("gameTime",father.timeutils.count);
+        LogUtil.i("mm",""+father.timeutils.count);
+        intent.putExtra("gameScore",mScore);
+        father.startActivity(intent);
+        father.finish();
+
     }
 
 
@@ -565,7 +596,7 @@ public class TetrisView extends View implements Runnable {
             ms.what = RefreshHandler.MESSAGE_REFRESH;
             this.mRefreshHandler.sendMessage(ms);
             try {
-                Thread.sleep(/*RefreshHandler.DELAY_MILLIS*/mMoveDelay);
+                Thread.sleep(/*RefreshHandler.DELAY_MILLIS*/mMoveDelay);  //即休眠时间   越小其速度感觉就越快
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -702,6 +733,14 @@ public class TetrisView extends View implements Runnable {
         }
     }
 
+    /**
+     *
+     *  保存一个俄罗斯方块的所有坐标
+     *
+     * @param pro
+     * @param tile
+     */
+    //getMatrix  返回当前存储俄罗斯方块的坐标
     private void saveTile(Properties pro, TetrisBlock tile) {
         int[][] matrix = tile.getMatrix();
         int i, j;
@@ -715,20 +754,6 @@ public class TetrisView extends View implements Runnable {
         pro.put("tileOffsetX", String.valueOf(tile.getOffsetX()));
         pro.put("tileOffsetY", String.valueOf(tile.getOffsetY()));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -748,4 +773,202 @@ public class TetrisView extends View implements Runnable {
     public void freeResources() {
         mMPlayer.free();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * DB存储可以废弃   因为读写大量数据需要消耗手机大量内存
+     * 同时保存的数据还是临时数据  需要随时删除 填写
+     * 所以 文件存储更适合
+     *
+     * @param tile
+     */
+
+
+    private void saveTileByDb(Block block,TetrisBlock tile){
+
+        int[][] matrix = tile.getMatrix();
+        int i, j;
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
+//                pro.put("tileMatrix" + i + j, String.valueOf(matrix[i][j]));
+                Block   block1=new Block();
+                block1.setTileMatrix(String.valueOf(matrix[i][j]));
+                block1.setTitle(true);
+                block1.save();
+
+            }
+        }
+
+        block.setTileColor(tile.getColor());
+        block.setTileShape(tile.getShape());
+        block.setTileOffsetX(tile.getOffsetX());
+        block.setTileOffsetY(tile.getOffsetY());
+        block.setFlag(true);
+        block.save();
+
+
+    }
+
+
+    private void saveCourtByDb(Block block){
+        int[][] court = mCourt.getMatrix();
+        int i, j;
+        for (i = 0; i < Court.COURT_WIDTH; i++) {
+            for (j = 0; j < Court.COURT_HEIGHT; j++) {
+                Block   block1=new Block();
+                block1.setCourtMatrix(String.valueOf(court[i][j]));
+                block1.setCourt(true);
+                block1.save();
+
+            }
+        }
+
+    }
+
+    public void saveGameByDb(){
+
+        Block block=new Block();
+
+        block.setGamestate(mSpeed);
+        block.setSpeed(mGamestate);
+        block.setScore(mScore);
+        block.setDeLine(mDeLine);
+        block.setCombo(mIsCombo);
+        block.setVoice(mIsVoice);
+        block.setPaused(mIsPaused);
+
+        saveCourtByDb(block);
+        saveTileByDb(block,mCurrentTile);
+        saveTileByDb(block,mNextTile);
+        saveTileByDb(block,mFallingTile);
+        block.setFlag(true);
+        block.save();
+    }
+
+
+
+    private void restoreTileByDb(Block block,TetrisBlock tile) {
+
+
+        int[][] matrix = tile.getMatrix();
+        int i, j;
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
+                matrix[i][j] =  Integer.valueOf(block.getTileMatrix());
+                LogUtil.i("db",block.getTileMatrix());
+            }
+        }
+
+
+        tile.setColor(block.getTileColor());
+        tile.setShape(block.getTileShape());
+        tile.setOffsetX(block.getTileOffsetX());
+        tile.setOffsetY(block.getTileOffsetY());
+
+    }
+
+
+    private void restoreCourtByDb(Block block){
+
+        int[][] matrix = mCourt.getMatrix();
+        int i, j;
+        for (i = 0; i < Court.COURT_WIDTH; i++) {
+            for (j = 0; j < Court.COURT_HEIGHT; j++) {
+                matrix[i][j] = Integer.valueOf(block.getCourtMatrix());
+                LogUtil.i("db",block.getCourtMatrix());
+            }
+        }
+
+    }
+
+
+    public void restoreGameByDb() {
+//           List<Block> blocks= DataSupport.findAll(Block.class);
+
+
+        List<Block> Tileblocks=  DataSupport.select("tileMatrix").where("IsTitle=?","true").find(Block.class);
+
+        List<Block> Courtblocks= DataSupport.select("courtMatrix").where("IsCourt=?","true").find(Block.class);
+
+        List<Block> Mainblocks= DataSupport.where("Flag=?","true").find(Block.class);
+
+
+        for ( Block      block   :Tileblocks){
+            restoreTileByDb(block,mFallingTile);
+            restoreTileByDb(block,mCurrentTile);
+            restoreTileByDb(block,mNextTile);
+        }
+
+        for ( Block      block   :Courtblocks){
+
+            restoreCourtByDb(block);
+        }
+
+        for ( Block      block   :Mainblocks) {
+
+            mGamestate =block.getGamestate();
+            mSpeed = block.getSpeed();
+            setLevel(mSpeed);
+            mScore =  block.getScore();
+            mDeLine =  block.getDeLine();
+            mIsVoice = block.isVoice();
+            mIsCombo = block.isCombo();
+            mIsPaused = block.isPaused();
+            mNextTile.setOffsetY(0);
+            mNextTile.setOffsetX((Court.COURT_WIDTH - 4) / 2 + 1);
+
+//            LogUtil.i("db",block.getCourtMatrix());
+//            LogUtil.i("db",block.getCourtMatrix());
+//            LogUtil.i("db",""+block.getGamestate());
+//            LogUtil.i("db",""+block.isCombo());
+//            LogUtil.i("db",""+block.getSpeed());
+//            LogUtil.i("db",block.getCourtMatrix());
+
+
+
+
+        }
+
+
+
+
+    }
+
+
+
+
+
+
+
 }

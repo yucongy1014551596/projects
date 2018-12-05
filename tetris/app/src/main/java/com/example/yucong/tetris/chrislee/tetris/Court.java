@@ -39,6 +39,11 @@ public class Court {
 
     }
 
+
+    /**
+     * 清空画布
+     */
+
     public void clearCourt() {
         int i, j;
         for (i = 0; i < COURT_WIDTH; i++) {
@@ -49,7 +54,10 @@ public class Court {
     }
 
 
-
+    /**
+     * 判断游戏结束
+     * @return
+     */
 
     public boolean isGameOver() {
 
@@ -128,6 +136,11 @@ public class Court {
 
     }
 
+    /**
+     * 消除多行的俄罗斯方块
+     * @param highRow
+     * @param rowAmount
+     */
     private void eliminateRows(int highRow, int rowAmount) {
         int i, j;
         for (i = highRow + rowAmount - 1; i >= rowAmount; i--) {
@@ -136,6 +149,11 @@ public class Court {
             }
         }
     }
+
+    /**
+     * 获取多个满行的最上面一行的索引
+     * @return
+     */
 
     private int highestFullRowIndex() {
         int result = 0;
@@ -154,6 +172,10 @@ public class Court {
         }
         return result;
     }
+    /**
+     * 获取多个满行的最下面一行的索引
+     * @return
+     */
 
     private int lowestFullRowIndex() {
         int result = COURT_HEIGHT - 1;
@@ -174,6 +196,11 @@ public class Court {
     }
 
 
+    /**
+     * 移除一行
+     * @param lineIndex
+     * @param time
+     */
     private void removeSingleLine(int lineIndex, int time) {
         int t, i, j;
         for (t = 0; t < time; t++) {
@@ -186,6 +213,10 @@ public class Court {
         }
     }
 
+    /**
+     *
+     * @param canvas
+     */
     public void paintCourt(Canvas canvas) {
 
         Paint paint = new Paint();
@@ -202,6 +233,11 @@ public class Court {
         }
 
     }
+
+    /**
+     * 获取画布范围内的矩形坐标
+     * @return
+     */
 
     public int[][] getMatrix() {
         return mCourt;

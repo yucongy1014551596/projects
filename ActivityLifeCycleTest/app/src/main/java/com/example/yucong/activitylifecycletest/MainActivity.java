@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         if (savedInstanceState!=null){
-            Log.i(TAG, "savedInstanceState!=null ");
+            Log.i("ff", "savedInstanceState!=null ");
 
 
            String data= savedInstanceState.getString("data_key");
@@ -49,13 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//        if (savedInstanceState==null){
-//            Log.i(TAG, "savedInstanceState==null ");
-//
-//
-//            String data= savedInstanceState.getString("data_key");
-//            editText.setText(data);
-//        }
+
 
 
 
@@ -105,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(TAG, "onSaveInstanceState");
+        Log.d("ff", "onSaveInstanceState");
 
       String content=  editText.getText().toString();
         outState.putString("data_key",content);

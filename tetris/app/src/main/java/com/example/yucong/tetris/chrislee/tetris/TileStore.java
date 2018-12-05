@@ -1,5 +1,15 @@
 package com.example.yucong.tetris.chrislee.tetris;
 
+
+/**
+ *   游戏的核心是方块，每一种方块都是由4个基本小方块构成。有如下7种形状
+
+ *   分别可以用字母I、J、L、O、S、T、Z表示
+ *
+ *  为了能让方块用代码表示，这里使用一个4x4的矩阵表示
+ *
+ *
+ */
 public class TileStore {
     public static int[][][] store = new int[][][]{{// I
             {0, 0, 0, 1}, {0, 0, 0, 1}, {0, 0, 0, 1}, {0, 0, 0, 1}}, {// I

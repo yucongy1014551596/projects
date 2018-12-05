@@ -1,14 +1,12 @@
 package com.example.yucong.lianliankan;
 
-import android.content.Intent;
+
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+
 
 
 import com.example.yucong.lianliankan.entity.Rank;
@@ -16,7 +14,7 @@ import com.example.yucong.lianliankan.util.GameConf;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class RankActivity extends BaseActivity{

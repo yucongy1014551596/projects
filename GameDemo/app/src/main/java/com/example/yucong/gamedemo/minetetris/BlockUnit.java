@@ -2,6 +2,8 @@ package com.example.yucong.gamedemo.minetetris;
 
 
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,7 @@ import java.util.List;
  * 
  * @sign Created by  on 2018年1月20日
  */
-public class BlockUnit extends DataSupport{
+public class BlockUnit extends DataSupport {
 	public static final int UNIT_SIZE = 50;
 	public static final int BEGIN = 10;
 	public int color;

@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.yucong.tetris.R;
+import com.example.yucong.tetris.chrislee.tetris.util.ActivityCollector;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 import com.example.yucong.tetris.chrislee.tetris.util.SPutil;
 
@@ -36,7 +37,7 @@ public class ActivityMain extends BaseActivity  {
     private Button btPre = null;
     private Button btNext = null;
     private Button btExit = null;
-
+    private Button btHome = null;
     private TextView tvLevel = null;
     private CheckBox cbVoice = null;   //声音按钮
 
@@ -68,6 +69,8 @@ public class ActivityMain extends BaseActivity  {
          btLan=(Button)findViewById(R.id.buttonlan);
 
 
+         btHome = (Button) findViewById(R.id.bt_homePage);
+
 
         btNewgame.setOnClickListener(buttonListener);
         btContinue.setOnClickListener(buttonListener);
@@ -77,6 +80,7 @@ public class ActivityMain extends BaseActivity  {
         btNext.setOnClickListener(buttonListener);
         btExit.setOnClickListener(buttonListener);
         btLan.setOnClickListener(buttonListener);
+         btHome.setOnClickListener(buttonListener);
         restoreSettings();
     }
 
@@ -110,15 +114,22 @@ public class ActivityMain extends BaseActivity  {
                 intent.setFlags(FLAG_CONTINUE_LAST_GAME);
                 intent.putExtra(VOICE, cbVoice.isChecked());
                 startActivity(intent);
+
                 return;
             }
             if (v == btHelp) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityHelp.class);
                 startActivity(intent);
+                finish();
                 return;
             }
             if (v == btRank) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityRank.class);
+                startActivity(intent);
+                return;
+            }
+            if (v == btHome) {
+                Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.HomePage.class);
                 startActivity(intent);
                 return;
             }
@@ -149,13 +160,15 @@ public class ActivityMain extends BaseActivity  {
                 return;
             }
             if (v == btExit) {
-                ActivityMain.this.finish();
+//                ActivityMain.this.finish();
+                ActivityCollector.finishAll();
             }
 
             if (v == btLan) {
                 saveLanguage();
                 Intent   intent=new Intent(ActivityMain.this,ActivityMain.class);
                 startActivity(intent);
+                finish();
 
             }
         }

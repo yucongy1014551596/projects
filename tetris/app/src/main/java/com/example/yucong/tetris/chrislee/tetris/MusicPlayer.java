@@ -5,7 +5,9 @@ import android.media.MediaPlayer;
 
 import com.example.yucong.tetris.R;
 
-
+/**
+ * 音乐播放类
+ */
 public class MusicPlayer {
 
     private MediaPlayer mMoveVoice = null;
@@ -20,7 +22,7 @@ public class MusicPlayer {
 
 
     /**
-     * 播放俄罗斯方块落地播放音乐
+     * 播放俄罗斯方块移除时播放音乐
      */
     public void playMoveVoice() {
         if (mIsMute)
@@ -41,6 +43,10 @@ public class MusicPlayer {
     public void setMute(boolean b) {
         mIsMute = b;
     }
+
+    /**
+     * 释放资源
+     */
 
     public void free() {
         mMoveVoice.release();

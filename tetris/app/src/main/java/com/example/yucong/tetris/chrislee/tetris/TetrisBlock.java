@@ -12,12 +12,16 @@ import android.view.View;
 
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
+import org.litepal.crud.DataSupport;
+
 
 /**
  * 組成俄罗斯方块
  *
  *
  * Tile 表示一个俄罗斯方块
+ * mTile 相当于存储了一个俄罗斯方块的所有坐标信息
+ *
  */
 
 
@@ -26,7 +30,7 @@ public class TetrisBlock {
     int[][] mTile = new int[4][4];
     Random mRand = null;
     int mColor = 1;
-    int mShape = 0;
+    int mShape = 0;   //类型
     int mOffsetX = (Court.COURT_WIDTH - 4) / 2 + 1;
     int mOffsetY = 0;
 
@@ -36,7 +40,7 @@ public class TetrisBlock {
     public TetrisBlock(Context context) {
         mContext = context;
 
-        mRs = new ResourceStore(context);
+        mRs = new ResourceStore(context);   //初始化加载图片资源
 
         init();
         Log.i("tetris", "init in TetrisBlock OK");
@@ -184,9 +188,14 @@ public class TetrisBlock {
     }
 
 
+    /**
+     * 快速下落
+     * @param court
+     * @return
+     */
     public boolean fastDropOnCourt(Court court) {
         int i, j, k;
-        int step = Court.COURT_HEIGHT;
+        int step = Court.COURT_HEIGHT;  //获取画布的高度
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
                 if (mTile[i][j] != 0) {
@@ -256,7 +265,13 @@ public class TetrisBlock {
 
     }
 
+    /**
+     * mTile 相当于存储了一个俄罗斯方块的所有坐标信息
+     * 获取矩阵
+     * @return
+     */
     public int[][] getMatrix() {
+
         return mTile;
     }
 

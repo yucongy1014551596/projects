@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.yucong.tetris.chrislee.tetris.util.ActivityCollector;
 import com.example.yucong.tetris.chrislee.tetris.util.Lanutil;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
@@ -47,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCollector.addActivity(this);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initsp();
         initFullScreen();
