@@ -1,35 +1,79 @@
 package com.example.yucong.tetris.chrislee.tetris;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.yucong.tetris.R;
+import com.example.yucong.tetris.chrislee.tetris.entity.rank;
+import com.example.yucong.tetris.chrislee.tetris.util.GameConf;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ActivityRank extends Activity {
 
-    private RankDatabase mDatabase = null;
-    private ListView mListView = null;
-
-    public void onCreate(Bundle saved) {
-        super.onCreate(saved);
-        setTitle("排行榜");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.rank);
-//		init();
+        List<rank> list=getList();
+        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+        RankAdapter rankAdapter=new RankAdapter(list);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(rankAdapter);
+
     }
 
-//	private void init()
-//	{
-//		// ..get databse
-//		ListView mListView = (ListView)findViewById(R.id.rank_list);
-//		
-//		SimpleAdapter adapter = new SimpleCursorAdapter(this,
-//				cur,
-//				R.layout.list_item,
-//				new String[]{"rank,scroe,name"},
-//				new int[] {R.id.list_item_rank,R.id.list_item_score,R.list_item_name} );
-//		mListView.setAdapter(adapter);
-//	}
+//
+//    public int getMax(String columu){
+//
+//    int max=    DataSupport.max("rank",columu,int.class);
+//    return  max;
+//    }
+
+    private List<rank> getList(){
+
+
+        List<rank> lists=new ArrayList<>();
+
+       Cursor datas= DataSupport.findBySQL("select  name, score from rank  group by name order by score desc ,time asc ");
+
+     while(datas.moveToNext()){
+         rank rank=new rank();
+       String name=   datas.getString(datas.getColumnIndex("name"));
+       int scores=  datas.getInt(datas.getColumnIndex("score"));
+         rank.setName(name);
+         rank.setScore(scores);
+         lists.add(rank);
+     }
+
+
+     if(lists!=null){
+         for (int i=0;i<lists.size();i++){
+             rank r= lists.get(i);
+             r.setImageid(GameConf.TopOrderImages[i]);
+         }
+     }
+
+        return lists;
+    }
+
+
+
+    public void onBackPressed() {
+        super.onBackPressed();
+
+
+    }
+
 
 }

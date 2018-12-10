@@ -1,66 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".chrislee.tetris.ActivityMain"
     android:background="@drawable/gameback1"
-     >
-   
-    <ImageView 
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
         android:id="@+id/log"
         android:layout_centerHorizontal="true"
-     
-        android:layout_height="180dp"
+        android:layout_height="120dp"
         android:layout_width="300dp"
         android:src="@drawable/logo1"
         />
-    
-    <ImageView 
-        android:id="@+id/startGame"
-        android:layout_centerInParent="true"
-        android:layout_height="180dp"
+
+    <Button
+        android:id="@+id/bt_continue"
         android:layout_width="150dp"
-        android:src="@drawable/play"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="160dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/congame"
+        android:background="#0f2"
+        android:textSize="30sp"
+
         />
-    <LinearLayout 
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
+
+
+
+    <Button
+        android:id="@+id/bt_new"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="20dp"
+        android:text="@string/startgame"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/bt_continue"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bt_continue"
+        app:layout_constraintTop_toBottomOf="@+id/bt_continue" />
+
+
+    <Button
+        android:id="@+id/bt_rank"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="20dp"
+        android:text="@string/rank"
+        android:background="#0ff"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/bt_continue"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bt_continue"
+        app:layout_constraintTop_toBottomOf="@+id/bt_new" />
+
+    <Button
+        android:id="@+id/buttonlan"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/language"
+        android:background="#0af"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bt_continue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent"
+        android:gravity="center"
+        android:layout_marginTop="290dp"
         >
-    <ImageView 
-        android:id="@+id/setUp"
-        android:layout_height="60dp"
-        android:layout_width="60dp"
-        android:src="@drawable/setup"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        />
- 
-      <ImageView 
-        android:id="@+id/music"
-        android:layout_height="60dp"
-        android:layout_width="60dp"
-        android:src="@drawable/music"
-        android:layout_weight="1"
-        />
-        <ImageView 
-        android:id="@+id/aboutMe"
-        android:layout_height="60dp"
-        android:layout_width="60dp"
-        android:src="@drawable/about2"
-        
-        android:layout_weight="1"
-        />
-    <ImageView 
-        android:id="@+id/custom"
-        android:layout_height="60dp"
-        android:layout_width="60dp"
-        android:src="@drawable/custom"
-        android:layout_marginRight="10dp"
-        android:visibility="gone"
-        android:layout_weight="1" />
+
+        <Button
+            android:id = "@+id/bt_pre"
+            android:layout_width = "40dp"
+            android:layout_height = "wrap_content"
+            android:layout_toLeftOf = "@id/tv_speed"
+            android:text = "&lt;&lt;"
+            android:textSize = "20sp"
+            android:background = "#70dfdfdf"
+            android:textColorHighlight = "#ffff0000"
+            android:layout_marginRight = "10dp"
+            />
+
+        <TextView
+            android:id = "@+id/tv_speed"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:layout_centerHorizontal = "true"
+            android:text = "1"
+            android:textSize = "20sp"
+            android:textColor = "#ffffff00"
+            android:background = "#6600ee00"
+            />
+
+        <Button
+            android:id = "@+id/bt_next"
+            android:layout_width = "40dp"
+            android:layout_height = "wrap_content"
+            android:layout_toRightOf = "@id/tv_speed"
+            android:text = ">>"
+            android:textSize = "20sp"
+            android:background = "#80cfcfcf"
+            android:layout_marginLeft = "10dp"
+            />
+
     </LinearLayout>
 
-</RelativeLayout>
+
+
+    <ImageButton
+        android:id="@+id/ib_music"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/about2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bt_rank"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageButton
+        android:id="@+id/ib_sound"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/music"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bt_rank"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.example.yucong.tetris.R;
 
@@ -29,6 +30,9 @@ public class ResourceStore {
     public ResourceStore(Context context) {
         mContext = context;
         mR = mContext.getResources();
+
+
+        Log.e("ResourceStore", "width:" + TetrisView.SCREEN_WIDTH +" height:"+TetrisView.SCREEN_HEIGHT);
         if (mBackground == null)
             mBackground = createImage(mR.getDrawable(R.drawable.courtbg), Court.COURT_WIDTH * Court.BLOCK_WIDTH, TetrisView.SCREEN_HEIGHT);
         if (mMenuBackground == null)

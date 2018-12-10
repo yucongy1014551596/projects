@@ -85,7 +85,7 @@ public class HomePage extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		
-		case R.id.startGame:
+//		case R.id.startGame:
 			
 //			backPlay.playFour();
 //			Intent intent = new Intent(this,com.example.yucong.terist.androidteris.MainActivity.class);
@@ -93,36 +93,36 @@ public class HomePage extends Activity implements OnClickListener{
 //			startActivity(intent);
 //			backPlay.playFive();
 			
-			break;
+//			break;
 		
-		
-		case R.id.setUp:
-//			backPlay.playOne();
 //
-//           Intent intent1 = new Intent(this,com.example.yucong.terist.androidteris.SettingPage.class);
+//		case R.id.setUp:
+////			backPlay.playOne();
+////
+////           Intent intent1 = new Intent(this,com.example.yucong.terist.androidteris.SettingPage.class);
+////
+////			startActivity(intent1);
+//			break;
 //
-//			startActivity(intent1);
-			break;
-			
-		case R.id.music:
-//			backPlay.playOne();
+//		case R.id.music:
+////			backPlay.playOne();
+////
+////			Intent intent2 = new Intent(this,com.example.yucong.terist.androidteris.MusicPage.class);
+////		    startActivity(intent2);
+////
+//			break;
 //
-//			Intent intent2 = new Intent(this,com.example.yucong.terist.androidteris.MusicPage.class);
-//		    startActivity(intent2);
+//		case R.id.aboutMe:
+////			backPlay.playFour();
+////			backPlay.playFive();
+////
+////            Intent intent3 = new Intent(this,com.example.yucong.terist.androidteris.AboutActivity.class);
+////			startActivity(intent3);
+////
+//			//Toast.makeText(this, "setup", 0).show();
+//			break;
 //
-			break;
-			
-		case R.id.aboutMe:
-//			backPlay.playFour();
-//			backPlay.playFive();
-//
-//            Intent intent3 = new Intent(this,com.example.yucong.terist.androidteris.AboutActivity.class);
-//			startActivity(intent3);
-//
-			//Toast.makeText(this, "setup", 0).show();
-			break;
-			
-		case R.id.custom:
+//		case R.id.custom:
 //			backPlay.playFour();
 //			backPlay.playFive();
 //
@@ -137,8 +137,8 @@ public class HomePage extends Activity implements OnClickListener{
 //			startActivity(intent4);
 //
 //			}
-			//Toast.makeText(this, "setup", 0).show();
-			break;
+//			//Toast.makeText(this, "setup", 0).show();
+//			break;
 
 		default:
 			break;

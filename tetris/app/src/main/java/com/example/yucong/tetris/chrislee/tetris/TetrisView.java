@@ -3,7 +3,6 @@ package com.example.yucong.tetris.chrislee.tetris;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,10 +14,13 @@ import android.graphics.Paint;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.entity.Block;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
@@ -33,15 +35,19 @@ import org.litepal.crud.DataSupport;
  * TetrisView
  */
 public class TetrisView extends View implements Runnable {
-    final static int SCREEN_WIDTH = 960;
-    final static int SCREEN_HEIGHT = 455 * 3;
     /** 调用此对象的Activity对象 */
     private ActivityGame father = null;
+//     public  final static int SCREEN_WIDTH = 960;
+//     public final static int SCREEN_HEIGHT = 455 * 3;
+    /** 俄罗斯方块的最大坐标 */
+    public static int SCREEN_WIDTH ;
+    public  static int SCREEN_HEIGHT;
 
 
 
     private TextView timeView;
-
+    /** 俄罗斯方块的最大坐标 */
+    private static int max_x, max_y;
 
     final int STATE_MENU = 0;
     final int STATE_PLAY = 1;  //游戏开始标志位
@@ -107,9 +113,42 @@ public class TetrisView extends View implements Runnable {
     }
 
 
+    public int getScreenHeight(){
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int screenHeight = windowManager.getDefaultDisplay().getHeight();
+        return screenHeight;
+    }
+
+    public int getScreenWidth(){
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = windowManager.getDefaultDisplay().getWidth();
+        return screenWidth;
+    }
 
     protected void init(Context context) {
         mContext = context;
+
+        SCREEN_WIDTH=  getScreenWidth();
+        SCREEN_HEIGHT=  getScreenHeight();
+
+        if (SCREEN_WIDTH<=600){
+            SCREEN_WIDTH=  getScreenWidth()-400;
+            SCREEN_HEIGHT=  getScreenHeight()-300;
+
+            LogUtil.i("sss","屏幕宽度小于600 ");
+
+        }else {
+
+            SCREEN_HEIGHT=  getScreenHeight()-500;
+            LogUtil.i("sss","屏幕宽度大于600 ");
+
+        }
+
+
+
+
+
+
         LitePal.getDatabase();
 
         timeView=new TextView(context);
@@ -248,6 +287,7 @@ public class TetrisView extends View implements Runnable {
 //                paintMenu(canvas);
                 break;
             case STATE_PLAY:
+
                 paintGame(canvas);
                 break;
             case STATE_PAUSE:
@@ -508,14 +548,14 @@ public class TetrisView extends View implements Runnable {
 
     private void paintSpeed(Canvas canvas) {
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("等级:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(9), mPaint);
+        canvas.drawText(R.string.levels+"", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(9), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mSpeed), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(11), mPaint);
     }
 
     private void paintScore(Canvas canvas) {
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("得分:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(13), mPaint);
+        canvas.drawText(R.string.score+"", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(13), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mScore), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(15), mPaint);
     }
@@ -524,7 +564,7 @@ public class TetrisView extends View implements Runnable {
 
 
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("消去行数:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
+        canvas.drawText(R.string.deline+"", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mDeLine), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
 //        canvas.drawText(time, getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
@@ -575,11 +615,15 @@ public class TetrisView extends View implements Runnable {
 
     private void gameOver(){
         father.timeutils.puseTimer();
+
         Intent intent=new Intent(father,GameOver.class);
         intent.putExtra("gameTime",father.timeutils.count);
         LogUtil.i("mm",""+father.timeutils.count);
         intent.putExtra("gameScore",mScore);
         father.startActivity(intent);
+
+
+
         father.finish();
 
     }

@@ -50,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.add_data:
                     Book book=new Book();
-                    book.setName("yucong");
-                    book.setAuthor("dan");
+                    book.setName("wangyang");
+                    book.setAuthor("dandan");
                     book.setPages(5);
-                    book.setPress("unkown");
+                    book.setPress("55");
                     book.save();
                     Log.i(TAG, "添加成功 ");break;
 
@@ -63,8 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
                     book1.setPages(20);
                     book1.setPrice(50);
+                    String   name="dandan";
+                    int id=2;
 
-                   book1.updateAll("author=?","dan");
+
+                   book1.updateAll("id=?",String.valueOf(id));
                     Log.i(TAG, "修改成功 ");break;
                 case R.id.query_data:
                     List<Book> books= DataSupport.findAll(Book.class);
@@ -79,10 +82,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                   break;
                 case R.id.query_sql:
-                    Cursor books1= DataSupport.findBySQL("select * from book");
+                    String userName = "yucong";
+
+                    String sql = " select * from book where name= ' " + userName + " '";
+                    String sql1 = " select * from book where name=?";
+                    Cursor books1= DataSupport.findBySQL(sql1,userName);
                     if(books1!=null){
                         while (books1.moveToNext()){
                             Log.d("MainActivity", "book name is " + books1.getString(books1.getColumnIndex("name")));
+                            Log.d("MainActivity", "book name is " + books1.getString(books1.getColumnIndex("author")));
+                            Log.d("MainActivity", "book name is " + books1.getString(books1.getColumnIndex("press")));
                         }
 
                     }

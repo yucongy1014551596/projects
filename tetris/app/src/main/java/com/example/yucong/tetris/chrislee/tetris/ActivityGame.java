@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.entity.Block;
+import com.example.yucong.tetris.chrislee.tetris.entity.rank;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 import com.example.yucong.tetris.chrislee.tetris.util.Timeutils;
 
@@ -27,6 +28,7 @@ public class ActivityGame extends BaseActivity {
     }
 
     private void init() {
+
         mTetrisView = findViewById(R.id.tetrisViewAW1);
         intent = getIntent();
         int level = intent.getIntExtra(ActivityMain.LEVEL, 1);
@@ -50,8 +52,6 @@ public class ActivityGame extends BaseActivity {
             mTetrisView.setFather(this);
             timeutils.startTimer();
         }
-
-
 
 
 
@@ -191,6 +191,9 @@ public class ActivityGame extends BaseActivity {
         editor.apply();
 
     }
+
+
+
 
 
 
