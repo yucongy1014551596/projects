@@ -53,7 +53,7 @@ public class UserContentProvider  extends ContentProvider {
                 if(selection!=null && !"".equals(selection.trim())){
                     where =  selection;//
                 }
-                return  db.query("user", projection, where, selectionArgs, null, null, sortOrder);
+                return  db.query("user", projection, selection, selectionArgs, null, null, sortOrder);
 
 
 

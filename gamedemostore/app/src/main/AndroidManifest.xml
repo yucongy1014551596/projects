@@ -27,6 +27,13 @@
             android:name=".provider.ScoreContentProvider"
             android:authorities="com.example.yucong.gamedemostore.provider.ScoreContentProvider"
             android:enabled="true"
+            android:exported="true" />
+
+
+        <provider
+            android:name=".provider.rankContentProvider"
+            android:authorities="com.example.yucong.provider.rank"
+            android:enabled="true"
             android:exported="true"></provider>
     </application>
 

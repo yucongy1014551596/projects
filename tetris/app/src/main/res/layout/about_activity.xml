@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/about_pageback"
-    tools:context="com.example.yucong.terist.androidteris.MainActivity" >
+    tools:context="com.example.yucong.tetris.chrislee.tetris.ActivityMain" >
 
 
     <FrameLayout
@@ -14,6 +14,7 @@
         android:layout_weight="1" />
 
     <include layout="@layout/top" />
+
 
     <include layout="@layout/bottom" />
          

@@ -125,7 +125,7 @@
 
 
     <ImageButton
-        android:id="@+id/ib_music"
+        android:id="@+id/about_game"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/about2"
@@ -143,5 +143,8 @@
         app:layout_constraintEnd_toEndOf="@+id/bt_rank"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"/>
+
+
+
 
 </android.support.constraint.ConstraintLayout>

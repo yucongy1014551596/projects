@@ -4,16 +4,19 @@ package com.example.yucong.tetris.chrislee.tetris;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.yucong.tetris.R;
@@ -48,6 +51,7 @@ public class ActivityMain extends BaseActivity  {
     private Button btPre = null;
     private Button btNext = null;
     private TextView tvLevel = null;
+    private ImageButton about_page;
 
 
 
@@ -91,15 +95,21 @@ public class ActivityMain extends BaseActivity  {
         btNext = (Button) findViewById(R.id.bt_next);
         tvLevel = (TextView) findViewById(R.id.tv_speed);
         btLan=(Button)findViewById(R.id.buttonlan);
+        about_page=(ImageButton) findViewById(R.id.about_game);
+
+
+
         btNewgame.setOnClickListener(buttonListener);
         btContinue.setOnClickListener(buttonListener);
         btRank.setOnClickListener(buttonListener);
         btPre.setOnClickListener(buttonListener);
         btNext.setOnClickListener(buttonListener);
         btLan.setOnClickListener(buttonListener);
+        about_page.setOnClickListener(buttonListener);
 
         restoreSettings();
-         getDatas();
+//         getDatas();
+        getDatasByContentProvider();
     }
 
 
@@ -136,11 +146,11 @@ public class ActivityMain extends BaseActivity  {
                 startActivity(intent);
                 return;
             }
-//            if (v == btHome) {
-//                Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.HomePage.class);
-//                startActivity(intent);
-//                return;
-//            }
+            if (v == about_page) {
+                Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.AboutActivity.class);
+                startActivity(intent);
+                return;
+            }
             if (v == btPre) {
                 btPre.setBackgroundColor(0xffc0c0c0);
                 String s = tvLevel.getText().toString();
@@ -214,61 +224,126 @@ public class ActivityMain extends BaseActivity  {
     }
 
 
-    public void getDatas() {
 
-        List<rank> ranks = DataSupport.findAll(rank.class); //获取数据库
 
+    public void getDatasByContentProvider(){
+        //全查
+        Uri uriQuery = Uri.parse("content://com.example.yucong.provider.rank/rank");
+        Cursor cursor=  getContentResolver().query(uriQuery,null,null,null,null);
         List<String> lists=new ArrayList<String>();
 
-         Intent intent=  getIntent(); //接受从客户端传过来的数据
-         String userName=intent.getStringExtra("userName");
-         long time= intent.getLongExtra("time",0);
-         int score=  intent.getIntExtra("score",0);
+        Intent intent=  getIntent(); //接受从客户端传过来的数据
+        String userName=intent.getStringExtra("userName");
+        long time= intent.getLongExtra("time",0);
+        int score=  intent.getIntExtra("score",0);
 
-     if(!"".equals(userName)&&time!=0&&score!=0){
-         if(ranks!=null){
-             LogUtil.i("userName","ranks不为空");
-             for (rank  r:ranks) {
-                 lists.add(r.getName());
-             }
-         }
+        if(!"".equals(userName)&&time!=0&&score!=0){
+            if(cursor!=null){
+                LogUtil.i("userName","ranks不为空");
+                while (cursor.moveToNext()){
+                    lists.add(cursor.getString(cursor.getColumnIndex("name")));
+                }
 
-         if(lists.contains(userName)){
-             LogUtil.i("userName","姓名已存在");
-             String sql=" select * from rank where name= ?";
-              Cursor r= DataSupport.findBySQL(sql,userName);
-             while (r.moveToNext()){
-                 LogUtil.i("userName","姓名已存在进入便历循环");
-                 rank rank=new rank();
-                 int dataScore= r.getInt(r.getColumnIndex("score"));
-                 int id= r.getInt(r.getColumnIndex("id"));
-                 LogUtil.i("userName","姓名更新"+id);
-                 LogUtil.i("userName","姓名更新"+dataScore);
-                 if(dataScore<=score){
-                     LogUtil.i("userName","分数高于之前  可以进行更新处理");
-                     rank.setScore(score);
-                     rank.setTime(time);
-                     rank.updateAll("id=?",String.valueOf(id));
-                 }else {
-                     LogUtil.i("userName","分数低于之前  不进行处理");
-                 }
+            }
+          if(lists.contains(userName)){
+                LogUtil.i("userName","姓名已存在");
+              Uri uriRowQuery = Uri.parse("content://com.example.yucong.provider.rank/rank/1");
+              Cursor cursorName=  getContentResolver().query(uriRowQuery,null,"name=?",new String[]{userName},null);
 
-             }
+              while (cursorName.moveToNext()){
+                  LogUtil.i("userName","姓名已存在进入便历循环");
+                 int dataScore= cursorName.getInt(cursor.getColumnIndex("score"));
+                 int id= cursorName.getInt(cursor.getColumnIndex("id"));
+                    if(dataScore<=score){
+                           LogUtil.i("userName","分数高于之前  可以进行更新处理");
 
-         }else {
-             LogUtil.i("userName","姓名不存在");
-             rank rk=new rank();
-             rk.setTime(time);
-             rk.setScore(score);
-             rk.setName(userName);
-             rk.save();
-         }
+                            Uri uri = Uri.parse("content://com.example.yucong.provider.rank/rank");
+                             ContentValues contentValues=new ContentValues();
+                             contentValues.put("score",score);
+                             contentValues.put("time",time);
+
+                          getContentResolver().update(uri,contentValues,"id=?",new String[]{String.valueOf(id)});
+                     }else {
+                        LogUtil.i("userName","分数低于之前  不进行处理");
+                    }
+              }
 
 
-     }else {
-         LogUtil.i("userName","传入的值为空 ,不进行处理");
-     }
+          }else {
+                  LogUtil.i("userName","姓名不存在");
+
+                   Uri uri = Uri.parse("content://com.example.yucong.provider.rank/rank");
+                    ContentValues contentValues=new ContentValues();
+                    contentValues.put("name",userName);
+                    contentValues.put("score",score);
+                     contentValues.put("time",time);
+                  getContentResolver().insert(uri,contentValues);
 
 
+                }
+
+        }else {
+            LogUtil.i("userName","传入的值为空 ,不进行处理");
+        }
     }
+
+
+
+//    public void getDatas() {
+//
+//        List<rank> ranks = DataSupport.findAll(rank.class); //获取数据库
+//
+//        List<String> lists=new ArrayList<String>();
+//
+//         Intent intent=  getIntent(); //接受从客户端传过来的数据
+//         String userName=intent.getStringExtra("userName");
+//         long time= intent.getLongExtra("time",0);
+//         int score=  intent.getIntExtra("score",0);
+//
+//     if(!"".equals(userName)&&time!=0&&score!=0){
+//         if(ranks!=null){
+//             LogUtil.i("userName","ranks不为空");
+//             for (rank  r:ranks) {
+//                 lists.add(r.getName());
+//             }
+//         }
+//
+//         if(lists.contains(userName)){
+//             LogUtil.i("userName","姓名已存在");
+//             String sql=" select * from rank where name= ?";
+//              Cursor r= DataSupport.findBySQL(sql,userName);
+//             while (r.moveToNext()){
+//                 LogUtil.i("userName","姓名已存在进入便历循环");
+//                 rank rank=new rank();
+//                 int dataScore= r.getInt(r.getColumnIndex("score"));
+//                 int id= r.getInt(r.getColumnIndex("id"));
+//                 LogUtil.i("userName","姓名更新"+id);
+//                 LogUtil.i("userName","姓名更新"+dataScore);
+//                 if(dataScore<=score){
+//                     LogUtil.i("userName","分数高于之前  可以进行更新处理");
+//                     rank.setScore(score);
+//                     rank.setTime(time);
+//                     rank.updateAll("id=?",String.valueOf(id));
+//                 }else {
+//                     LogUtil.i("userName","分数低于之前  不进行处理");
+//                 }
+//
+//             }
+//
+//         }else {
+//             LogUtil.i("userName","姓名不存在");
+//             rank rk=new rank();
+//             rk.setTime(time);
+//             rk.setScore(score);
+//             rk.setName(userName);
+//             rk.save();
+//         }
+//
+//
+//     }else {
+//         LogUtil.i("userName","传入的值为空 ,不进行处理");
+//     }
+//
+//
+//    }
 }

@@ -30,6 +30,7 @@
         <activity android:name=".chrislee.tetris.GameOver"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".chrislee.tetris.HomePage"/>
+        <activity android:name=".chrislee.tetris.AboutActivity"/>
 
     </application>
 

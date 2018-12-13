@@ -17,4 +17,9 @@
     <string name="deline">deline:</string>
     <string name="score">score:</string>
     <string name="levels">level：</string>
+
+    <string name="gamePlay">gamePlay</string>
+    <string name="instructions">instructions</string>
+    <string name="Module">Module</string>
+    <string name="other">other</string>
 </resources>

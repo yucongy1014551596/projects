@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.example.yucong.tetris.chrislee.tetris.util.GameConf;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 import org.litepal.crud.DataSupport;
@@ -43,11 +44,13 @@ public class TetrisBlock {
         mRs = new ResourceStore(context);   //初始化加载图片资源
 
         init();
+        Log.e("TetrisResource", "Courtblock->clearCourt()" + Court.COURT_HEIGHT + " width:"+Court.COURT_WIDTH+"size"+Court.BLOCK_WIDTH);
         Log.i("tetris", "init in TetrisBlock OK");
         // TODO Auto-generated constructor stub
     }
 
     private void init() {
+
         mRand = new Random();
         mShape = Math.abs(mRand.nextInt() % 28);
 

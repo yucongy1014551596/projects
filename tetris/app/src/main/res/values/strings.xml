@@ -17,6 +17,13 @@
 
 
 
+    <string name="gamePlay">游戏玩法</string>
+    <string name="instructions">开发说明</string>
+    <string name="Module">模块介绍</string>
+    <string name="other">其他</string>
+
+
+
     <string name="deline">消去行数:</string>
     <string name="score">得分:</string>
     <string name="levels">等级：</string>

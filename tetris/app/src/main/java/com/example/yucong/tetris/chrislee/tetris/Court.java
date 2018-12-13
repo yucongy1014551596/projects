@@ -3,6 +3,11 @@ package com.example.yucong.tetris.chrislee.tetris;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+import android.widget.TextView;
+
+import com.example.yucong.tetris.chrislee.tetris.util.GameConf;
+import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 
 /**
@@ -13,31 +18,49 @@ import android.graphics.Paint;
 
 
 public class Court {
-    public final static int COURT_WIDTH = 11;
-    public final static int COURT_HEIGHT = 23 + 4;
 
-    public final static int BLOCK_WIDTH = 60;
-    public final static int BLOCK_HEIGHT = 60;
 
-    public final static int ABOVE_VISIBLE_TOP = 4;
+    public  static int BLOCK_HEIGHT = 60;
+    public  static int COURT_WIDTH;
+    public  static int COURT_HEIGHT;
+    public  static int BLOCK_WIDTH;
+
+
+    static {
+        if(TetrisView.SCREEN_WIDTH<=600){
+            COURT_WIDTH=GameConf.small_width;
+            COURT_HEIGHT=GameConf.small_height;
+            BLOCK_WIDTH=GameConf.small_block_width;
+        }else {
+            COURT_WIDTH=GameConf.big_width;
+            COURT_HEIGHT=GameConf.big_height;
+            BLOCK_WIDTH=GameConf.big_block_width;
+
+        }
+    }
+
+
+    public final static int ABOVE_VISIBLE_TOP = 4;//方块是否到达顶部
 
     public final static int BEGIN_DRAW_X = 0;
     public final static int BEGIN_DRAW_Y = TetrisView.SCREEN_HEIGHT - Court.BLOCK_WIDTH * Court.COURT_HEIGHT;
 
 
-    private int[][] mCourt = new int[COURT_WIDTH][COURT_HEIGHT];
+    private int[][] mCourt=new int[COURT_WIDTH][COURT_HEIGHT];
     private Context mContext = null;
 
     private ResourceStore mRs = null;
 
     public Court(Context context) {
         mContext = context;
-
         mRs = new ResourceStore(context);
 
+
+        LogUtil.i("court","println"+COURT_WIDTH+"court width"+COURT_HEIGHT+"block width"+BLOCK_WIDTH);
         clearCourt();
 
     }
+
 
 
     /**
@@ -45,6 +68,7 @@ public class Court {
      */
 
     public void clearCourt() {
+        Log.e("Tetriss", "Court->clearCourt()" + COURT_HEIGHT + " width:"+COURT_WIDTH+"size"+BLOCK_WIDTH);
         int i, j;
         for (i = 0; i < COURT_WIDTH; i++) {
             for (j = 0; j < COURT_HEIGHT; j++) {
