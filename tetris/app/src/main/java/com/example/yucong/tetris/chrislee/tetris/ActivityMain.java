@@ -3,30 +3,27 @@ package com.example.yucong.tetris.chrislee.tetris;
 // 2018
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Display;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.yucong.tetris.R;
-import com.example.yucong.tetris.chrislee.tetris.entity.rank;
-import com.example.yucong.tetris.chrislee.tetris.util.ActivityCollector;
+import com.example.yucong.tetris.chrislee.tetris.music.MusicPage;
+import com.example.yucong.tetris.chrislee.tetris.music.MusicService;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 import com.example.yucong.tetris.chrislee.tetris.util.SPutil;
-
-import org.litepal.LitePal;
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +36,6 @@ public class ActivityMain extends BaseActivity  {
 
     public static final String FILENAME = "settingInfo";
     public static final String LEVEL = "level";
-    public static final String VOICE = "voice";
 
 
     private int mLevel = 1;
@@ -52,15 +48,13 @@ public class ActivityMain extends BaseActivity  {
     private Button btNext = null;
     private TextView tvLevel = null;
     private ImageButton about_page;
-
+    private ImageButton music_page=null;
+    public MusicService meidiaPlay;
 
 
 //    private Button btExit = null;
-//    private Button btHome = null;
-
 //    private CheckBox cbVoice = null;   //声音按钮
-    /** 俄罗斯方块的最大坐标 */
-    private static int max_x, max_y;
+
 
     /**
      * Called when the activity is first created.
@@ -70,6 +64,8 @@ public class ActivityMain extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
         init();
+        Intent intent = new Intent(this,MusicService.class);
+		bindService(intent, conn, Context.BIND_AUTO_CREATE);
 
     }
 
@@ -77,15 +73,31 @@ public class ActivityMain extends BaseActivity  {
 
 
 
+	private ServiceConnection conn  =new ServiceConnection(){
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			// TODO Auto-generated method stub
+
+			MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
+			meidiaPlay = binder.getService();
+			meidiaPlay.CreateMediaSound();
+			Log.d("TAg===>","backPlay ok");
+
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO Auto-generated method stub
+
+		}
+
+
+	};
+
+
+
     public void init(){
-
-
-        //        btHome.setOnClickListener(buttonListener);
-        //        btExit = (Button) findViewById(R.id.bt_exit);
-        //        cbVoice = (CheckBox) findViewById(R.id.cb_voice);
-        //        btHome = (Button) findViewById(R.id.bt_homePage);
-        //        btHelp.setOnClickListener(buttonListener);
-        //        btExit.setOnClickListener(buttonListener);
 
         btNewgame = (Button) findViewById(R.id.bt_new);
         btContinue = (Button) findViewById(R.id.bt_continue);
@@ -96,6 +108,7 @@ public class ActivityMain extends BaseActivity  {
         tvLevel = (TextView) findViewById(R.id.tv_speed);
         btLan=(Button)findViewById(R.id.buttonlan);
         about_page=(ImageButton) findViewById(R.id.about_game);
+        music_page=(ImageButton) findViewById(R.id.music_page);
 
 
 
@@ -106,6 +119,7 @@ public class ActivityMain extends BaseActivity  {
         btNext.setOnClickListener(buttonListener);
         btLan.setOnClickListener(buttonListener);
         about_page.setOnClickListener(buttonListener);
+        music_page.setOnClickListener(buttonListener);
 
         restoreSettings();
 //         getDatas();
@@ -148,6 +162,11 @@ public class ActivityMain extends BaseActivity  {
             }
             if (v == about_page) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.AboutActivity.class);
+                startActivity(intent);
+                return;
+            }
+            if (v == music_page) {
+                Intent intent = new Intent(ActivityMain.this, MusicPage.class);
                 startActivity(intent);
                 return;
             }
@@ -196,16 +215,14 @@ public class ActivityMain extends BaseActivity  {
         SharedPreferences settings = getSharedPreferences(FILENAME, 0);
         settings.edit()
                 .putInt(LEVEL, mLevel)
-//                .putBoolean(VOICE, cbVoice.isChecked())
                 .commit();
     }
 
     private void restoreSettings() {
         SharedPreferences settings = getSharedPreferences(FILENAME, 0);
         mLevel = settings.getInt(LEVEL, 1);
-        boolean hasVoice = settings.getBoolean(VOICE, true);
         tvLevel.setText(String.valueOf(mLevel));
-//        cbVoice.setChecked(hasVoice);
+
     }
 
     public void onStop() {
@@ -287,63 +304,13 @@ public class ActivityMain extends BaseActivity  {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+		unbindService(conn);
+    }
 
 
-//    public void getDatas() {
-//
-//        List<rank> ranks = DataSupport.findAll(rank.class); //获取数据库
-//
-//        List<String> lists=new ArrayList<String>();
-//
-//         Intent intent=  getIntent(); //接受从客户端传过来的数据
-//         String userName=intent.getStringExtra("userName");
-//         long time= intent.getLongExtra("time",0);
-//         int score=  intent.getIntExtra("score",0);
-//
-//     if(!"".equals(userName)&&time!=0&&score!=0){
-//         if(ranks!=null){
-//             LogUtil.i("userName","ranks不为空");
-//             for (rank  r:ranks) {
-//                 lists.add(r.getName());
-//             }
-//         }
-//
-//         if(lists.contains(userName)){
-//             LogUtil.i("userName","姓名已存在");
-//             String sql=" select * from rank where name= ?";
-//              Cursor r= DataSupport.findBySQL(sql,userName);
-//             while (r.moveToNext()){
-//                 LogUtil.i("userName","姓名已存在进入便历循环");
-//                 rank rank=new rank();
-//                 int dataScore= r.getInt(r.getColumnIndex("score"));
-//                 int id= r.getInt(r.getColumnIndex("id"));
-//                 LogUtil.i("userName","姓名更新"+id);
-//                 LogUtil.i("userName","姓名更新"+dataScore);
-//                 if(dataScore<=score){
-//                     LogUtil.i("userName","分数高于之前  可以进行更新处理");
-//                     rank.setScore(score);
-//                     rank.setTime(time);
-//                     rank.updateAll("id=?",String.valueOf(id));
-//                 }else {
-//                     LogUtil.i("userName","分数低于之前  不进行处理");
-//                 }
-//
-//             }
-//
-//         }else {
-//             LogUtil.i("userName","姓名不存在");
-//             rank rk=new rank();
-//             rk.setTime(time);
-//             rk.setScore(score);
-//             rk.setName(userName);
-//             rk.save();
-//         }
-//
-//
-//     }else {
-//         LogUtil.i("userName","传入的值为空 ,不进行处理");
-//     }
-//
-//
-//    }
 }

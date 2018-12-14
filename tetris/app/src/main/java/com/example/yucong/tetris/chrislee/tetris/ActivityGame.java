@@ -1,14 +1,20 @@
 package com.example.yucong.tetris.chrislee.tetris;
 
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.entity.Block;
 import com.example.yucong.tetris.chrislee.tetris.entity.rank;
+import com.example.yucong.tetris.chrislee.tetris.music.MusicService;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 import com.example.yucong.tetris.chrislee.tetris.util.Timeutils;
 
@@ -20,12 +26,55 @@ public class ActivityGame extends BaseActivity {
    public TetrisView mTetrisView;
     public Timeutils timeutils;
     Intent intent ;
+    public MusicService meidiaPlay;
     public void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.activity_tetris_activity_aw);
         init();
+        Intent intent1 = new Intent(this,MusicService.class);
+        bindService(intent1, conn, Context.BIND_AUTO_CREATE);
 
     }
+
+
+
+    private ServiceConnection conn  =new ServiceConnection(){
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // TODO Auto-generated method stub
+
+            MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
+            meidiaPlay = binder.getService();
+
+            Log.d("TAg===>","backPlay ok");
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // TODO Auto-generated method stub
+
+        }
+
+
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void init() {
 
@@ -41,14 +90,10 @@ public class ActivityGame extends BaseActivity {
             mTetrisView.restoreGame();
             timeutils.count=sp.getLong("time",0);
             timeutils.resumeTime();
-            boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
-            mTetrisView.setVoice(isVoice);
             mTetrisView.setFather(this);
 
         }else{
-            // voice setting influence last game
-            boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
-            mTetrisView.setVoice(isVoice);
+
             mTetrisView.setFather(this);
             timeutils.startTimer();
         }
@@ -97,12 +142,7 @@ public class ActivityGame extends BaseActivity {
         name = savedInstanceState.getString("name");
         super.onRestoreInstanceState(savedInstanceState);
            LogUtil.i("mmmm","继续执行了 ");
-//            mTetrisView.restoreGame();
-//            timeutils.count=sp.getLong("time",0);
-//            timeutils.resumeTime();
-//            boolean isVoice = intent.getBooleanExtra(ActivityMain.VOICE, true);
-//            mTetrisView.setVoice(isVoice);
-//            mTetrisView.setFather(this);
+
     }
 
 
@@ -165,12 +205,9 @@ public class ActivityGame extends BaseActivity {
 
     public  void onclose(){
           mTetrisView.saveGame();
-        mTetrisView.freeResources();  //释放音乐资源
         timeutils.stopTimer1();
         editor.putLong("time", timeutils.count);
           clear();
-//        savebydb();
-//        savebysp();
         super.onBackPressed();
     }
 
@@ -179,9 +216,7 @@ public class ActivityGame extends BaseActivity {
 
     public void DealErrorPause(){
 
-//        mTetrisView.saveGameByDb();
          mTetrisView.saveGame();
-        mTetrisView.freeResources();
         timeutils.stopTimer1();
         editor.putLong("time", timeutils.count);
     }
@@ -192,7 +227,13 @@ public class ActivityGame extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
 
+        unbindService(conn);
+    }
 
 
 

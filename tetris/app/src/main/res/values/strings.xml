@@ -40,6 +40,10 @@
     <string name="again">再来一次</string>
     <string name="rank">排行榜</string>
 
+    <string name="isOpenBgMusic">是否开启背景音乐</string>
+    <string name="isOpenButMusic">是否开启按钮音效</string>
+    <string name="setting">设置</string>
+    <string name="cancelMusic">取消</string>
 
 
 </resources>

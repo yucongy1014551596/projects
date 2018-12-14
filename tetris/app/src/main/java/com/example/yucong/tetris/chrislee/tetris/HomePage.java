@@ -23,7 +23,7 @@ public class HomePage extends Activity implements OnClickListener{
 	public ImageView about;
 	public ImageView custom;
 	
-//	public BackService backPlay;
+//	public MusicService backPlay;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -48,7 +48,7 @@ public class HomePage extends Activity implements OnClickListener{
 //		about.setOnClickListener(this);
 //		custom.setOnClickListener(this);
 //
-//		Intent intent = new Intent(this,BackService.class);
+//		Intent intent = new Intent(this,MusicService.class);
 //		bindService(intent, conn, Context.BIND_AUTO_CREATE);
 		
 		
@@ -62,7 +62,7 @@ public class HomePage extends Activity implements OnClickListener{
 //		public void onServiceConnected(ComponentName name, IBinder service) {
 //			// TODO Auto-generated method stub
 //
-//			BackService.LocalBinder binder =  (BackService.LocalBinder)service;
+//			MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
 //			backPlay = binder.getService();
 //			backPlay.CreateBackSound();
 //			Log.d("TAg===>","backPlay ok");

@@ -22,4 +22,10 @@
     <string name="instructions">instructions</string>
     <string name="Module">Module</string>
     <string name="other">other</string>
+
+
+    <string name="isOpenBgMusic">Whether to turn on background music</string>
+    <string name="isOpenButMusic">Whether to turn on Button music</string>
+    <string name="setting">setting</string>
+    <string name="cancelMusic">cancel</string>
 </resources>

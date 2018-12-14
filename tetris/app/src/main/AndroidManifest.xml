@@ -31,6 +31,12 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".chrislee.tetris.HomePage"/>
         <activity android:name=".chrislee.tetris.AboutActivity"/>
+        <activity android:name=".chrislee.tetris.music.MusicPage"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+
+            />
+        <service android:name=".chrislee.tetris.music.MusicService"
+            />
 
     </application>
 

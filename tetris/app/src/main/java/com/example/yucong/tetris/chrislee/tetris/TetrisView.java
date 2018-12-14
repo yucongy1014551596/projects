@@ -38,15 +38,11 @@ import org.litepal.crud.DataSupport;
 public class TetrisView extends View implements Runnable {
     /** 调用此对象的Activity对象 */
     private ActivityGame father = null;
-//     public  final static int SCREEN_WIDTH = 960;
-//     public final static int SCREEN_HEIGHT = 455 * 3;
+
     /** 俄罗斯方块的最大坐标 */
     public static int SCREEN_WIDTH ;
     public  static int SCREEN_HEIGHT;
     private TextView timeView;
-    /** 俄罗斯方块的最大坐标 */
-    private static int max_x, max_y;
-
     final int STATE_MENU = 0;
     final int STATE_PLAY = 1;  //游戏开始标志位
     final int STATE_PAUSE = 2;//游戏暂停标志位
@@ -93,7 +89,7 @@ public class TetrisView extends View implements Runnable {
         father = tetrisActivityAW;
     }
 
-    public   MusicPlayer mMPlayer = null;
+//    public   MusicPlayer mMPlayer = null;
 
     public TetrisView(Context context) {
         super(context);
@@ -173,7 +169,7 @@ public class TetrisView extends View implements Runnable {
         mResourceStore = new ResourceStore(context);
 
         ////////////////////////////////////////
-        mMPlayer = new MusicPlayer(context);
+//        mMPlayer = new MusicPlayer(context);
         //
         setLevel(1);
         mPaint.setAntiAlias(true);
@@ -221,7 +217,9 @@ public class TetrisView extends View implements Runnable {
                 LogUtil.i("ff","方块落地"+mIsCombo);
                 mCourt.placeTile(mCurrentTile);
                 //方块落地播放音乐
-                mMPlayer.playMoveVoice();
+//                mMPlayer.playMoveVoice();
+
+                father.meidiaPlay.playTwelve();
 
                 if (mCourt.isGameOver()) {
                     mGamestate = STATE_OVER;
@@ -231,7 +229,8 @@ public class TetrisView extends View implements Runnable {
                 //判断是否满行   如果满行的话就进行消除   返回满行的行数
                 int line = mCourt.removeLines();
                 if (line > 0) {
-                    mMPlayer.playBombVoice();
+//                    mMPlayer.playBombVoice();
+                    father.meidiaPlay.playThirteen();
                 }
                 mDeLine += line;//更新界面消除的行数
                 countScore(line);//计算分数
@@ -324,7 +323,8 @@ public class TetrisView extends View implements Runnable {
                 if (mGamestate == STATE_PLAY) {
                     if (!mIsPaused) {
                         rotate();
-                        mMPlayer.playMoveVoice();
+                        father.meidiaPlay.playTwelve();
+//                        mMPlayer.playMoveVoice();
                     }
                 } else if (mGamestate == STATE_PAUSE) {
                 } else if (mGamestate == STATE_MENU) {
@@ -335,7 +335,8 @@ public class TetrisView extends View implements Runnable {
                 if (mGamestate == STATE_PLAY) {
                     if (!mIsPaused) {
                         moveDown();
-                        mMPlayer.playMoveVoice();
+                        father.meidiaPlay.playTwelve();
+//                        mMPlayer.playMoveVoice();
                     }
                 } else if (mGamestate == STATE_PAUSE) {
                 } else if (mGamestate == STATE_MENU) {
@@ -346,7 +347,8 @@ public class TetrisView extends View implements Runnable {
                 if (mGamestate == STATE_PLAY) {
                     if (!mIsPaused) {
                         moveLeft();
-                        mMPlayer.playMoveVoice();
+                        father.meidiaPlay.playTwelve();
+//                        mMPlayer.playMoveVoice();
                     }
                 } else if (mGamestate == STATE_PAUSE) {
                 } else if (mGamestate == STATE_MENU) {
@@ -357,7 +359,8 @@ public class TetrisView extends View implements Runnable {
                 if (mGamestate == STATE_PLAY) {
                     if (!mIsPaused) {
                         moveRight();
-                        mMPlayer.playMoveVoice();
+                        father.meidiaPlay.playTwelve();
+//                        mMPlayer.playMoveVoice();
                     }
                 } else if (mGamestate == STATE_PAUSE) {
                 } else if (mGamestate == STATE_MENU) {
@@ -370,7 +373,8 @@ public class TetrisView extends View implements Runnable {
                 if (mGamestate == STATE_PLAY) {
                     if (!mIsPaused) {
                         fastDrop();
-                        mMPlayer.playMoveVoice();
+                        father.meidiaPlay.playThirteen();
+//                        mMPlayer.playMoveVoice();
                     }
                 } else if (mGamestate == STATE_PAUSE) {
                 } else if (mGamestate == STATE_MENU) {
@@ -421,7 +425,8 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 rotate();
-                mMPlayer.playMoveVoice();
+//                mMPlayer.playMoveVoice();
+                father.meidiaPlay.playTwelve();
             }
         }
     }
@@ -434,7 +439,8 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 moveLeft();
-                mMPlayer.playMoveVoice();
+//                mMPlayer.playMoveVoice();
+                father.meidiaPlay.playTwelve();
             }
         }
         postInvalidate();
@@ -448,7 +454,8 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 moveRight();
-                mMPlayer.playMoveVoice();
+//                mMPlayer.playMoveVoice();
+                father.meidiaPlay.playTwelve();
             }
 
         }
@@ -464,7 +471,8 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 fastDrop();
-                mMPlayer.playMoveVoice();
+//                mMPlayer.playMoveVoice();
+                father.meidiaPlay.playSix();
             }
 
         }
@@ -662,10 +670,7 @@ public class TetrisView extends View implements Runnable {
         mMoveDelay = (long) (600 * (1.0 - (double) mSpeed / 7.0));
     }
 
-    public void setVoice(boolean isVoice) {
-        mIsVoice = isVoice;
-        mMPlayer.setMute(!mIsVoice);
-    }
+
 
 
 
@@ -696,7 +701,7 @@ public class TetrisView extends View implements Runnable {
         setLevel(mSpeed);
         mScore = Integer.valueOf(pro.get("score").toString());
         mDeLine = Integer.valueOf(pro.get("deLine").toString());
-        mIsVoice = Boolean.valueOf(pro.get("isVoice").toString());
+//        mIsVoice = Boolean.valueOf(pro.get("isVoice").toString());
         mIsCombo = Boolean.valueOf(pro.get("isCombo").toString());
         mIsPaused = Boolean.valueOf(pro.get("isPaused").toString());
 
@@ -746,7 +751,7 @@ public class TetrisView extends View implements Runnable {
         pro.put("score", String.valueOf(mScore));
         pro.put("deLine", String.valueOf(mDeLine));
         Boolean b = new Boolean(mIsVoice);
-        pro.put("isVoice", b.toString());
+//        pro.put("isVoice", b.toString());
         b = new Boolean(mIsCombo);
         pro.put("isCombo", b.toString());
         b = new Boolean(mIsPaused);
@@ -821,9 +826,10 @@ public class TetrisView extends View implements Runnable {
         mIsPaused = false;
     }
 
-    public void freeResources() {
-        mMPlayer.free();
-    }
+//    public void freeResources() {
+//
+//        mMPlayer.free();
+//    }
 
 
 

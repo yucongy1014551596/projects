@@ -63,7 +63,7 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
         public void onServiceConnected(ComponentName name, IBinder service) {
             // TODO Auto-generated method stub
 
-//            BackService.LocalBinder binder =  (BackService.LocalBinder)service;
+//            MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
 //            backPlay = binder.getService();
             Log.d("TAg===>","backPlay12 ok");
 
