@@ -4,24 +4,15 @@
     <string name="app_name">TetrisGame</string>
 
 
-
-
-
-
     <string name="gameRunning">游戏运行中</string>
     <string name="gameOver">游戏已停止</string>
     <string name="gamePause">游戏已暂停</string>
-
-
-
-
 
 
     <string name="gamePlay">游戏玩法</string>
     <string name="instructions">开发说明</string>
     <string name="Module">模块介绍</string>
     <string name="other">其他</string>
-
 
 
     <string name="deline">消去行数:</string>
@@ -44,6 +35,10 @@
     <string name="isOpenButMusic">是否开启按钮音效</string>
     <string name="setting">设置</string>
     <string name="cancelMusic">取消</string>
+    <string name="gameDirections">游戏说明</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget">小部件</string>
 
 
 </resources>

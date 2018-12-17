@@ -28,4 +28,6 @@
     <string name="isOpenButMusic">Whether to turn on Button music</string>
     <string name="setting">setting</string>
     <string name="cancelMusic">cancel</string>
+    <string name="gameDirections">gameDirections</string>
+    <string name="widget">widget</string>
 </resources>

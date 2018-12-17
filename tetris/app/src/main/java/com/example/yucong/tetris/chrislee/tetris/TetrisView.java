@@ -563,14 +563,14 @@ public class TetrisView extends View implements Runnable {
 
     private void paintSpeed(Canvas canvas) {
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("等级：", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(9), mPaint);
+        canvas.drawText(getResources().getString(R.string.levels), getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(9), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mSpeed), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(11), mPaint);
     }
 
     private void paintScore(Canvas canvas) {
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("得分:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(13), mPaint);
+        canvas.drawText(getResources().getString(R.string.score), getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(13), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mScore), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(15), mPaint);
     }
@@ -579,7 +579,8 @@ public class TetrisView extends View implements Runnable {
 
 
         mPaint.setColor(Color.BLUE);
-        canvas.drawText("消去行数:", getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
+        //canvas.drawText("消去行数:"+R.string.deline, getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
+        canvas.drawText(getResources().getString(R.string.deline), getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mDeLine), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
 //        canvas.drawText(time, getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);

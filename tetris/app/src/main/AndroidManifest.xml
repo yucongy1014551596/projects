@@ -7,39 +7,52 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name">
         <activity
-            android:name="com.example.yucong.tetris.chrislee.tetris.ActivityMain"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".chrislee.tetris.ActivityMain"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".chrislee.tetris.BaseActivity" />
+        <activity android:name=".chrislee.tetris.ActivityHelp" />
+        <activity android:name=".chrislee.tetris.ActivityRank" />
+        <activity
+            android:name=".chrislee.tetris.ActivityGame"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".chrislee.tetris.GameOver"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".chrislee.tetris.HomePage" />
+        <activity android:name=".chrislee.tetris.AboutActivity" />
+        <activity
+            android:name=".chrislee.tetris.music.MusicPage"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <service android:name=".chrislee.tetris.music.MusicService" />
 
 
 
-        <activity android:name=".chrislee.tetris.BaseActivity"/>
-        <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityHelp" />
-        <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityRank" />
-        <activity android:name="com.example.yucong.tetris.chrislee.tetris.ActivityGame"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
 
-        <activity android:name=".chrislee.tetris.GameOver"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".chrislee.tetris.HomePage"/>
-        <activity android:name=".chrislee.tetris.AboutActivity"/>
-        <activity android:name=".chrislee.tetris.music.MusicPage"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 
-            />
-        <service android:name=".chrislee.tetris.music.MusicService"
-            />
 
+
+
+
+        <receiver android:name=".chrislee.tetris.widget.DesktopAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.ycc.widget.UPDATE_ALL"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/desktop_app_widget_info" />
+        </receiver>
     </application>
-
-
 
 </manifest>

@@ -48,7 +48,7 @@ public class ActivityMain extends BaseActivity  {
     private Button btNext = null;
     private TextView tvLevel = null;
     private ImageButton about_page;
-    private ImageButton music_page=null;
+    private ImageButton music_page;
     public MusicService meidiaPlay;
 
 
