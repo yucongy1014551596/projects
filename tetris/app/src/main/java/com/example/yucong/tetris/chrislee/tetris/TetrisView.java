@@ -216,10 +216,6 @@ public class TetrisView extends View implements Runnable {
             if (mIsCombo) {  //俄罗斯方块是否落地
                 LogUtil.i("ff","方块落地"+mIsCombo);
                 mCourt.placeTile(mCurrentTile);
-                //方块落地播放音乐
-//                mMPlayer.playMoveVoice();
-
-                father.meidiaPlay.playTwelve();
 
                 if (mCourt.isGameOver()) {
                     mGamestate = STATE_OVER;
@@ -702,7 +698,6 @@ public class TetrisView extends View implements Runnable {
         setLevel(mSpeed);
         mScore = Integer.valueOf(pro.get("score").toString());
         mDeLine = Integer.valueOf(pro.get("deLine").toString());
-//        mIsVoice = Boolean.valueOf(pro.get("isVoice").toString());
         mIsCombo = Boolean.valueOf(pro.get("isCombo").toString());
         mIsPaused = Boolean.valueOf(pro.get("isPaused").toString());
 
@@ -813,24 +808,25 @@ public class TetrisView extends View implements Runnable {
     }
 
 
-
-
+    /**
+     *失去焦点
+     */
     public void onPause() {
         mRefreshHandler.pause();
         mIsPaused = true;
 
     }
 
+    /**
+     * 重新获取焦点
+     */
 
     public void onResume() {
         mRefreshHandler.resume();
         mIsPaused = false;
     }
 
-//    public void freeResources() {
-//
-//        mMPlayer.free();
-//    }
+
 
 
 
@@ -1006,12 +1002,7 @@ public class TetrisView extends View implements Runnable {
             mNextTile.setOffsetY(0);
             mNextTile.setOffsetX((Court.COURT_WIDTH - 4) / 2 + 1);
 
-//            LogUtil.i("db",block.getCourtMatrix());
-//            LogUtil.i("db",block.getCourtMatrix());
-//            LogUtil.i("db",""+block.getGamestate());
-//            LogUtil.i("db",""+block.isCombo());
-//            LogUtil.i("db",""+block.getSpeed());
-//            LogUtil.i("db",block.getCourtMatrix());
+
 
 
 

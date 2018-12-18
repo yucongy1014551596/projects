@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.example.yucong.tetris.R;
+import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 
 public class MusicService extends Service {
@@ -27,17 +28,20 @@ public class MusicService extends Service {
 	public HashMap<Integer, Integer> soundPoolMap;
 	public Boolean isButtonMusic=true;
 	public Boolean isBgMusic=true;
+	private int position;//记录暂停的位置
 	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
+			getGameSharedPreference();
 		return binder;
 	}
 	
 	public  class LocalBinder extends Binder{
 		
 		public  MusicService getService(){
-			Log.d("TAg===>","bgPlay1 ok");
+			Log.d("TAg===>","getData ok");
+
 			return MusicService.this;
 		}
 		
@@ -49,6 +53,7 @@ public class MusicService extends Service {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		init();
+		LogUtil.i("TAg===>","onCreate init");
 
 	}
 
@@ -71,20 +76,25 @@ public class MusicService extends Service {
 		soundPoolMap.put(12, soundPool.load(this, R.raw.move, 1));
 		soundPoolMap.put(13, soundPool.load(this, R.raw.bomb, 1));
 		getGameSharedPreference();
-		Log.d("TAg===>","backPlay11 ok");
+
+		mediaPlay=new MediaPlayer();
+
 	}
 	
 	public void playOne(){
-		if(isButtonMusic)
-		 soundPool.play(soundPoolMap.get(1), 1, 1,0, 0, 1); 
-		
+		if(soundPool!=null){
+		     if(isButtonMusic)
+				soundPool.play(soundPoolMap.get(1), 1, 1,0, 0, 1);
+			}
+
 	}
 	
 	public void playTwo(){
-		if(isButtonMusic){
-		 Log.d("TAG","playTwo");
+		if(soundPool!=null){
+		     if(isButtonMusic){
+				soundPool.setVolume(soundPool.play(soundPoolMap.get(2), 1, 1,0, 0, 1), 1f, 1f);
+			}
 			
-			soundPool.setVolume(soundPool.play(soundPoolMap.get(2), 1, 1,0, 0, 1), 1f, 1f);
 		}
 	}
 	public void playThree(){
@@ -104,9 +114,13 @@ public class MusicService extends Service {
 		
 	}
 	public void playSix(){
-		if(isButtonMusic)
-		 soundPool.play(soundPoolMap.get(6), 1, 1,0, 0, 1); 
-		
+		if(soundPool!=null){
+		       if(isButtonMusic) {
+
+				   soundPool.play(soundPoolMap.get(6), 1, 1, 0, 0, 1);
+			   }
+		}
+
 	}
 	public void playSeven(){
 		if(isButtonMusic)
@@ -134,96 +148,103 @@ public class MusicService extends Service {
 		
 	}
 	public void playTwelve(){
-		if(isButtonMusic)
-			soundPool.play(soundPoolMap.get(12), 1, 1,0, 0, 1);
+		if(soundPool!=null){
+			if(isButtonMusic){
+				soundPool.play(soundPoolMap.get(12), 1, 1,0, 0, 1);
+
+			   }
+		}
+
 
 	}
 	public void playThirteen(){
-		if(isButtonMusic)
-			soundPool.play(soundPoolMap.get(13), 1, 1,0, 0, 1);
-
+		if(soundPool!=null) {
+			if (isButtonMusic){
+				soundPool.play(soundPoolMap.get(13), 1, 1, 0, 0, 1);
+			}
+		}
 	}
 	
 	
-	public void CreateMediaSound(){
+
 		
-		mediaPlay = new MediaPlayer();
-		mediaPlay.setVolume(0.4f, 0.4f);
-		playMediaSound();
+	
+
+
+	public void freeResource(){
+		if (mediaPlay!=null) {
+			if (mediaPlay.isPlaying()) {
+				mediaPlay.stop();
+			}
+			mediaPlay.release();
 		}
-		
-	
-	
-	
-	public void playMediaSound(){
-		
-		
-		Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.menubg);
-			try {
-				
-		    mediaPlay.setDataSource(this,uri);
-			
-			mediaPlay.prepare();
-			mediaPlay.start();
-			mediaPlay.setLooping(true);
-			
-			
-			if(!isBgMusic){
+	}
+
+	public void pauseMusic(){
+		if (mediaPlay!=null){
+			if(mediaPlay.isPlaying()){
+				position = mediaPlay.getCurrentPosition();
 				mediaPlay.pause();
 			}
-			
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}
+
+	}
+
+
+	public void continueMusic(){
+
+			if (position > 0) {
+				play(position);
+				position = 0;
+			} else {
+				play(0);
 			}
-		
-	}
-	
-	
-	public void pauseBgMusic(){
-		
 
-		if(mediaPlay.isPlaying()){
-			mediaPlay.pause();
-			
+
+	}
+
+
+	public void satrtMusic(){
+
+          if (isBgMusic){
+	             play(0);
+            }
+
+
+	}
+
+
+	public void play(int position) {
+		Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.menubg);
+		try {
+			mediaPlay.reset();//重置播放
+			mediaPlay.setDataSource(this,uri); //获取播放资源
+			mediaPlay.prepare();//开始缓存
+			mediaPlay.setOnPreparedListener(new PrepareListener(position));//监听缓存状态
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
-    public void startBgMusic(){
 
-		if(mediaPlay.getDuration()==0)
-		{
-           	CreateMediaSound();
-
-		}else{
-			mediaPlay.start();
+	public final class PrepareListener implements MediaPlayer.OnPreparedListener {
+		private int position;//成员类 保存播放进度
+		public PrepareListener(int position) {
+			this.position = position;
 		}
-		
-	}
-	
-	public void endBgSound(){
-		
-		if(mediaPlay.isPlaying()){
-			mediaPlay.stop();
+		public void onPrepared(MediaPlayer mp) {
+			mediaPlay.start();//开始播放
+			if(position>0) mediaPlay.seekTo(position);//已经播放一段时间的话 从当前位置开始播放
 		}
-		mediaPlay.release();
-
-		
 	}
-	
 
-	
+
+
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		endBgSound();
+		freeResource();
 		soundPool.release();
 		
 	}
@@ -232,6 +253,7 @@ public class MusicService extends Service {
 		SharedPreferences sp = getSharedPreferences("jilu", Context.MODE_PRIVATE);
 		isBgMusic = sp.getBoolean("isBgMusic", true);
 		isButtonMusic=sp.getBoolean("isButtonMusic", true);
+		LogUtil.e("TAg===>","getGameSharedPreference"+isBgMusic);
 		
 	}
 	

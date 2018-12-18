@@ -20,15 +20,6 @@ public class DesktopAppWidget extends AppWidgetProvider {
     // 更新 widget 的广播对应的action
     private final static String ACTION_UPDATE_ALL = "com.ycc.widget.UPDATE_ALL";
 
-
-
-
-
-
-
-
-
-
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -39,7 +30,7 @@ public class DesktopAppWidget extends AppWidgetProvider {
 
 
         // 设置点击按钮对应的PendingIntent：即点击按钮时，发送广播。
-        views.setOnClickPendingIntent(R.id.widget_sendBrodcast, getResetPendingIntent(context));
+        views.setOnClickPendingIntent(R.id.widget_sendBrodcast, getBrodcastPendingIntent(context));
         views.setOnClickPendingIntent(R.id.widget_btn_open, getOpenPendingIntent(context));
 
 
@@ -62,9 +53,9 @@ public class DesktopAppWidget extends AppWidgetProvider {
             String data= intent.getStringExtra("message");
             Log.i("outPut","deskTop data"+data);
             Toast.makeText(context,"deskTop data"+data,Toast.LENGTH_LONG).show();
-            // “更新”广播
-        } else if (intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {
-            // “按钮点击”广播
+
+        } else  {
+
 
             Log.i("outPut","deskTop data");
         }
@@ -74,14 +65,10 @@ public class DesktopAppWidget extends AppWidgetProvider {
     }
 
 
-
-
-
-
     /**
      * 获取 重置数字的广播
      */
-    private static PendingIntent getResetPendingIntent(Context context) {
+    private static PendingIntent getBrodcastPendingIntent(Context context) {
         Intent intent=new Intent();
         intent.setAction(ACTION_UPDATE_ALL);
         intent.setPackage(context.getPackageName());
@@ -98,7 +85,6 @@ public class DesktopAppWidget extends AppWidgetProvider {
     private static PendingIntent getOpenPendingIntent(Context context) {
         Intent intent = new Intent();
         intent.setClass(context, ActivityMain.class);
-        intent.putExtra("main", "这句话是我从桌面点开传过去的。");
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         return pi;
     }
@@ -110,11 +96,12 @@ public class DesktopAppWidget extends AppWidgetProvider {
 
 
 
-
-
-
-
-
+    /**
+     * 当 widget 更新时触发，用户首次添加时也会被调用，但是如果用户定义了widget的configure属性，首次添加时不会触发，而是直接跳转
+     * @param context
+     * @param appWidgetManager
+     * @param appWidgetIds
+     */
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -123,7 +110,10 @@ public class DesktopAppWidget extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
-
+    /**
+     * 当第一个Widget的实例被创建时触发。也就是说，如果用户对同一个Widget增加了两次（两个实例），那么onEnabled()只会在第一次增加Widget时被调用
+     * @param context
+     */
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
@@ -132,6 +122,16 @@ public class DesktopAppWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    /**
+     * 每删除一次窗口小部件就调用一次
+     */
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        // 当 widget 被删除时，对应的删除set中保存的widget的id
+
+        super.onDeleted(context, appWidgetIds);
     }
 }
 

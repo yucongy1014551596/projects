@@ -63,19 +63,6 @@ public class ActivityGame extends BaseActivity {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void init() {
 
         mTetrisView = findViewById(R.id.tetrisViewAW1);
@@ -111,13 +98,14 @@ public class ActivityGame extends BaseActivity {
     public void onPause() {
         mTetrisView.onPause();
         super.onPause();
+        LogUtil.i("mmmm","捕获游戏异常时 保存当前游戏状态 ");
 
     }
 
     public void onResume() {
         super.onResume();
         mTetrisView.onResume();
-
+        LogUtil.i("mmmm","恢复游戏状态 ");
 
     }
 
@@ -127,23 +115,23 @@ public class ActivityGame extends BaseActivity {
 
 
 
-
-    private String name;
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("name", "error_pause");
-        super.onSaveInstanceState(outState);
-//        DealErrorPause();
-        LogUtil.i("mmmm","onSaveInstanceState Activity被异常中断了异常执行了");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        name = savedInstanceState.getString("name");
-        super.onRestoreInstanceState(savedInstanceState);
-           LogUtil.i("mmmm","继续执行了 ");
-
-    }
+    //游戏异常退出时  保存游戏进度
+//
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        mTetrisView.mIsPaused=true;
+//        LogUtil.i("mmmm","捕获游戏异常时 保存当前游戏状态 ");
+//
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//           LogUtil.i("mmmm","恢复游戏状态 ");
+//        mTetrisView.mIsPaused=false;
+//
+//    }
 
 
     /**
@@ -214,12 +202,6 @@ public class ActivityGame extends BaseActivity {
 
 
 
-    public void DealErrorPause(){
-
-         mTetrisView.saveGame();
-        timeutils.stopTimer1();
-        editor.putLong("time", timeutils.count);
-    }
 
     private void clear(){
         editor.clear();
@@ -231,11 +213,9 @@ public class ActivityGame extends BaseActivity {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-
         unbindService(conn);
+        LogUtil.i("mmmm","on destory");
     }
-
-
 
 
 }

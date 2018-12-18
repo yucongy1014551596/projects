@@ -52,9 +52,6 @@ public class ActivityMain extends BaseActivity  {
     public MusicService meidiaPlay;
 
 
-//    private Button btExit = null;
-//    private CheckBox cbVoice = null;   //声音按钮
-
 
     /**
      * Called when the activity is first created.
@@ -80,9 +77,9 @@ public class ActivityMain extends BaseActivity  {
 			// TODO Auto-generated method stub
 
 			MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
-			meidiaPlay = binder.getService();
-			meidiaPlay.CreateMediaSound();
-			Log.d("TAg===>","backPlay ok");
+                meidiaPlay = binder.getService();
+                meidiaPlay.satrtMusic();
+                Log.d("TAg===>","ActivityMain  meidiaPlay.start");
 
 		}
 
@@ -135,7 +132,6 @@ public class ActivityMain extends BaseActivity  {
             if (v == btNewgame) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityGame.class);
                 intent.setFlags(FLAG_NEW_GAME);
-//                intent.putExtra(VOICE, cbVoice.isChecked());
                 android.util.Log.i("ljs88888", "mLevel = " +mLevel+", 103");
                 intent.putExtra(LEVEL, mLevel);
                 startActivity(intent);
@@ -144,7 +140,6 @@ public class ActivityMain extends BaseActivity  {
             if (v == btContinue) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityGame.class);
                 intent.setFlags(FLAG_CONTINUE_LAST_GAME);
-//                intent.putExtra(VOICE, cbVoice.isChecked());
                 startActivity(intent);
 
                 return;

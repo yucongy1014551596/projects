@@ -134,13 +134,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
     private final class PrepareListener implements MediaPlayer.OnPreparedListener {
         private int position;//成员类 保存播放进度
         public PrepareListener(int position) {
             this.position = position;
         }
 
-        public void onPrepared(MediaPlayer mp) {
+      
+
+
+
+  public void onPrepared(MediaPlayer mp) {
             mediaPlayer.start();//开始播放
             if(position>0) mediaPlayer.seekTo(position);//已经播放一段时间的话 从当前位置开始播放
         }

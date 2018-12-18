@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.BaseActivity;
+import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 
 public class MusicPage extends BaseActivity implements OnClickListener {
@@ -102,12 +103,16 @@ public class MusicPage extends BaseActivity implements OnClickListener {
         	isButtonMusic = buttonMusic.isChecked();//查看是否勾选按钮 并返回结果
         	isBgMusic = bgMusic.isChecked();
         	musicService.isButtonMusic= isButtonMusic;
+
 			if(!isBgMusic){
-				musicService.pauseBgMusic();
+				musicService.pauseMusic();
+				LogUtil.i("TAg===>","tttt");
 			}else{
-				musicService.startBgMusic();
+				musicService.continueMusic();
+				LogUtil.i("TAg===>","pppp");
+
 			}
-        	
+			musicService.isBgMusic=isBgMusic;
 			setMusicSetting();
 			finish();
 			break;

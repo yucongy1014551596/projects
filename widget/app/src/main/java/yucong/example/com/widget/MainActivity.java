@@ -17,5 +17,12 @@ public class MainActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(main)) {
             mTextView.setText(main);
         }
+
+
+
+
+
+
+
     }
 }
