@@ -107,6 +107,24 @@ public class TetrisView extends View implements Runnable {
     }
 
 
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        while (!Thread.currentThread().isInterrupted()) {
+            Message ms = new Message();
+            ms.what = RefreshHandler.MESSAGE_REFRESH;
+            this.mRefreshHandler.sendMessage(ms);
+            try {
+                Thread.sleep(/*RefreshHandler.DELAY_MILLIS*/mMoveDelay);  //即休眠时间   越小其速度感觉就越快
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+        }
+
+    }
+
+
     public int getScreenHeight(){
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         int screenHeight = windowManager.getDefaultDisplay().getHeight();
@@ -158,15 +176,15 @@ public class TetrisView extends View implements Runnable {
 
 
         mFallingTile=new TetrisBlock(context);  //正在下落的方块
-        mNextTile = new TetrisBlock(context);   //下一个方块
-        mCurrentTile = new TetrisBlock(context);
+        mNextTile = new TetrisBlock(context);
+        mCurrentTile = new TetrisBlock(context);//已经落下的方块
 
 
 
 
         mCourt = new Court(context);
-        mRefreshHandler = new RefreshHandler(this);
-        mResourceStore = new ResourceStore(context);
+        mRefreshHandler = new RefreshHandler(this);//异步消息处理机制
+        mResourceStore = new ResourceStore(context);//图片对象有关的资源
 
         ////////////////////////////////////////
 //        mMPlayer = new MusicPlayer(context);
@@ -533,9 +551,9 @@ public class TetrisView extends View implements Runnable {
 
         mPaint.setTextSize(20);
         paintNextTile(canvas);  //右上角的俄罗斯方块
-        paintSpeed(canvas);
-        paintScore(canvas);
-        paintDeLine(canvas);
+        paintSpeed(canvas);//绘制游戏等级
+        paintScore(canvas);//绘制游戏分数
+        paintDeLine(canvas);//绘制消去的行数
     }
 
 
@@ -604,6 +622,11 @@ public class TetrisView extends View implements Runnable {
 
     }
 
+    /**
+     * 废弃此方法
+     * @param canvas
+     */
+
     private void paintOver(Canvas canvas) {
         paintGame(canvas);
 
@@ -622,8 +645,9 @@ public class TetrisView extends View implements Runnable {
     }
 
 
-
-
+    /**
+     * 游戏结束的时候 暂停时间
+     */
 
     private void gameOver(){
         father.timeutils.puseTimer();
@@ -644,22 +668,7 @@ public class TetrisView extends View implements Runnable {
 
 
 
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        while (!Thread.currentThread().isInterrupted()) {
-            Message ms = new Message();
-            ms.what = RefreshHandler.MESSAGE_REFRESH;
-            this.mRefreshHandler.sendMessage(ms);
-            try {
-                Thread.sleep(/*RefreshHandler.DELAY_MILLIS*/mMoveDelay);  //即休眠时间   越小其速度感觉就越快
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
 
-        }
-
-    }
 
 
     public void setLevel(int level) {

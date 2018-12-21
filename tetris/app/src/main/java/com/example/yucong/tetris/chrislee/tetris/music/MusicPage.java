@@ -108,7 +108,7 @@ public class MusicPage extends BaseActivity implements OnClickListener {
 				musicService.pauseMusic();
 				LogUtil.i("TAg===>","tttt");
 			}else{
-				musicService.continueMusic();
+				musicService.startMusic();
 				LogUtil.i("TAg===>","pppp");
 
 			}
@@ -150,6 +150,7 @@ public class MusicPage extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		unbindService(conn);
+//		musicService.resourceDestory();
 		finish();
 	}
 	

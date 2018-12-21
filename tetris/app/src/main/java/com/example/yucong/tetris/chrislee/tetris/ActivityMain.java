@@ -34,7 +34,6 @@ public class ActivityMain extends BaseActivity  {
     public static final int FLAG_NEW_GAME = 0;
     public static final int FLAG_CONTINUE_LAST_GAME = 1;
 
-    public static final String FILENAME = "settingInfo";
     public static final String LEVEL = "level";
 
 
@@ -42,7 +41,6 @@ public class ActivityMain extends BaseActivity  {
     private Button btLan = null;
     private Button btNewgame = null;
     private Button btContinue = null;
-    private Button btHelp = null;
     private Button btRank = null;
     private Button btPre = null;
     private Button btNext = null;
@@ -50,8 +48,6 @@ public class ActivityMain extends BaseActivity  {
     private ImageButton about_page;
     private ImageButton music_page;
     public MusicService meidiaPlay;
-
-
 
     /**
      * Called when the activity is first created.
@@ -66,10 +62,6 @@ public class ActivityMain extends BaseActivity  {
 
     }
 
-
-
-
-
 	private ServiceConnection conn  =new ServiceConnection(){
 
 		@Override
@@ -78,7 +70,7 @@ public class ActivityMain extends BaseActivity  {
 
 			MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
                 meidiaPlay = binder.getService();
-                meidiaPlay.satrtMusic();
+                meidiaPlay.continueMusic();
                 Log.d("TAg===>","ActivityMain  meidiaPlay.start");
 
 		}
@@ -98,7 +90,6 @@ public class ActivityMain extends BaseActivity  {
 
         btNewgame = (Button) findViewById(R.id.bt_new);
         btContinue = (Button) findViewById(R.id.bt_continue);
-        btHelp = (Button) findViewById(R.id.bt_help);
         btRank = (Button) findViewById(R.id.bt_rank);
         btPre = (Button) findViewById(R.id.bt_pre);
         btNext = (Button) findViewById(R.id.bt_next);
@@ -118,8 +109,7 @@ public class ActivityMain extends BaseActivity  {
         about_page.setOnClickListener(buttonListener);
         music_page.setOnClickListener(buttonListener);
 
-        restoreSettings();
-//         getDatas();
+        restoreSetting();
         getDatasByContentProvider();
     }
 
@@ -141,15 +131,9 @@ public class ActivityMain extends BaseActivity  {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityGame.class);
                 intent.setFlags(FLAG_CONTINUE_LAST_GAME);
                 startActivity(intent);
+                return;
+            }
 
-                return;
-            }
-            if (v == btHelp) {
-                Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityHelp.class);
-                startActivity(intent);
-                finish();
-                return;
-            }
             if (v == btRank) {
                 Intent intent = new Intent(ActivityMain.this, com.example.yucong.tetris.chrislee.tetris.ActivityRank.class);
                 startActivity(intent);
@@ -191,10 +175,7 @@ public class ActivityMain extends BaseActivity  {
                 btNext.setBackgroundColor(0x80cfcfcf);
                 return;
             }
-//            if (v == btExit) {
-////                ActivityMain.this.finish();
-//                ActivityCollector.finishAll();
-//            }
+
 
             if (v == btLan) {
                 saveLanguage();
@@ -206,23 +187,27 @@ public class ActivityMain extends BaseActivity  {
         }
     };
 
-    private void saveSettings() {
-        SharedPreferences settings = getSharedPreferences(FILENAME, 0);
-        settings.edit()
-                .putInt(LEVEL, mLevel)
-                .commit();
+
+
+    private void saveSetting(){
+       sp= getSp();
+       sp.edit().putInt(LEVEL, mLevel).commit();
+
     }
 
-    private void restoreSettings() {
-        SharedPreferences settings = getSharedPreferences(FILENAME, 0);
-        mLevel = settings.getInt(LEVEL, 1);
+    private void restoreSetting(){
+
+        sp= getSp();
+        mLevel =sp.getInt(LEVEL, 1);
         tvLevel.setText(String.valueOf(mLevel));
 
     }
 
+
+
     public void onStop() {
         super.onStop();
-        saveSettings();
+        saveSetting();
 
     }
 
@@ -303,7 +288,6 @@ public class ActivityMain extends BaseActivity  {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-
 		unbindService(conn);
     }
 

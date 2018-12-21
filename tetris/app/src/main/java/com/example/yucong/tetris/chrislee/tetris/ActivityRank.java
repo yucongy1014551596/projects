@@ -17,7 +17,9 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * RankAdapter  适配器   适配数据资源
+ */
 public class ActivityRank extends Activity {
 
     @Override

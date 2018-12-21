@@ -50,7 +50,6 @@ public class RankAdapter  extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rank_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-
         return holder;
     }
 

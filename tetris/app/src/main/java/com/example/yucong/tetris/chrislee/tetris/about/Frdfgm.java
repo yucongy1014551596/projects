@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 
 import com.example.yucong.tetris.R;
 
-
+/**
+ * 开发说明
+ */
 public class Frdfgm extends Fragment {
 
 	@Override

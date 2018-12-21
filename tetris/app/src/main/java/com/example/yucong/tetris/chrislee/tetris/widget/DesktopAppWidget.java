@@ -14,6 +14,9 @@ import com.example.yucong.tetris.chrislee.tetris.ActivityMain;
 
 /**
  * Implementation of App Widget functionality.
+ *
+ * DesktopAppWidget 实际还是继成的 BroadcastReceiver
+ * 使用了观察者模式  即当被监听者发生改变时   监听对象会做出相应反应
  */
 public class DesktopAppWidget extends AppWidgetProvider {
 
@@ -39,8 +42,6 @@ public class DesktopAppWidget extends AppWidgetProvider {
     }
 
 
-
-
     /**
      * 接收窗口小部件点击时发送的广播
      */
@@ -59,8 +60,6 @@ public class DesktopAppWidget extends AppWidgetProvider {
 
             Log.i("outPut","deskTop data");
         }
-
-
 
     }
 

@@ -24,7 +24,10 @@ import com.example.yucong.tetris.chrislee.tetris.about.Frdfgm;
 import com.example.yucong.tetris.chrislee.tetris.about.Myfgm;
 import com.example.yucong.tetris.chrislee.tetris.about.WeiXinfgm;
 
-
+/**
+ * 为什么选择碎片那
+ * 1 因为碎片可以在程序运行时动态添加到活动当中
+ */
 public class AboutActivity  extends Activity implements View.OnClickListener {
 
 
@@ -48,35 +51,12 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.about_activity);
-
-//        Intent intent = new Intent(this,BackService.class);
-//        bindService(intent, conn, Context.BIND_AUTO_CREATE);
-        Log.d("TAg===>","intent ok");
         InitView();
     }
 
 
 
-    private ServiceConnection conn  =new ServiceConnection(){
 
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            // TODO Auto-generated method stub
-
-//            MusicService.LocalBinder binder =  (MusicService.LocalBinder)service;
-//            backPlay = binder.getService();
-            Log.d("TAg===>","backPlay12 ok");
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            // TODO Auto-generated method stub
-
-        }
-
-
-    };
 
     private void InitView() {
         // TODO Auto-generated method stub
@@ -104,26 +84,21 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
 
-        resetIcon();
+        resetIcon();//没有点击事件发生时 默认执行该方法
 
         switch(v.getId()){
 
             case R.id.img1:
-//                Log.d("TAG===>",(backPlay==null)+"");
-//                backPlay.playTwo();
                 setSelet(1);
                 break;
 
             case R.id.img2:
-//                backPlay.playTwo();
                 setSelet(2);
                 break;
             case R.id.img3:
-//                backPlay.playTwo();
                 setSelet(3);
                 break;
             case R.id.img4:
-//                backPlay.playTwo();
                 setSelet(4);
                 break;
 
@@ -208,7 +183,9 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
 
     }
 
-
+    /**
+     * 默认加载的图片
+     */
     private void resetIcon() {
         // TODO Auto-generated method stub
 
@@ -245,16 +222,12 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
             ft.hide(mMyself);
         }
 
-
-
     }
 
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-
-//        unbindService(conn);
         finish();
     }
 

@@ -168,36 +168,14 @@ public class ActivityGame extends BaseActivity {
     }
 
 
-
-
-
-
-    private long oldtime;
-    @Override
-    public void onBackPressed() {
-
-        long backtime=System.currentTimeMillis();
-        long time=backtime-oldtime;
-        if(time<=1000){
-
-            onclose();
-
-        }else{
-            oldtime=backtime;
-
-        }
-        Toast.makeText(this,getString(R.string.back_tishi), Toast.LENGTH_SHORT).show();
-
-    }
-
-
     public  void onclose(){
-          mTetrisView.saveGame();
+        mTetrisView.saveGame();
         timeutils.stopTimer1();
         editor.putLong("time", timeutils.count);
-          clear();
-        super.onBackPressed();
+        clear();
+
     }
+
 
 
 
@@ -213,8 +191,9 @@ public class ActivityGame extends BaseActivity {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+        onclose();
         unbindService(conn);
-        LogUtil.i("mmmm","on destory");
+        LogUtil.e("mmmm","The game has been destroyed ");
     }
 
 

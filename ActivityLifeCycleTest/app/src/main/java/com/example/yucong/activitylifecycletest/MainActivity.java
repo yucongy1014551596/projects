@@ -1,6 +1,7 @@
 package com.example.yucong.activitylifecycletest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +14,13 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editText =null;
     private static final String TAG = "MainActivity";
+    SharedPreferences.Editor sharedPreferences=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences=getSharedPreferences("jilu",MODE_PRIVATE).edit() ;
+
         Log.d(TAG, "onCreate");
         Button startNormalActivity = (Button) findViewById(R.id.start_normal_activity);
         Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);
@@ -79,13 +83,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
+        Log.e(TAG, "onDestroy");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart");
+//        sharedPreferences.putString("onDestroy","Destroy").commit();
+
     }
 
 

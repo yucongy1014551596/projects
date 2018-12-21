@@ -55,9 +55,12 @@ public class GameOver extends BaseActivity  implements OnClickListener{
 		cancel = (Button) findViewById(R.id.cancel);  //不想玩了
 		button2 = (Button) findViewById(R.id.Button2);  //上传分数
 		LinearLayout linear1 = (LinearLayout) findViewById(R.id.linear1);
-		AnimationSet set =new AnimationSet(false);
+		AnimationSet set =new AnimationSet(false);//创建动画  参数表示他的子动画是否共用一个插值器
+
+		//动画缩放 动画开始时x,y坐标的缩放为0   动画结束时  x,y坐标结束时,在x,y伸缩1
 		Animation animation1 = new ScaleAnimation(0, 1, 0, 1);
-		animation1.setDuration(2000);//延时两秒
+
+		animation1.setDuration(2000);//延续两秒
 		set.addAnimation(animation1);
 		linear1.setAnimation(set);
 

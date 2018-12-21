@@ -192,25 +192,20 @@ public class MusicService extends Service {
 
 
 	public void continueMusic(){
-
+		if (isBgMusic) {
 			if (position > 0) {
 				play(position);
 				position = 0;
 			} else {
 				play(0);
 			}
-
+		}
 
 	}
 
 
-	public void satrtMusic(){
-
-          if (isBgMusic){
-	             play(0);
-            }
-
-
+	public void startMusic(){
+		play(0);
 	}
 
 
@@ -236,6 +231,15 @@ public class MusicService extends Service {
 			if(position>0) mediaPlay.seekTo(position);//已经播放一段时间的话 从当前位置开始播放
 		}
 	}
+
+
+
+	public void resourceDestory(){
+		freeResource();
+		soundPool.release();
+	}
+
+
 
 
 

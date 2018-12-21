@@ -6,7 +6,7 @@ package com.example.yucong.tetris.chrislee.tetris;
 
  *   分别可以用字母I、J、L、O、S、T、Z表示
  *
- *  为了能让方块用代码表示，这里使用一个4x4的矩阵表示
+ *   为了能让方块用代码表示，这里使用一个4x4的矩阵表示
  *
  *
  */

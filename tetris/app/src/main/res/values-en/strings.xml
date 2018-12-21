@@ -31,4 +31,30 @@
     <string name="gameDirections">gameDirections</string>
 
     <string name="widget">widget</string>
+    <string name="waitAddContent">waitAddContent</string>
+    <string name="gamePlayInstruction">	Gameplay：\n\n
+&#160;&#160;&#160;&#160; 1.	The game supports two operations, one is to touch the screen button, and the other is to operate through the keyboard.\n
+&#160;&#160;&#160;&#160; 2.	The actions that the player can do are: rotate the square in units of 90 degrees, move the square left and right in units of a single block size, and speed up the dropping operation.\n
+
+&#160;&#160;&#160;&#160; 3.At the same time, delete 1, 2, 3, and 4 columns, which are divided into 100, 300, 600, and 1000.\n
+&#160;&#160;&#160;&#160; 4.	When the fixed block is stacked at the top of the area and the number of layers cannot be eliminated, the game ends.</string>
+
+
+    <string name="gameDevelopment">game development：\n\n
+&#160;&#160; The functions included are: Language switching (Chinese and English interface is good), the game interface displays the timer, the timer starts from the last time when the game continues, the abnormal interrupt processing, normal function.\n
+&#160;&#160;Save the leaderboard , sort according to time, the time is small), double-click the return button to exit the game normally, the next time you continue to play, continue playing from the last time (mobile phone) After shutdown and restart, the function is normal).\n
+&#160;&#160;The game realizes normal display on mobile phones with different resolutions (resolution is divided by 330dp, loading different layouts), the game supports widgets (implementing the function of sending broadcasts and opening the main interface of the game)\n
+&#160;&#160; Passed the money test.
+        \n
+</string>
+
+
+    <string name="gameBranch">The game is divided into N parts：\n\n
+&#160;&#160;&#160;&#160;1.	The game is divided into two APKs, one for displaying the UI interface and the other for saving data. Before opening the UI interface, you need to start the APK to save the data.\n
+&#160;&#160;&#160;&#160;2.	Game home page, start game button, continue game, leaderboard, set music, game introduction.\n
+
+&#160;&#160;&#160;&#160;3.  At the end of the game, an interface will pop up (including the game score and the time used). After the user fills in the name, the data can be reflected in the leaderboard. If you don't fill in the name or click and don't want to play, it will not be saved in the leaderboard.
+
+    </string>
+
 </resources>
