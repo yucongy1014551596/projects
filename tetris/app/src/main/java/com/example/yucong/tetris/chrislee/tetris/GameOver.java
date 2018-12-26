@@ -1,14 +1,11 @@
 package com.example.yucong.tetris.chrislee.tetris;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;

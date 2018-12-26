@@ -19,7 +19,7 @@ public class SPutil {
     }
 
     /**
-     *
+     *单例
      * @param context
      * @return
      */
@@ -40,7 +40,8 @@ public class SPutil {
     }
     public int getLan(){
         LogUtil.w("bbbbbb","：getLan（）运行了");
-        return sp.getInt(TAG_lan,0);
+//        return sp.getInt(TAG_lan,0);
+        return sp.getInt(TAG_lan,-1);
     }
 
 

@@ -111,12 +111,19 @@ public class Court {
         return false;
     }
 
+    /**
+     * 判断该方块是否可以旋转
+     * @param tile
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean availableForTile(int[][] tile, int x, int y) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (tile[i][j] != 0) {
                     if (!isSpace(x + i, y + j)) {
-                        return false;
+                        return false;//周围不为空的话  不可旋转
                     }
                 }
             }
@@ -162,6 +169,7 @@ public class Court {
 
     /**
      * 消除多行的俄罗斯方块
+     * 删除完之后  将其上面的方块整体下移(递归循环)
      * @param highRow
      * @param rowAmount
      */

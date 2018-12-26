@@ -190,21 +190,26 @@ public class ActivityMain extends BaseActivity  {
 
 
     private void saveSetting(){
-       sp= getSp();
-       sp.edit().putInt(LEVEL, mLevel).commit();
+      SharedPreferences sharedPreferences=  getSharedPreferences("level",MODE_PRIVATE);
+
+        sharedPreferences.edit().putInt(LEVEL, mLevel).commit();
+        LogUtil.e("saveSetting","execute"+mLevel);
 
     }
 
     private void restoreSetting(){
 
-        sp= getSp();
-        mLevel =sp.getInt(LEVEL, 1);
+        SharedPreferences sharedPreferences=  getSharedPreferences("level",MODE_PRIVATE);
+        mLevel =sharedPreferences.getInt(LEVEL, 1);
         tvLevel.setText(String.valueOf(mLevel));
+        LogUtil.e("restorySaveSetting","execute"+mLevel);
 
     }
 
 
-
+    /**
+     *
+     */
     public void onStop() {
         super.onStop();
         saveSetting();

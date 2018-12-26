@@ -30,10 +30,10 @@ import org.litepal.crud.DataSupport;
 public class TetrisBlock {
     int[][] mTile = new int[4][4];
     Random mRand = null;
-    int mColor = 1;
+    int mColor = 1;   //那种颜色的方块
     int mShape = 0;   //类型
-    int mOffsetX = (Court.COURT_WIDTH - 4) / 2 + 1;
-    int mOffsetY = 0;
+    int mOffsetX = (Court.COURT_WIDTH - 4) / 2 + 1;//在画布的中间位置
+    int mOffsetY = 0;//Y坐标默认从0开始
 
     private Context mContext = null;
     private ResourceStore mRs = null;
@@ -52,14 +52,15 @@ public class TetrisBlock {
     private void init() {
 
         mRand = new Random();
-        mShape = Math.abs(mRand.nextInt() % 28);
+        mShape = Math.abs(mRand.nextInt() % 28);// 0-27
 
-        mColor = Math.abs(mRand.nextInt() % 8) + 1;
+        mColor = Math.abs(mRand.nextInt() % 8) + 1;//1 -8
 
         if (mTile == null) {
             return;
         }
         int i, j;
+        //初始化俄罗斯方块样式
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
                 mTile[i][j] = TileStore.store[mShape][i][j];
@@ -68,17 +69,25 @@ public class TetrisBlock {
     }
 
 
+    /**
+     * 判断是否可以旋转
+     * @param court
+     * @return
+     */
     public boolean rotateOnCourt(Court court) {
         int tempX = 0, tempY = 0;
         int tempShape;
         int[][] tempTile = new int[4][4];
 
-        tempShape = mShape;
+        tempShape = mShape;//当前方块的类型  0-27
+
+      //每次旋转时  只选择当前类型的上一个类型的坐标进行旋转   上一个类型在这已经实例化好之后在将其坐标全部赴给将要旋转的这个俄罗斯方块 ,则实现了旋转
         if (tempShape % 4 > 0) {
             tempShape--;
         } else {
             tempShape += 3;
         }
+        //初始化加载当前类型的所有坐标
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 tempTile[i][j] = TileStore.store[tempShape][i][j];
@@ -132,7 +141,7 @@ public class TetrisBlock {
             for (int j = 0; j < 4; j++) {
                 if (mTile[i][j] != 0) {
                     if (!court.isSpace(mOffsetX + i + 1, mOffsetY + j)) {
-                        return false;
+                        return false;//判断当前俄罗斯方块是否和其他方块接触
                     }
                 }
             }
@@ -169,6 +178,8 @@ public class TetrisBlock {
 
     /**
      * 向下移动
+     * 1没有接触到其他方块
+     * 2 已到达底部不能移动
      * @param court
      * @return
      */
@@ -179,7 +190,6 @@ public class TetrisBlock {
                 if (mTile[i][j] != 0) {
                     if (!court.isSpace(mOffsetX + i, mOffsetY + j + 1)
                             || isUnderBaseline(mOffsetY + j + 1)) {
-
 
                         return false;    //不能移动  已到达底部或者与其他相遇
                     }
@@ -193,6 +203,10 @@ public class TetrisBlock {
 
     /**
      * 快速下落
+     * 1 如果当前画布为空   则将y的位置直接加COURT_HEIGHT  即可实现落地
+     * 2 如果当前画布不为空  则减去已存在的正下方坐标 即可实现快速下落
+     *
+     *
      * @param court
      * @return
      */
@@ -252,6 +266,11 @@ public class TetrisBlock {
         return mColor;
     }
 
+
+    /**
+     * 画一种颜色的俄罗斯方块
+     * @param canvas
+     */
     public void paintTile(Canvas canvas) {
         ResourceStore rs = new ResourceStore(mContext);
         Log.e("ff", "TetrisBlock->paintTile()"+mOffsetY);

@@ -12,6 +12,7 @@ import com.example.yucong.tetris.R;
 
 /**
  * 模块介绍
+ * 他可以在程序运行时动态添加到活动当中
  * LayoutInflater.inflate   将布局动态加载进来
  */
 public class Findfgm extends Fragment {

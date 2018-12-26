@@ -192,7 +192,7 @@ public class TetrisView extends View implements Runnable {
         setLevel(1);
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.RED);
-        setFocusable(true);
+        setFocusable(true);//将控件设置成可获取焦点状态  能响应点击事件
 
         new Thread(this).start();
     }
@@ -230,7 +230,6 @@ public class TetrisView extends View implements Runnable {
                 return;
             }
 
-
             if (mIsCombo) {  //俄罗斯方块是否落地
                 LogUtil.i("ff","方块落地"+mIsCombo);
                 mCourt.placeTile(mCurrentTile);
@@ -243,7 +242,6 @@ public class TetrisView extends View implements Runnable {
                 //判断是否满行   如果满行的话就进行消除   返回满行的行数
                 int line = mCourt.removeLines();
                 if (line > 0) {
-//                    mMPlayer.playBombVoice();
                     father.meidiaPlay.playThirteen();
                 }
                 mDeLine += line;//更新界面消除的行数
@@ -576,7 +574,15 @@ public class TetrisView extends View implements Runnable {
     }
 
     private void paintSpeed(Canvas canvas) {
+        if (SCREEN_WIDTH<=600){
+            mPaint.setTextSize(25);
+            LogUtil.i("screenPaint","small screenPaint");
+        }else {
+            LogUtil.i("screenPaint","big screenPaint");
+            mPaint.setTextSize(55);
+        }
         mPaint.setColor(Color.BLUE);
+
         canvas.drawText(getResources().getString(R.string.levels), getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(9), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mSpeed), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(11), mPaint);
@@ -591,19 +597,13 @@ public class TetrisView extends View implements Runnable {
 
     private void paintDeLine(Canvas canvas) {
 
-
         mPaint.setColor(Color.BLUE);
-        //canvas.drawText("消去行数:"+R.string.deline, getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
         canvas.drawText(getResources().getString(R.string.deline), getBlockDistance(Court.COURT_WIDTH) + getRightMarginToCourt(), getBlockDistance(17), mPaint);
         mPaint.setColor(Color.RED);
         canvas.drawText(String.valueOf(mDeLine), getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
-//        canvas.drawText(time, getBlockDistance(Court.COURT_WIDTH) + 2 * getRightMarginToCourt(), getBlockDistance(19), mPaint);
 
 
     }
-
-
-
 
 
 
@@ -615,6 +615,7 @@ public class TetrisView extends View implements Runnable {
 
     private float getRightMarginToCourt()
     {
+//        return (float) 20.0;
         return (float) 10.0;
     }
 
@@ -665,11 +666,10 @@ public class TetrisView extends View implements Runnable {
     }
 
 
-
-
-
-
-
+    /**
+     * 设置游戏的等级
+     * @param level
+     */
 
     public void setLevel(int level) {
         mSpeed = level;
@@ -756,7 +756,6 @@ public class TetrisView extends View implements Runnable {
         pro.put("score", String.valueOf(mScore));
         pro.put("deLine", String.valueOf(mDeLine));
         Boolean b = new Boolean(mIsVoice);
-//        pro.put("isVoice", b.toString());
         b = new Boolean(mIsCombo);
         pro.put("isCombo", b.toString());
         b = new Boolean(mIsPaused);
@@ -819,6 +818,7 @@ public class TetrisView extends View implements Runnable {
 
     /**
      *失去焦点
+     * 将其设置为暂停游戏
      */
     public void onPause() {
         mRefreshHandler.pause();
@@ -828,6 +828,7 @@ public class TetrisView extends View implements Runnable {
 
     /**
      * 重新获取焦点
+     * 将其设置为继续游戏
      */
 
     public void onResume() {

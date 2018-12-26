@@ -45,7 +45,6 @@ public class Timeutils {
         };
     }
 
-
     public void puseTimer(){
 
         isPause = !isPause;

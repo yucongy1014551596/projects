@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TetrisGame</string>
+
+
+    <string name="gameRunning">游戏运行中</string>
+    <string name="gameOver">游戏已停止</string>
+    <string name="gamePause">游戏已暂停</string>
+
+
+    <string name="gamePlay">游戏玩法</string>
+    <string name="instructions">开发说明</string>
+    <string name="Module">模块介绍</string>
+    <string name="other">其他</string>
+
+
+    <string name="deline">消去行数:</string>
+    <string name="score">得分:</string>
+    <string name="levels">等级：</string>
+    <string name="back_tishi">再按一次退出</string>
+    <string name="language">中文</string>
+
+
+    <string name="startgame">开始游戏</string>
+    <string name="gameTime">游戏时间:</string>
+    <string name="congame">继续游戏</string>
+    <string name="newgame">新游戏</string>
+    <string name="help">帮助</string>
+    <string name="cancel">不想玩了</string>
+    <string name="again">再来一次</string>
+    <string name="rank">排行榜</string>
+
+    <string name="isOpenBgMusic">是否开启背景音乐</string>
+    <string name="isOpenButMusic">是否开启按钮音效</string>
+    <string name="setting">设置</string>
+    <string name="cancelMusic">取消</string>
+    <string name="gameDirections">游戏说明</string>
+    <string name="widget">小部件</string>
+    <string name="waitAddContent">待添加内容</string>
+
+
+
+    <string name="gamePlayInstruction">	游戏玩法：\n\n
+&#160;&#160;&#160;&#160; 1.	游戏支持两种操作 ,一种是触摸屏幕按钮,还有一种是通过键盘操作。\n
+&#160;&#160;&#160;&#160; 2.	玩家可以做的操作有：以90度为单位旋转方块，以单个方块大小为单位左右移动方块，加速落下等操作。\n
+
+&#160;&#160;&#160;&#160; 3.	方块移到区域最下方或是着地到其他方块上无法移动时，就会固定在该处，而新的方块出现在区域上方开始落下。\n
+&#160;&#160;&#160;&#160; 4.	当区域中某一列横向格子全部由方块填满，则该列会消失并成为玩家的得分。同时删除的列数越多，得分指数越多。\n
+&#160;&#160;&#160;&#160; 5.	同时删除1,2,3,4列,依次分为得100,300,600,1000。\n
+&#160;&#160;&#160;&#160; 6.	当固定的方块堆到区域最上方而无法消除层数时，则游戏结束。</string>
+
+
+    <string name="gameDevelopment">游戏开发：\n\n
+&#160;&#160;首先启动页为欢迎页，欢迎页持续时间为3秒，然后跳转到俄罗斯方块游戏页, 俄罗斯方块主页有游戏介绍页 音乐设置页 还有开始游戏页,继续游戏,排行榜,选择游戏等级。\n
+&#160;&#160; 包含的功能主要有: 语言切换(中英文界面显示良好),游戏界面显示计时器,继续游戏时计时器从上次结束时间开始计时, 异常中断处理,功能正常。\n
+&#160;&#160;保存排行榜(首先根据玩家分数排序,如果分数相同,根据时间排序,时间小的名次高),双击返回键正常退出游戏时,下次点击继续玩时,从上次结束时开始继续玩(手机关机重启后,功能正常)。\n
+&#160;&#160;游戏实现了在不同分辨率的手机上显示正常(分辨率以330dp为分界,加载不同的布局),游戏支持小部件(实现了发送广播和打开游戏主界面功能)。\n
+&#160;&#160; 通过了money测试。
+        \n
+</string>
+
+
+    <string name="gameBranch">游戏分为N个部分：\n\n
+&#160;&#160;&#160;&#160;1.	游戏分为两个APK,一个显示UI界面,另一个保存数据,在开启UI界面之前,需要启动保存数据的APK。\n
+&#160;&#160;&#160;&#160;2.	游戏主页，开始游戏按钮，继续游戏,排行榜,设置音乐，游戏介绍。\n
+
+&#160;&#160;&#160;&#160;3.	点击开始进入主界面，游戏上部分为游戏时间，游戏区域，下部分为操作界面,右面为显示下一个方块和游戏等级,得分,消除的行数。\n
+&#160;&#160;&#160;&#160;4.  游戏结束,会弹出一个界面(包含游戏得分和所用时间)用户填入姓名后,数据可以在排行榜体现,如果不填姓名或者点击不想玩了,则不会保存入排行榜。
+
+    </string>
+
+
+</resources>
