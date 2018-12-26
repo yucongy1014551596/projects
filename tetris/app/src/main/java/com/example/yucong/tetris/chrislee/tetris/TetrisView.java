@@ -14,7 +14,6 @@ import android.graphics.Paint;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 
 import com.example.yucong.tetris.R;
 import com.example.yucong.tetris.chrislee.tetris.entity.Block;
-import com.example.yucong.tetris.chrislee.tetris.util.GameConf;
 import com.example.yucong.tetris.chrislee.tetris.util.LogUtil;
 
 import org.litepal.LitePal;
@@ -146,21 +144,11 @@ public class TetrisView extends View implements Runnable {
         if (SCREEN_WIDTH<=600){
             SCREEN_WIDTH=  getScreenWidth();
             SCREEN_HEIGHT=  getScreenHeight()-240;
-
-            Court.COURT_WIDTH= GameConf.small_width;
-            Court.COURT_HEIGHT =  GameConf.small_height;
-            Court.BLOCK_WIDTH=GameConf.small_block_width;
-
             LogUtil.i("sss","屏幕宽度小于600 ");
 
         }else {
 
             SCREEN_HEIGHT=  getScreenHeight()-500;
-
-
-            Court. COURT_WIDTH=GameConf.big_width;
-            Court.COURT_HEIGHT =GameConf.big_height;
-            Court.BLOCK_WIDTH=GameConf.big_block_width;
             LogUtil.i("sss","屏幕宽度大于600 ");
 
         }
@@ -437,7 +425,6 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 rotate();
-//                mMPlayer.playMoveVoice();
                 father.meidiaPlay.playTwelve();
             }
         }
@@ -451,7 +438,6 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 moveLeft();
-//                mMPlayer.playMoveVoice();
                 father.meidiaPlay.playTwelve();
             }
         }
@@ -466,7 +452,6 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 moveRight();
-//                mMPlayer.playMoveVoice();
                 father.meidiaPlay.playTwelve();
             }
 
@@ -483,7 +468,6 @@ public class TetrisView extends View implements Runnable {
         if (mGamestate == STATE_PLAY) {
             if (!mIsPaused) {
                 fastDrop();
-//                mMPlayer.playMoveVoice();
                 father.meidiaPlay.playSix();
             }
 
@@ -640,9 +624,6 @@ public class TetrisView extends View implements Runnable {
         canvas.drawText("Game Over", getBlockDistance(1), getBlockDistance(Court.COURT_HEIGHT / 2 - 2), paint);
         //DrawTool.paintImage(canvas,mResourceStore.getGameover(),0,SCREEN_HEIGHT/2 - mResourceStore.getGameover().getHeight()/2 );
 
-
-
-
     }
 
 
@@ -779,7 +760,7 @@ public class TetrisView extends View implements Runnable {
     }
 
     /**
-     *
+     *保存界面内的信息
      * @param pro
      */
 

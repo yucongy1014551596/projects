@@ -19,8 +19,7 @@ import org.litepal.crud.DataSupport;
 /**
  * 組成俄罗斯方块
  *
- *
- * Tile 表示一个俄罗斯方块
+ * TetrisBlock 俄罗斯方块实体类
  * mTile 相当于存储了一个俄罗斯方块的所有坐标信息
  *
  */
@@ -60,7 +59,7 @@ public class TetrisBlock {
             return;
         }
         int i, j;
-        //初始化俄罗斯方块样式
+        //初始化一个俄罗斯方块
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
                 mTile[i][j] = TileStore.store[mShape][i][j];

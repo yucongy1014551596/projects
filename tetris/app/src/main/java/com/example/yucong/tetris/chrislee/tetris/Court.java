@@ -246,7 +246,9 @@ public class Court {
     }
 
     /**
-     *
+     *画court的界面
+     * court的背景图片
+     * 俄罗斯方块
      * @param canvas
      */
     public void paintCourt(Canvas canvas) {

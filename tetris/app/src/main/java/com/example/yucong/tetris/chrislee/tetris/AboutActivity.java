@@ -107,6 +107,11 @@ public class AboutActivity  extends Activity implements View.OnClickListener {
 
 
     }
+
+    /**
+     * 开启一个事务管理器   提交事务
+     * @param i
+     */
     private void setSelet(int i) {
         // TODO Auto-generated method stub
         FragmentManager fm = getFragmentManager();
